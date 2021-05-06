@@ -1,4 +1,4 @@
-# vue admin
+# film-ticket-admin-vue-client
 
 ```
 author zly

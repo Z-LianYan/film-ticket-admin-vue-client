@@ -64,11 +64,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Z-LianYan/vue-admin.git"
+    "url": "git+https://github.com/Z-LianYan/film-ticket-admin-vue-client.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/Z-LianYan/vue-admin/issues"
+    "url": "https://github.com/Z-LianYan/film-ticket-admin-vue-client/issues"
   },
-  "homepage": "https://github.com/Z-LianYan/vue-admin#readme"
+  "homepage": "https://github.com/Z-LianYan/film-ticket-admin-vue-client#readme"
 }
