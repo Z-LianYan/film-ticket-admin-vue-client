@@ -3,6 +3,9 @@ import { Message,Loading } from 'element-ui'
 import router from '@/router/index';
 import { getToken,removeToken } from '@/common/tools';
 
+import qs from 'qs';
+
+
 // axios.defaults.withCredentials=true;//携带cookies 
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
@@ -16,8 +19,18 @@ const service = axios.create({
   crossDomain:true
 });
 export default service
-service.interceptors.request.use(config => {
-  config.headers['token'] = getToken()
+service.interceptors.request.use(async (config) =>{
+  
+
+  config.headers['token'] = getToken();
+
+  // if (config.method === 'get') {
+  //   config.paramsSerializer = function(params) {
+  //     return qs.stringify(params, { arrayFormat: 'repeat' })
+  //   }
+  // }
+  // console.log('config',config)
+
   return config
 }, error => {
   Promise.reject(error)

@@ -121,7 +121,11 @@ export default {
     };
   },
   mounted() {
-    this.$store
+    this.getMenuList()
+  },
+  methods: {
+    getMenuList(){
+      this.$store
       .dispatch("accessMenu/list", {
         page: 1,
         limit: 20000
@@ -133,8 +137,7 @@ export default {
 
         console.log("resadd", res);
       });
-  },
-  methods: {
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -142,12 +145,16 @@ export default {
             this.$store.dispatch("accessMenu/doAdd", this.ruleForm).then(() => {
               this.$emit("on-getData");
               this.resetForm();
+              
+              this.getMenuList()//刷新模块
             });
           } else {
             this.$store
               .dispatch("accessMenu/doEdit", this.ruleForm)
               .then(() => {
                 this.$emit("on-getData");
+
+                this.getMenuList()//刷新模块
               });
           }
         } else {

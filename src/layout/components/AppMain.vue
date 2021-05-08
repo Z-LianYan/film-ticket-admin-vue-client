@@ -14,7 +14,9 @@
 <script>
 export default {
   name: 'AppMain',
-  mounted(){},
+  mounted(){
+    console.log('hahahahha---main',this.$route.meta)
+  },
   computed: {
     key() {
       return this.$route.path

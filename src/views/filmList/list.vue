@@ -16,22 +16,17 @@
           placeholder="请输入关键字"
         ></el-input>
       </el-form-item>
-      <el-form-item label="开始时间" style="display:inline-block">
+      <el-form-item label="上映日期" style="display:inline-block">
         <el-date-picker
-          @change="getData()"
-          v-model="fetchOptions.start_time"
-          type="date"
-          placeholder="选择日期"
+          @change="onDateChange"
+          v-model="show_time_range"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="结束时间" style="display:inline-block">
-        <el-date-picker
-          @change="getData()"
-          v-model="fetchOptions.end_time"
-          type="date"
-          placeholder="选择日期"
-        ></el-date-picker>
-      </el-form-item>
+      
       <el-form-item label="">
         <el-button @click="getData">筛选</el-button>
       </el-form-item>
@@ -112,9 +107,10 @@ export default {
         page: 1,
         limit: 20,
         keywords: "",
-        start_time: "",
-        end_time: ""
+        start_show_time:'',
+        end_show_time:''
       },
+      show_time_range: [],
       total: 0,
       currentView:""
     };
@@ -126,6 +122,11 @@ export default {
   },
   watch: {},
   methods: {
+    onDateChange(date){
+      this.fetchOptions.start_show_time = date?date[0]:'';
+      this.fetchOptions.end_show_time = date?date[1]:'';
+      this.getData();
+    },
     getData() {
       this.loading = true;
       this.$store.dispatch("filmListManager/list", this.fetchOptions).then(res => {
@@ -135,7 +136,7 @@ export default {
       });
     },
     doEdit(rows) {
-      this.$router.push({ path: "/system/manager/edit/" + rows._id });
+      this.$router.push({ path: "/film/list-manager/edit/" + rows._id });
     },
     doDelete(rows) {
       const { _id } = rows;

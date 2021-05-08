@@ -5,6 +5,10 @@
       <el-button type="text" @click="doAdd" class="float-right">
         <i class="el-icon-plus"></i>添加菜单
       </el-button>
+
+      <el-button type="text" @click="getData" class="float-right">
+        <i class="el-icon-refresh"></i>刷新
+      </el-button>
     </div>
     <el-table
       v-loading="loading"
@@ -14,20 +18,24 @@
       row-key="_id"
       style="width: 100%"
     >
-      <el-table-column prop="path" label="路由"></el-table-column>
-      <el-table-column prop="name" label="路由名称"></el-table-column>
-      <el-table-column prop="component" label="组件"></el-table-column>
+      <el-table-column prop="path" label="路由" width="150"></el-table-column>
+      <el-table-column prop="name" label="路由名称" width="120"></el-table-column>
+      <el-table-column prop="component" label="组件" width="300"></el-table-column>
       <el-table-column prop="redirect" label="重定向"></el-table-column>
-      <el-table-column prop="title" label="菜单名称"></el-table-column>
-      <el-table-column prop="icon" label="图标"></el-table-column>
-      <el-table-column prop="url" label="访问路径"></el-table-column>
-      <el-table-column prop="hidden" label="是否缓存页面">
+      <el-table-column prop="title" label="菜单名称" width="150"></el-table-column>
+      <el-table-column prop="icon" label="图标" width="50">
+        <template slot-scope="scope">
+          <i :class="scope.row.icon"></i>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="url" label="访问路径"></el-table-column> -->
+      <el-table-column prop="hidden" label="是否缓存页面" width="110">
         <template slot-scope="scope">
           <img src="@/assets/images/yes.gif" v-if="scope.row.keep_alive==1" alt />
           <img src="@/assets/images/no.gif" v-if="scope.row.keep_alive==0" alt />
         </template>
       </el-table-column>
-      <el-table-column prop="hidden" label="是否显示菜单">
+      <el-table-column prop="hidden" label="是否显示菜单" width="110">
         <template slot-scope="scope">
           <img src="@/assets/images/yes.gif" v-if="scope.row.hidden==0" alt />
           <img src="@/assets/images/no.gif" v-if="scope.row.hidden==1" alt />

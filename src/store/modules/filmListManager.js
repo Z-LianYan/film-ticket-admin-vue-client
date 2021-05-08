@@ -72,6 +72,21 @@ const actions = {
     })
   },
 
+
+  get_category_list({ commit, state }, requestParams) {
+    return new Promise((resolve, reject) => {
+      requstTools.get(aipUrl.GET_CATEGORY_LIST, requestParams).then(res => {
+        if (res.error == 0) {
+          resolve(res.data);
+        } else {
+          Message.error(res.message);
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
   
   
   

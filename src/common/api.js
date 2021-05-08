@@ -41,6 +41,4 @@ export const GET_FILM_LIST = '/API/films/list';//电影列表
 export const ADD_FILM = '/API/films/doAdd';//添加电影
 export const EDIT_FILM = '/API/films/doEdit';//编辑电影
 export const DEL_FILM = '/API/films/doDel';//编辑电影
-
-
-
+export const GET_CATEGORY_LIST = '/API/films/getCategoryList';//获取分类列表
