@@ -26,7 +26,7 @@ const actions = {
     },
     roleAuthorizationEdit({ commit, state }, requestParams) {
         return new Promise((resolve, reject) => {
-            requstTools.post(aipUrl.AUTHORIZATION_EDIT, requestParams).then(res => {
+            requstTools.post(aipUrl.AUTHORIZATION_EDIT, requestParams,'提交中...').then(res => {
                 if (res.error == 0) {
                     Message.success(res.message);
                     resolve();

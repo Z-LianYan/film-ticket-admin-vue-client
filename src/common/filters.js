@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 
 Vue.filter("formatDate",function(timestamp,geshi){
-	var d = dayjs(timestamp).format(geshi?geshi:"YYYY-MM-DD HH:mm:ss");
+	var d = timestamp?dayjs(timestamp*1000).format(geshi?geshi:"YYYY/MM/DD HH:mm"):'';
 	if(d=='Invalid date'){
 		return timestamp;
 	}else{

@@ -37,5 +37,10 @@ export const GET_QINIU_TOKEN = '/API/sourceManager/getQiNiuToken';
 export const GET_SITE_SETTING_DATA = '/API/admin/getSiteData';
 export const EDIT_SITE_SITTING = '/API/admin/eidtSetting';
 
+export const GET_FILM_LIST = '/API/films/list';//电影列表
+export const ADD_FILM = '/API/films/doAdd';//添加电影
+export const EDIT_FILM = '/API/films/doEdit';//编辑电影
+export const DEL_FILM = '/API/films/doDel';//编辑电影
+
 
 

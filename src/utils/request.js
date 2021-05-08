@@ -42,9 +42,9 @@ service.interceptors.response.use(
 )
 
 let loadingState
-export function post(url,data,{isLoading=false,text="加载中..."}={}){
+export function post(url,data,text){
   return new Promise((resolve,reject)=>{
-    isLoading? loadingState = Loading.service({text:text}):"";
+    text? loadingState = Loading.service({text:text}):"";
     service({
       url:url,
       method:'POST',
@@ -60,9 +60,9 @@ export function post(url,data,{isLoading=false,text="加载中..."}={}){
   })
 }
 
-export function get(url,requestParams,{isLoading=false,text="加载中..."}={}){
+export function get(url,requestParams,text){
   return new Promise((resolve,reject)=>{
-    isLoading? loadingState = Loading.service({text:text}):"";
+    text? loadingState = Loading.service({text:text}):"";
     service({
       url:url,
       method:'GET',
