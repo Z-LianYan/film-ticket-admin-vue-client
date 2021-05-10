@@ -164,9 +164,9 @@ export default {
   },
   beforeRouteLeave(to,from,next){
     if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-      this.$route.meta.keep_alive = true;
-    }else{
       this.$route.meta.keep_alive = false;
+    }else{
+      this.$route.meta.keep_alive = true;
     }
     next();
   },

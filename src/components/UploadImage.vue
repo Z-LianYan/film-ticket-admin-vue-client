@@ -32,15 +32,15 @@ export default {
   props: {
     setWidth:{
       type:String,
-      default:'200px'
+      default:'100px'
     },
     setHeight:{
       type:String,
-      default:'200px'
+      default:'100px'
     },
     setLineHeight:{
       type:String,
-      default:'200px'
+      default:'100px'
     },
     getImgUrl:{
       type:Function
@@ -130,7 +130,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .upload-container {
   // width: 180px;
   // height: 180px;
@@ -138,5 +138,9 @@ export default {
     // line-height: 100px;
     font-size: 30px;
   }
+  .el-upload-dragger{
+    height: 100px !important;
+  }
 }
 </style>
+

@@ -18,7 +18,7 @@ const mutations = {
 const actions = {
   list({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.GET_FILM_LIST, requestParams).then(res => {
+      requstTools.get(aipUrl.GET_ACTORS_LIST, requestParams).then(res => {
         if (res.error == 0) {
           resolve(res.data);
         } else {
@@ -31,7 +31,7 @@ const actions = {
   },
   doAdd({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.post(aipUrl.ADD_FILM, requestParams).then(res => {
+      requstTools.post(aipUrl.ADD_ACTORS, requestParams).then(res => {
         if (res.error == 0) {
           Message.success(res.message);
           resolve();
@@ -45,7 +45,7 @@ const actions = {
   },
   doEdit({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.post(aipUrl.EDIT_FILM, requestParams).then(res => {
+      requstTools.post(aipUrl.EDIT_ACTORS, requestParams).then(res => {
         if (res.error == 0) {
           Message.success(res.message);
           resolve();
@@ -59,7 +59,7 @@ const actions = {
   },
   doDel({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.post(aipUrl.DEL_FILM, requestParams).then(res => {
+      requstTools.post(aipUrl.DEL_ACTORS, requestParams).then(res => {
         if (res.error == 0) {
           Message.success(res.message);
           resolve();
@@ -70,40 +70,7 @@ const actions = {
         reject(error)
       })
     })
-  },
-
-
-  get_category_list({ commit, state }, requestParams) {
-    return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.GET_CATEGORY_LIST, requestParams).then(res => {
-        if (res.error == 0) {
-          resolve(res.data);
-        } else {
-          Message.error(res.message);
-        }
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  getFilmDetial({ commit, state }, requestParams){
-    return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.GET_FILM_DETAIL, requestParams).then(res => {
-        if (res.error == 0) {
-          resolve(res.data);
-        } else {
-          Message.error(res.message);
-        }
-      }).catch(error => {
-        reject(error)
-      })
-    })
   }
-
-  
-  
-  
 }
 
 export default {

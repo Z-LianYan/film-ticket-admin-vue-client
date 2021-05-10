@@ -6,7 +6,7 @@
         <i class="el-icon-plus"></i>添加菜单
       </el-button>
 
-      <el-button type="text" @click="getData" class="float-right">
+      <el-button type="text" @click="getData" class="float-right" style="margin-right:20px;">
         <i class="el-icon-refresh"></i>刷新
       </el-button>
     </div>
@@ -16,7 +16,7 @@
       highlight-current-row
       border
       row-key="_id"
-      style="width: 100%"
+      style="width: 100%;"
     >
       <el-table-column prop="path" label="路由" width="150"></el-table-column>
       <el-table-column prop="name" label="路由名称" width="120"></el-table-column>

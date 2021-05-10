@@ -40,5 +40,12 @@ export const EDIT_SITE_SITTING = '/API/admin/eidtSetting';
 export const GET_FILM_LIST = '/API/films/list';//电影列表
 export const ADD_FILM = '/API/films/doAdd';//添加电影
 export const EDIT_FILM = '/API/films/doEdit';//编辑电影
-export const DEL_FILM = '/API/films/doDel';//编辑电影
+export const DEL_FILM = '/API/films/doDel';//删除电影
 export const GET_CATEGORY_LIST = '/API/films/getCategoryList';//获取分类列表
+export const GET_FILM_DETAIL = '/API/films/getFilmDetail';//获取电影详情
+
+
+export const GET_ACTORS_LIST = '/API/actors/list';//演员列表
+export const ADD_ACTORS = '/API/actors/doAdd';//添加演员
+export const EDIT_ACTORS = '/API/actors/doEdit';//编辑演员
+export const DEL_ACTORS = '/API/actors/doDel';//删除演员
