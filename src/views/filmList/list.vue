@@ -74,6 +74,9 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
+          <el-button type="text" size="small" @click="doDetail(scope.row)">
+            <i class="el-icon-view"></i>详情
+          </el-button>
           <el-button type="text" size="small" @click="doEdit(scope.row)">
             <i class="el-icon-edit"></i>编辑
           </el-button>
@@ -95,12 +98,15 @@
         :currentPage="fetchOptions.page"
       />
     </el-row>
+
+    <FilmDetail ref="film_detail"/>
   </el-card>
 </template>
 
 <script>
+import FilmDetail  from "@/views/filmList/Detail"
 export default {
-  name: "manager",
+  name: "filmList",
   data() {
     return {
       loading: false,
@@ -117,13 +123,18 @@ export default {
       currentView:""
     };
   },
-  components: {},
+  components: {
+    FilmDetail
+  },
   computed: {},
   mounted() {
     this.getData();
   },
   watch: {},
   methods: {
+    doDetail(rows){
+      this.$refs.film_detail.open(rows);
+    },
     onDateChange(date){
       this.fetchOptions.start_show_time = date?date[0]:'';
       this.fetchOptions.end_show_time = date?date[1]:'';

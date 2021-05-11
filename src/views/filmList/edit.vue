@@ -1,9 +1,8 @@
 <template>
   <el-card class="box-card">
     <div slot="header" style="text-align:center;" class="clearfix">
-      编辑电影
+      <el-page-header @back="goBack" title="返回" content="编辑电影" center></el-page-header>
     </div>
-
     <el-form
       :model="ruleForm"
       :rules="rules"
@@ -156,6 +155,9 @@ export default {
     this.getFilmDetial();
   },
   methods: {
+    goBack() {
+      history.back();
+    },
     onActorsAvatar(img,index){
       console.log('上传头像',img,index)
       this.ruleForm.actors[index].avatar = img;
