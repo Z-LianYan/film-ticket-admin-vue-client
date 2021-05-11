@@ -2,8 +2,8 @@
   <el-card class="box-card">
     <div slot="header" style="text-align:center;" class="clearfix">
       <span>演员列表</span>
-      <el-button type="text" @click="getData" class="float-right">
-        <i class="el-icon-refresh"></i>刷新
+      <el-button type="text" @click="doAdd" class="float-right">
+        <i class="el-icon-refresh"></i>添加演员
       </el-button>
     </div>
 
@@ -12,7 +12,7 @@
         <el-input
           v-model="fetchOptions.keywords"
           style="width:200px;"
-          @keyup.enter.native="getData()"
+          @keyup.enter.native="getData(true)"
           placeholder="请输入关键字"
         ></el-input>
       </el-form-item>
@@ -29,6 +29,7 @@
       border
       style="width: 100%"
     >
+      <el-table-column prop="id" label="id"></el-table-column>
       <el-table-column prop="name" label="演员"></el-table-column>
       <el-table-column prop="avatar" label="头像">
         <template slot-scope="scope">
@@ -63,12 +64,18 @@
         :currentPage="fetchOptions.page"
       />
     </el-row>
+
+    <AddEdit ref="add_edit" @on-getData='getData(true)'/>
   </el-card>
 </template>
 
 <script>
+import AddEdit from "@/views/actors/addEdit";
 export default {
-  name: "manager",
+  name: "actors-list",
+  components:{
+    AddEdit
+  },
   data() {
     return {
       loading: false,
@@ -81,14 +88,19 @@ export default {
       total: 0,
     };
   },
-  components: {},
   computed: {},
   mounted() {
     this.getData();
   },
   watch: {},
   methods: {
-    getData() {
+    doAdd(){
+      this.$refs.add_edit.open();
+    },
+    getData(flag) {
+      if(flag){
+        this.fetchOptions.page = 1;
+      }
       this.loading = true;
       this.$store.dispatch("actors/list", this.fetchOptions).then(res => {
         this.tableData = res.rows;
@@ -97,17 +109,17 @@ export default {
       });
     },
     doEdit(rows) {
-      this.$router.push({ path: "/film/list-manager/edit/" + rows.id });
+      this.$refs.add_edit.open(rows);
     },
     doDelete(rows) {
-      const { _id } = rows;
+      const { id } = rows;
       this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$store.dispatch("actors/doDelete", { _id }).then(() => {
+          this.$store.dispatch("actors/doDel", { id }).then(() => {
             this.getData();
           });
         })

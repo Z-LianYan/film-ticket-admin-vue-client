@@ -16,7 +16,9 @@
         <el-input v-model="ruleForm.film_name"></el-input>
       </el-form-item>
       <el-form-item label="播放时间" prop="play_time">
-        <el-input v-model="ruleForm.play_time" type="number"></el-input>
+        <el-input v-model="ruleForm.play_time" type="number">
+          <template slot="append">分钟</template>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="国家" prop="nation">
@@ -51,9 +53,49 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="演员" prop="actors">
+        <el-button 
+        type="text" 
+        class="el-icon-plus common-float-right"
+        @click="onAddActors">添加演员</el-button>
+        <el-table
+          :data="ruleForm.actors"
+          highlight-current-row
+          border
+          style="width: 100%"
+        >
+          <el-table-column prop="name" label="姓名">
+            <template slot-scope="scope">
+              <el-input type="text" v-model="scope.row.name"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="角色">
+            <template slot-scope="scope">
+              <el-input type="text" v-model="scope.row.role"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="头像">
+            <template slot-scope="scope">
+              <upload-image 
+              @getImgUrl="onActorsAvatar($event,scope.$index)" 
+              uploadPrefix="film/actors_avatar/"  
+              :staticImageUrl='scope.row.avatar'
+              />
+            </template>
+          </el-table-column>
+          <el-table-column  label="操作">
+            <template slot-scope="scope">
+              <el-button type="text" @click="onDelActors(scope.$index)">删除</el-button>
+              <el-button type="text" @click="onUpActors(scope.$index)" v-if="scope.$index!=0">上移</el-button>
+              <el-button type="text" @click="onDownActors(scope.$index)" v-if="(scope.$index+1)!=ruleForm.actors.length">下移</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form-item>
+
       
 
-      <el-form-item label="上传海报" prop="poster_img">
+      <el-form-item label="电影海报" prop="poster_img">
         <upload-image 
         @getImgUrl="getImgUrl" 
         uploadPrefix="film/"  
@@ -81,6 +123,7 @@ function formOptions(){
     show_time:"",
     status:1,
     category_ids:[],
+    actors:[]
   }
 }
 export default {
@@ -102,6 +145,7 @@ export default {
         show_time: [{ required: true, message: "请选择上映时间", trigger: "change" }],
         status: [{ required: true, message: "请选择状态", trigger: "change" }],
         category_ids: [{ required: true, message: "请电影类型", trigger: "change" }],
+        actors: [{ required: true, message: "请上传演员信息", trigger: "change" }],
       },
       categoryList:[]
     };
@@ -112,6 +156,34 @@ export default {
     this.getFilmDetial();
   },
   methods: {
+    onActorsAvatar(img,index){
+      console.log('上传头像',img,index)
+      this.ruleForm.actors[index].avatar = img;
+    },
+    onUpActors(index){
+      let { ruleForm } = this;
+      let { actors } = ruleForm;
+      let item = _.clone(actors[index]);
+      actors.splice(index,1,actors[index-1]);
+      actors.splice(index-1,1,item);
+    },
+    onDownActors(index){
+      let { ruleForm } = this;
+      let { actors } = ruleForm;
+      let item = _.clone(actors[index]);
+      actors.splice(index,1,actors[index+1]);
+      actors.splice(index+1,1,item);
+    },
+    onDelActors(index){
+      this.ruleForm.actors.splice(index,1);
+    },
+    onAddActors(){
+      this.ruleForm.actors.push({
+        name:'',
+        role:'',
+        avatar:''
+      })
+    },
     async getFilmDetial(){
       const { id } = this.$route.params;
       const result = await this.$store.dispatch('filmListManager/getFilmDetial',{id});

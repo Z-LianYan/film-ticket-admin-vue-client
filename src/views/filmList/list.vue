@@ -39,7 +39,9 @@
       border
       style="width: 100%"
     >
+      <el-table-column prop="id" label="id"></el-table-column>
       <el-table-column prop="film_name" label="电影名称"></el-table-column>
+      <el-table-column prop="category_labels" label="类型"></el-table-column>
       <el-table-column prop="poster_img" label="海报">
         <template slot-scope="scope">
           <el-image 
@@ -144,18 +146,16 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
-          this.$store.dispatch("filmListManager/doDelete", { id }).then(() => {
-            this.getData();
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
+      }).then(() => {
+        this.$store.dispatch("filmListManager/doDel", { id }).then(() => {
+          this.getData();
         });
+      }).catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
     },
 
     handleSizeChange(limit) {

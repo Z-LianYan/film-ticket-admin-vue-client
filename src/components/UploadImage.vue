@@ -32,15 +32,15 @@ export default {
   props: {
     setWidth:{
       type:String,
-      default:'100px'
+      default:'80px'
     },
     setHeight:{
       type:String,
-      default:'100px'
+      default:'80px'
     },
     setLineHeight:{
       type:String,
-      default:'100px'
+      default:'80px'
     },
     getImgUrl:{
       type:Function
@@ -139,7 +139,7 @@ export default {
     font-size: 30px;
   }
   .el-upload-dragger{
-    height: 100px !important;
+    height: 80px !important;
   }
 }
 </style>

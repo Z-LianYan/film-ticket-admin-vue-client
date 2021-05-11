@@ -12,5 +12,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.common-float-right{
+  float: right;
+}
 </style>
