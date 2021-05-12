@@ -40,7 +40,11 @@
       style="width: 100%"
     >
       <el-table-column prop="id" label="id"></el-table-column>
-      <el-table-column prop="film_name" label="电影名称"></el-table-column>
+      <el-table-column prop="film_name" label="电影名称">
+        <template slot-scope="scope">
+          {{scope.row.film_name}} <el-tag v-if="scope.row.play_type_label">{{scope.row.play_type_label}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="category_labels" label="类型"></el-table-column>
       <el-table-column prop="poster_img" label="海报">
         <template slot-scope="scope">

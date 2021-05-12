@@ -41,6 +41,12 @@
           <el-radio :label="2">下架</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="播放类型" prop="play_type">
+        <el-radio-group v-model="ruleForm.play_type">
+          <el-radio :label="2">2D</el-radio>
+          <el-radio :label="3">3D</el-radio>
+        </el-radio-group>
+      </el-form-item>
 
       <el-form-item label="电影类型" prop="category_ids">
         <el-select v-model="ruleForm.category_ids" multiple placeholder="请选择电影类型">
@@ -101,6 +107,17 @@
         :staticImageUrl='ruleForm.poster_img'
         />
       </el-form-item>
+      
+      <el-form-item label="摘要" prop="abstract">
+        <el-input v-model="ruleForm.abstract" type="textarea" rows="3"></el-input>
+      </el-form-item>
+      <el-form-item label="剧照" prop="stage_photo">
+        <!-- <upload-image 
+        @getImgUrl="getShagePhotoImgUrl" 
+        uploadPrefix="film/stage_photo/"  
+        :staticImageUrl='ruleForm.stage_photo'
+        /> -->
+      </el-form-item>
 
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -122,7 +139,10 @@ function formOptions(){
     show_time:"",
     status:1,
     category_ids:[],
-    actors:[]
+    actors:[],
+    abstract:"",
+    stage_photo:[],
+    play_type:2,
   }
 }
 export default {

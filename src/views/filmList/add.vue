@@ -43,6 +43,12 @@
           <el-radio :label="2">下架</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="播放类型" prop="play_type">
+        <el-radio-group v-model="ruleForm.play_type">
+          <el-radio :label="2">2D</el-radio>
+          <el-radio :label="3">3D</el-radio>
+        </el-radio-group>
+      </el-form-item>
 
       <el-form-item label="电影类型" prop="category_ids">
         <el-select v-model="ruleForm.category_ids" multiple placeholder="请选择电影类型">
@@ -103,10 +109,21 @@
         :staticImageUrl='ruleForm.poster_img'
         />
       </el-form-item>
+      <el-form-item label="摘要" prop="abstract">
+        <el-input v-model="ruleForm.abstract" type="textarea" rows="3"></el-input>
+      </el-form-item>
+      <el-form-item label="剧照" prop="stage_photo">
+        <!-- <upload-image 
+        @getImgUrl="getShagePhotoImgUrl" 
+        uploadPrefix="film/stage_photo/"  
+        :staticImageUrl='ruleForm.stage_photo'
+        /> -->
+      </el-form-item>
+
 
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="resetForm">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -129,7 +146,10 @@ function formOptions(){
       name:'',
       role:'',
       avatar:'',
-    }]
+    }],
+    abstract:"",
+    stage_photo:[],
+    play_type:2,
   }
 }
 export default {
@@ -152,6 +172,7 @@ export default {
         status: [{ required: true, message: "请选择状态", trigger: "change" }],
         category_ids: [{ required: true, message: "请电影类型", trigger: "change" }],
         actors: [{ required: true, message: "请上传演员信息", trigger: "change" }],
+        play_type: [{ required: true, message: "请选择播放类型", trigger: "change" }],
       },
       categoryList:[]
     };
@@ -196,6 +217,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.ruleForm.play_type = Number(this.ruleForm.play_type);
           this.$store.dispatch("filmListManager/doAdd", this.ruleForm).then(() => {
             this.resetForm("ruleForm");
           });
@@ -205,14 +227,14 @@ export default {
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.$refs.ruleForm.resetFields();
     },
     getImgUrl(imgUrl){
-
       console.log("上传的图片路径：",imgUrl);
-
       this.ruleForm.poster_img = imgUrl;
+    },
+    getShagePhotoImgUrl(img){
 
     },
     activated(){
