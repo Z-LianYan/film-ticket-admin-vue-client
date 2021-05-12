@@ -148,7 +148,7 @@ function formOptions(){
       avatar:'',
     }],
     abstract:"",
-    stage_photo:[],
+    stage_photo:['1','2'],
     play_type:2,
   }
 }

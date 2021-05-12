@@ -10,9 +10,10 @@
     <el-form label-width="100px" class="demo-ruleForm">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="电影名称" prop="film_name">{{
-            detialData.film_name
-          }}</el-form-item>
+          <el-form-item label="电影名称" prop="film_name">
+            {{detialData.film_name}}
+            <el-tag>{{detialData.play_type_label}}</el-tag>
+          </el-form-item>
           <el-form-item label="导演" prop="director">{{
             detialData.director
           }}</el-form-item>
@@ -54,6 +55,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <el-form-item label="摘要" prop="abstract">{{detialData.abstract}}</el-form-item>
+      <el-form-item label="剧照" prop="abstract">
+        
+      </el-form-item>
       <el-form-item label="演员" prop="actors">
         <el-table
           :data="detialData.actors"
