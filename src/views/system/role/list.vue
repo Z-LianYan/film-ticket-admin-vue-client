@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="add_time" label="添加时间">
-        <template slot-scope="scope">{{scope.row.add_time|formatDate}}</template>
+        <template slot-scope="scope">{{scope.row.add_time|formatDateMS}}</template>
       </el-table-column>
 
       <el-table-column prop="add_time" label="类型">
