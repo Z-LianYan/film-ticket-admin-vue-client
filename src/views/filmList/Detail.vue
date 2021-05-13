@@ -57,8 +57,16 @@
       </el-row>
 
       <el-form-item label="摘要" prop="abstract">{{detialData.abstract}}</el-form-item>
-      <el-form-item label="剧照" prop="abstract">
-        
+      <el-form-item label="剧照" prop="stage_photo">
+        <el-image
+          :z-index="2000000"
+          v-for="(item,index) in detialData.stage_photo"
+          :key="index+'img'"
+          fit="contain"
+          style="width: 50px; height: 50px;margin-right:10px;"
+          :src="item"
+          :preview-src-list="detialData.stage_photo"
+        />
       </el-form-item>
       <el-form-item label="演员" prop="actors">
         <el-table
@@ -94,12 +102,15 @@ export default {
   data() {
     return {
       isDialogVisible: false,
-      detialData: {},
+      detialData: {
+        stage_photo:[]
+      },
     };
   },
   mounted() {},
   methods: {
     open(rows) {
+      console.log(rows)
       this.detialData = rows;
       this.isDialogVisible = true;
     },

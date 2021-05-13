@@ -113,11 +113,11 @@
         <el-input v-model="ruleForm.abstract" type="textarea" rows="3"></el-input>
       </el-form-item>
       <el-form-item label="剧照" prop="stage_photo">
-        <!-- <upload-image 
-        @getImgUrl="getShagePhotoImgUrl" 
-        uploadPrefix="film/stage_photo/"  
-        :staticImageUrl='ruleForm.stage_photo'
-        /> -->
+        <UploadImageMul 
+          :imageLimit="5"
+          :uploadPrefix="'film/stage_photo/'"
+          v-model="ruleForm.stage_photo"
+        />
       </el-form-item>
 
 
@@ -131,6 +131,7 @@
 
 <script>
 import UploadImage from "@/components/UploadImage";
+import UploadImageMul from "@/components/UploadImage-mul";
 import _ from "lodash";
 function formOptions(){
   return {
@@ -142,20 +143,17 @@ function formOptions(){
     show_time:"",
     status:1,
     category_ids:[],
-    actors:[{
-      name:'',
-      role:'',
-      avatar:'',
-    }],
+    actors:[],
     abstract:"",
-    stage_photo:['1','2'],
+    stage_photo:[],
     play_type:2,
   }
 }
 export default {
   name:'manager_add',
   components:{
-    UploadImage
+    UploadImage,
+    UploadImageMul
   },
   data() {
     
