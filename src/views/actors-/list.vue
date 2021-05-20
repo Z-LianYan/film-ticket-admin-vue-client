@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import AddEdit from "@/views/actors/addEdit";
+import AddEdit from "@/views/actors-/addEdit";
 export default {
   name: "actors-list",
   components:{

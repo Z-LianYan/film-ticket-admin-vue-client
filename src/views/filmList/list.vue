@@ -153,7 +153,7 @@ export default {
       });
     },
     doEdit(rows) {
-      this.$router.push({ path: "/film/list-manager/edit/" + rows.id });
+      this.$router.push({ path: "/film-system/film/edit/" + rows.id });
     },
     doDelete(rows) {
       const { id } = rows;

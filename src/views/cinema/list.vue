@@ -5,6 +5,14 @@
       <el-button type="text" @click="getData" class="float-right">
         <i class="el-icon-refresh"></i>刷新
       </el-button>
+
+      <el-button 
+      type="text" 
+      @click="doAdd" 
+      class="float-right" 
+      style="marign-right:10px;">
+        <i class="el-icon-plus"></i>添加影院
+      </el-button>
     </div>
 
     <el-form label-width="90px">
@@ -104,11 +112,13 @@
     </el-row>
 
     <FilmDetail ref="film_detail"/>
+    <AddEdit ref="add_edit"/>
   </el-card>
 </template>
 
 <script>
-import FilmDetail  from "@/views/filmList/Detail"
+import FilmDetail  from "@/views/filmList/Detail";
+import AddEdit  from "@/views/cinema/addEdit";
 export default {
   name: "filmList",
   data() {
@@ -128,7 +138,8 @@ export default {
     };
   },
   components: {
-    FilmDetail
+    FilmDetail,
+    AddEdit
   },
   computed: {},
   mounted() {
@@ -136,6 +147,9 @@ export default {
   },
   watch: {},
   methods: {
+    doAdd(){
+      this.$refs.add_edit.open();
+    },
     doDetail(rows){
       this.$refs.film_detail.open(rows);
     },

@@ -49,3 +49,8 @@ export const GET_ACTORS_LIST = '/API/actors/list';//演员列表
 export const ADD_ACTORS = '/API/actors/doAdd';//添加演员
 export const EDIT_ACTORS = '/API/actors/doEdit';//编辑演员
 export const DEL_ACTORS = '/API/actors/doDel';//删除演员
+
+export const GET_CINEMA_LIST = '/API/cinema/list';//影院列表
+export const ADD_CINEMA = '/API/cinema/doAdd';//添加影院
+export const EDIT_CINEMA = '/API/cinema/doEdit';//编辑影院
+export const DEL_CINEMA = '/API/cinema/doDel';//删除影院
