@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :title="title+'影院'"
+    :title="title + '影院'"
     :visible.sync="isDrawer"
     size="45%"
     @close="drawerClose"
@@ -16,7 +16,16 @@
         <el-form-item label="影院名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="影院地址" prop="address">
+
+        <el-form-item label="位置" prop="">
+          <el-button type='text' @click="openMap">添加位置</el-button>
+        </el-form-item>
+
+      
+
+      
+
+        <!-- <el-form-item label="影院地址" prop="address">
           <el-input v-model="ruleForm.address"></el-input>
         </el-form-item>
 
@@ -32,66 +41,67 @@
 
         <el-form-item label="城市id" prop="city_id">
           <el-input v-model="ruleForm.city_id"></el-input>
-        </el-form-item>
-
-      
+        </el-form-item> -->
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >提交</el-button
+          >
           <el-button @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </el-scrollbar>
+
+    <MapSearch ref='map_search'/>
   </el-drawer>
 </template>
 
 <script>
 // import _ from "lodash";
+import MapSearch from "@/components/mapSearch";
 function ruleForm() {
   return {
-    name:'',
-    avatar:'',
+    name: "",
+    avatar: "",
   };
 }
 export default {
   name: "actors-add-edit",
-  components:{
+  components: {
+    MapSearch
   },
   data() {
     return {
       isDrawer: false,
-      title: '添加',
+      title: "添加",
       ruleForm: ruleForm(),
       rules: {
-        name: [
-          { required: true, message: "请输入演员姓名", trigger: "blur" }
-        ],
-        avatar: [{ required: true, message: "请上传演员头像", trigger: "change" }]
-      }
+        name: [{ required: true, message: "请输入演员姓名", trigger: "blur" }],
+      },
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    getImgUrl(imgUrl){
-      console.log("上传的图片路径：",imgUrl);
+    openMap(){
+      this.$refs.map_search.open();
+    },
+    getImgUrl(imgUrl) {
+      console.log("上传的图片路径：", imgUrl);
       this.ruleForm.avatar = imgUrl;
     },
-    
+
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.title=='添加') {
+          if (this.title == "添加") {
             this.$store.dispatch("cinema/doAdd", this.ruleForm).then(() => {
               this.$emit("on-getData");
               this.resetForm();
             });
           } else {
-            this.$store
-              .dispatch("cinema/doEdit", this.ruleForm)
-              .then(() => {
-                this.$emit("on-getData");
-              });
+            this.$store.dispatch("cinema/doEdit", this.ruleForm).then(() => {
+              this.$emit("on-getData");
+            });
           }
         } else {
           console.log("error submit!!");
@@ -103,33 +113,35 @@ export default {
       this.$refs.ruleForm.resetFields();
     },
     open(val) {
-      
       if (val) {
-        console.log('编辑');
-        this.title = '编辑';
+        console.log("编辑");
+        this.title = "编辑";
         var rows = _.clone(val);
         this.ruleForm = rows;
-      }else{
-        console.log('添加');
-        this.title = '添加'
+      } else {
+        console.log("添加");
+        this.title = "添加";
       }
       this.isDrawer = true;
     },
     drawerClose() {
-      if (this.title=='编辑') {
+      if (this.title == "编辑") {
         this.ruleForm = ruleForm();
         this.resetForm();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-drawer__body {
   padding-right: 10px;
 }
-.scrollbar-wrapper{
+.scrollbar-wrapper {
   height: calc(100vh - 60px);
+}
+.amap-container {
+  height: 500px;
 }
 </style>
