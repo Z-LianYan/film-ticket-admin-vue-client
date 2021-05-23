@@ -2,10 +2,10 @@
   <el-drawer
     :title="title + '影院'"
     :visible.sync="isDrawer"
-    size="45%"
+    size="50%"
     @close="drawerClose"
   >
-    <el-scrollbar wrap-class="scrollbar-wrapper">
+    <el-scrollbar wrap-class="cinema-addedit-scrollbar-wrapper">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -17,31 +17,40 @@
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="位置" prop="">
-          <el-button type='text' @click="openMap">添加位置</el-button>
+        <el-form-item label="影院位置" prop="">
+          <!-- <el-button type='text' @click="openMap">
+            {{ruleForm.address?ruleForm.address:"添加位置"}}
+          </el-button> -->
+          <span 
+          @click="openMap"
+          class="el-button--text address">
+            {{ruleForm.address?ruleForm.address:"添加位置"}}
+          </span>
+        </el-form-item>
+        <el-form-item label="影院所属城市" prop="city_id">
+          <el-cascader
+            style="width:100%;"
+            :filterable='true'
+            :show-all-levels="true"
+            clearable
+            :options="city_list"
+            :props="{ 
+              checkStrictly: false,
+              emitPath:true,//是否返回由该节点所在的各级菜单的值所组成的数组
+              value: 'id', 
+              label: 'name',
+            }"
+            v-model="ruleForm.city_id"
+            placeholder="请选择所属模块"
+          ></el-cascader>
         </el-form-item>
 
-      
-
-      
-
-        <!-- <el-form-item label="影院地址" prop="address">
-          <el-input v-model="ruleForm.address"></el-input>
-        </el-form-item>
-
-        <el-form-item label="影院纬度" prop="lat">
-          <el-input v-model="ruleForm.lat"></el-input>
-        </el-form-item>
-        <el-form-item label="影院经度" prop="lng">
-          <el-input v-model="ruleForm.lng"></el-input>
-        </el-form-item>
+        
         <el-form-item label="最低价格" prop="low_price">
           <el-input v-model="ruleForm.low_price"></el-input>
         </el-form-item>
 
-        <el-form-item label="城市id" prop="city_id">
-          <el-input v-model="ruleForm.city_id"></el-input>
-        </el-form-item> -->
+        
 
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
@@ -52,7 +61,7 @@
       </el-form>
     </el-scrollbar>
 
-    <MapSearch ref='map_search'/>
+    <MapSearch ref='map_search' @onComfirm='onComfirmSearch'/>
   </el-drawer>
 </template>
 
@@ -62,7 +71,10 @@ import MapSearch from "@/components/mapSearch";
 function ruleForm() {
   return {
     name: "",
-    avatar: "",
+    address: "",
+    lng: "",
+    low_price: "",
+    city_id: "",
   };
 }
 export default {
@@ -78,10 +90,25 @@ export default {
       rules: {
         name: [{ required: true, message: "请输入演员姓名", trigger: "blur" }],
       },
+      city_list:[]
     };
   },
-  mounted() {},
+  mounted() {
+    this.getCityList();
+  },
   methods: {
+    async getCityList(){
+      let result = await this.$store.dispatch('common/cityList')
+      console.log('result---城市列表',result);
+      this.city_list = result.rows;
+    },
+    onComfirmSearch(res){
+      console.log('res--',res);
+      this.ruleForm = {
+        ...this.ruleForm,
+        ...res
+      }
+    },
     openMap(){
       this.$refs.map_search.open();
     },
@@ -91,6 +118,7 @@ export default {
     },
 
     submitForm(formName) {
+      console.log('134',this.ruleForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.title == "添加") {
@@ -134,14 +162,24 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.el-drawer__body {
-  padding-right: 10px;
-}
-.scrollbar-wrapper {
+<style lang="scss">
+
+.cinema-addedit-scrollbar-wrapper {
   height: calc(100vh - 60px);
+  .el-drawer__body {
+    padding-right: 10px;
+  }
+
 }
+
+
+</style>
+<style scoped>
 .amap-container {
   height: 500px;
+}
+.address{
+  font-size: 15px;
+  font-weight: bold;
 }
 </style>
