@@ -19,7 +19,7 @@
         :on-search-result="onSearchResult"
       ></el-amap-search-box> -->
       <el-input v-model="keywords" @input="onSearchResult">
-        <el-button slot="append" @click="onSearchResult">搜索</el-button>
+        <el-button  slot="append" @click="onSearchResult">搜索</el-button>
       </el-input>
       <el-button class="comfirm-btn" type="primary" @click="onComfirm"
         >确 定</el-button
@@ -176,6 +176,7 @@ export default {
       // console.log("comfirm", searchLocation);
       if (!searchLocation.address) return this.$message.error("请选择位置");
       this.$emit("onComfirm", this.searchLocation);
+      this.onResetOptioin();
       this.close();
     },
     onSearchPlace(lnglat = []) {
@@ -190,7 +191,7 @@ export default {
         // 第三个参数是半径，周边的范围
         // 第四个参数为回调函数
         placeSearch.searchNearBy('', lnglat, 1000, (status, result) => {
-          // console.log("经纬度拿到的周边地址", status, result);
+          console.log("经纬度拿到的周边地址", status, result);
           if (status === "complete" && result.info === "OK") {
             this.searchResultData = result.poiList.pois; // 周边地标建筑列表
           } else {
@@ -202,12 +203,13 @@ export default {
     },
 
     onSelectLocation(item, index) {
+      console.log('item-',item)
       this.selectIndex = index;
       let lnglat  = [item.location.lng, item.location.lat];
       this.onShowMarker(lnglat)
       this.getFormattedAddress(lnglat,(res) => {
         // console.log("res", res);
-        this.searchLocation.address = res.formattedAddress;
+        this.searchLocation.address = (res.addressComponent.city?res.addressComponent.city:res.addressComponent.province) + res.addressComponent.district + item.address;
         this.searchLocation.lng = item.location.lng;
         this.searchLocation.lat = item.location.lat;
       });
@@ -220,7 +222,7 @@ export default {
         };
         let geocoder = new AMap.Geocoder(GeocoderOptions);
         geocoder.getAddress(lnglat, (status, result) => {
-          // console.log("通过经纬度拿到的地址", result);
+          console.log("通过经纬度拿到的地址", result);
           if (status === "complete" && result.info === "OK") {
             callBack && callBack(result.regeocode);
           }
@@ -237,7 +239,7 @@ export default {
         };
         let PlaceSearch = new AMap.PlaceSearch(PlaceSearchOptions);
         PlaceSearch.search(keywords, (status, result) => {
-          // console.log("关键字搜索",status,result);
+          console.log("关键字搜索",status,result);
           if (status === "complete" && result.info === "OK") {
             this.searchResultData = result.poiList.pois; // 周边地标建筑列表
           }else{
@@ -265,13 +267,13 @@ export default {
       }
     },
     open(val) {
+      console.log(val)
+      this.keywords = val;
+      this.onSearchResult();
       this.isMapDialog = true;
     },
     close() {
-      // if (this.flag) {
-      //   this.$refs.search_box.keyword = "";
-      //   this.searchLocation = option();
-      // }
+      this.onResetOptioin();
       this.isMapDialog = false;
     },
   },

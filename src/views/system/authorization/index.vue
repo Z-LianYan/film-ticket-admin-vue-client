@@ -43,7 +43,7 @@
 <script>
 import role from '../../../store/modules/role';
 export default {
-  name: "authorization",
+  name: "Authorization",
   data() {
     return {
       roleListPosition: 'left',

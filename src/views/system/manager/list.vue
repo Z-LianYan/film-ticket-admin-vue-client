@@ -97,7 +97,7 @@
 <script>
 
 export default {
-  name: "manager-list",
+  name: "ManagerList",
   data() {
     return {
       loading: false,

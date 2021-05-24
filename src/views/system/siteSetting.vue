@@ -34,7 +34,7 @@
 <script>
 import UploadImage from "@/components/UploadImage"
 export default {
-  name:'setting',
+  name:'SiteSetting',
   components:{
     UploadImage
   },

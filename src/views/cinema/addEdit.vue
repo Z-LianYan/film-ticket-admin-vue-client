@@ -17,17 +17,8 @@
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="影院位置" prop="">
-          <!-- <el-button type='text' @click="openMap">
-            {{ruleForm.address?ruleForm.address:"添加位置"}}
-          </el-button> -->
-          <span 
-          @click="openMap"
-          class="el-button--text address">
-            {{ruleForm.address?ruleForm.address:"添加位置"}}
-          </span>
-        </el-form-item>
-        <el-form-item label="影院所属城市" prop="city_id">
+        
+        <el-form-item label="影院所属区域" prop="city_id">
           <el-cascader
             style="width:100%;"
             :filterable='true'
@@ -36,7 +27,7 @@
             :options="city_list"
             :props="{ 
               checkStrictly: false,
-              emitPath:true,//是否返回由该节点所在的各级菜单的值所组成的数组
+              emitPath:false,//是否返回由该节点所在的各级菜单的值所组成的数组
               value: 'id', 
               label: 'name',
             }"
@@ -44,10 +35,31 @@
             placeholder="请选择所属模块"
           ></el-cascader>
         </el-form-item>
+        <el-form-item label="影院位置" prop="">
+          <el-input v-model="ruleForm.address" :disabled='ruleForm.address?false:true'>
+            <el-button 
+            slot="append" 
+            icon="el-icon-location-outline" 
+            type="primary"
+            @click="appendLnglat"></el-button>
+          </el-input>
+          <!-- <el-button type='text' @click="openMap">
+            {{ruleForm.address?ruleForm.address:"添加位置"}}
+          </el-button> -->
+          <!-- <span 
+          @click="openMap"
+          class="el-button--text address">
+            {{ruleForm.address?ruleForm.address:"添加位置"}}
+          </span> -->
+        </el-form-item>
 
         
         <el-form-item label="最低价格" prop="low_price">
           <el-input v-model="ruleForm.low_price"></el-input>
+        </el-form-item>
+
+        <el-form-item label="电话" prop="phone">
+          <el-input v-model="ruleForm.phone"></el-input>
         </el-form-item>
 
         
@@ -97,6 +109,9 @@ export default {
     this.getCityList();
   },
   methods: {
+    appendLnglat(){
+      this.$refs.map_search.open(this.ruleForm.address);
+    },
     async getCityList(){
       let result = await this.$store.dispatch('common/cityList')
       console.log('result---城市列表',result);
@@ -107,11 +122,11 @@ export default {
       this.ruleForm = {
         ...this.ruleForm,
         ...res
-      }
+      };
     },
-    openMap(){
-      this.$refs.map_search.open();
-    },
+    // openMap(){
+    //   this.$refs.map_search.open();
+    // },
     getImgUrl(imgUrl) {
       console.log("上传的图片路径：", imgUrl);
       this.ruleForm.avatar = imgUrl;

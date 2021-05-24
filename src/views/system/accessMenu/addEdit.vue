@@ -33,20 +33,22 @@
 
         <el-form-item label="路由 path" prop="path">
           <el-input v-model="ruleForm.path"></el-input>
-          <div>注：如果是子路由 前面不得加 / 如：/childrenRouter 错误</div>
+          <div>注：如果是子路由 前面不得加 / 如：/childrenRouter 子路由错误的写法</div>
         </el-form-item>
 
         <el-form-item label="组件 component" prop="component">
           <el-input v-model="ruleForm.component" placeholder="请引入views下的组件"></el-input>
         </el-form-item>
 
+        <el-form-item label="路由名称 name" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+
         <el-form-item label="重定向 redirect" prop="redirect">
           <el-input v-model="ruleForm.redirect"></el-input>
         </el-form-item>
 
-        <el-form-item label="路由名称 name" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
+        
 
         <el-form-item label="图标" prop="icon">
           <el-input v-model="ruleForm.icon"></el-input>
@@ -115,6 +117,9 @@ export default {
         ],
         title: [
           { required: true, message: "请输入菜单名称", trigger: "change" }
+        ],
+        name: [
+          { required: true, message: "请输入路由名称", trigger: "change" }
         ]
       },
       accessMenulist: []

@@ -1,6 +1,6 @@
 const state = {
   visitedViews: [],
-  cachedViews: []
+  cachedViews: ['Layout','LayoutFollow']
 }
 
 const mutations = {
@@ -14,9 +14,16 @@ const mutations = {
   },
   ADD_CACHED_VIEW: (state, view) => {
     if (state.cachedViews.includes(view.name)) return
-    if (!view.meta.noCache) {
+    if (view.name) {
       state.cachedViews.push(view.name)
     }
+
+    // if(state.cachedViews.includes(view.name) && !view.meta.keep_alive){
+    //   state.cachedViews.splice(state.cachedViews.indexOf(view.name),1)
+    // }
+    // if(!state.cachedViews.includes(view.name) && view.meta.keep_alive){
+    //   state.cachedViews.push(view.name)
+    // }
   },
 
   DEL_VISITED_VIEW: (state, view) => {
@@ -75,6 +82,7 @@ const actions = {
     commit('ADD_VISITED_VIEW', view)
   },
   addCachedView({ commit }, view) {
+    console.log('store----tagsView',view)
     commit('ADD_CACHED_VIEW', view)
   },
 

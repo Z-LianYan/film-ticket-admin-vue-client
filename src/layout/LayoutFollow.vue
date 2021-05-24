@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <keep-alive :include="cachedViews">
+    <router-view :key="key"/>
+  </keep-alive>
 </template>
 
 <script>
@@ -11,7 +11,14 @@ export default {
     return {};
   },
   components: {},
-  computed: {},
+  computed: {
+    cachedViews() {
+      return this.$store.state.tagsView.cachedViews
+    },
+    key() {
+      return this.$route.path
+    }
+  },
   mounted() {
   },
   watch: {},

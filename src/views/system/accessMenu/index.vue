@@ -18,11 +18,11 @@
       row-key="_id"
       style="width: 100%;"
     >
+      <el-table-column prop="title" label="菜单名称" width="150"></el-table-column>
       <el-table-column prop="path" label="路由" width="150"></el-table-column>
       <el-table-column prop="name" label="路由名称" width="120"></el-table-column>
       <el-table-column prop="component" label="组件" width="300"></el-table-column>
       <el-table-column prop="redirect" label="重定向"></el-table-column>
-      <el-table-column prop="title" label="菜单名称" width="150"></el-table-column>
       <el-table-column prop="icon" label="图标" width="50">
         <template slot-scope="scope">
           <i :class="scope.row.icon"></i>
@@ -70,7 +70,7 @@
 <script>
 import AddEdit from './addEdit'
 export default {
-  name: "accessMenu",
+  name: "AccessMenu",
   components:{
     AddEdit
   },
