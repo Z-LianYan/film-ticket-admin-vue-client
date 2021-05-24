@@ -41,8 +41,8 @@
       
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <el-tag type="success" v-if="scope.row.status==1">上架</el-tag>
-          <el-tag type="info" v-else>下架</el-tag>
+          <el-tag type="success" v-if="scope.row.status==1">启用</el-tag>
+          <el-tag type="info" v-else>禁用</el-tag>
         </template>
       </el-table-column>
      

@@ -35,7 +35,7 @@
             placeholder="请选择所属模块"
           ></el-cascader>
         </el-form-item>
-        <el-form-item label="影院位置" prop="">
+        <el-form-item label="影院位置" prop="address">
           <el-input v-model="ruleForm.address" :disabled='ruleForm.address?false:true'>
             <el-button 
             slot="append" 
@@ -55,14 +55,20 @@
 
         
         <el-form-item label="最低价格" prop="low_price">
-          <el-input v-model="ruleForm.low_price"></el-input>
+          <el-input v-model="ruleForm.low_price" type="number"></el-input>
         </el-form-item>
 
         <el-form-item label="电话" prop="phone">
           <el-input v-model="ruleForm.phone"></el-input>
         </el-form-item>
 
-        
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="ruleForm.status">
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="0">禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
 
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
@@ -87,6 +93,8 @@ function ruleForm() {
     lng: "",
     low_price: "",
     city_id: "",
+    phone:'',
+    status: 1
   };
 }
 export default {
@@ -100,7 +108,9 @@ export default {
       title: "添加",
       ruleForm: ruleForm(),
       rules: {
-        name: [{ required: true, message: "请输入演员姓名", trigger: "blur" }],
+        name: [{ required: true, message: "请输入影院名字", trigger: "blur" }],
+        city_id: [{ required: true, message: "请选择影院所属位置", trigger: "blur" }],
+        address: [{ required: true, message: "请输入影院地址", trigger: "blur" }],
       },
       city_list:[]
     };
@@ -137,12 +147,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.title == "添加") {
-            this.$store.dispatch("cinema/doAdd", this.ruleForm).then(() => {
+            this.$store.dispatch("cinemaManager/doAdd", this.ruleForm).then(() => {
               this.$emit("on-getData");
               this.resetForm();
             });
           } else {
-            this.$store.dispatch("cinema/doEdit", this.ruleForm).then(() => {
+            this.$store.dispatch("cinemaManager/doEdit", this.ruleForm).then(() => {
               this.$emit("on-getData");
             });
           }
