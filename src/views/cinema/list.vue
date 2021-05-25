@@ -139,7 +139,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.$store.dispatch("filmListManager/doDel", { id }).then(() => {
+        this.$store.dispatch("cinemaManager/doDel", { id }).then(() => {
           this.getData();
         });
       }).catch(() => {
@@ -162,14 +162,14 @@ export default {
       this.getData();
     }
   },
-  beforeRouteLeave(to,from,next){
-    if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-      this.$route.meta.keep_alive = true;
-    }else{
-      this.$route.meta.keep_alive = false;
-    }
-    next();
-  },
+  // beforeRouteLeave(to,from,next){
+  //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
+  //     this.$route.meta.keep_alive = true;
+  //   }else{
+  //     this.$route.meta.keep_alive = false;
+  //   }
+  //   next();
+  // },
 };
 </script>
 

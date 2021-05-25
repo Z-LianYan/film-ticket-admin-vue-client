@@ -18,7 +18,8 @@
         </el-form-item>
 
         <el-form-item label="所属模块" prop="module_id">
-          <el-cascader
+          <el-cascader 
+            style="width:100%;"
             :options="accessMenulist"
             :props="{ 
             checkStrictly: true,

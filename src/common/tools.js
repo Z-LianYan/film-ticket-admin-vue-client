@@ -1,6 +1,8 @@
 import Layout from '@/layout';
 import LayoutFollow from '@/layout/LayoutFollow';
 import router from '@/router';
+import _ from 'lodash';
+
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 
 export function setToken(token) {
@@ -23,37 +25,47 @@ export function removeUserInfo() {
   delete localStorage.userInfo;
 }
 
-export function routerMenuFilter(routerData) { //遍历后台传来的路由字符串，转换为组件对象
-  console.log("菜单",routerData);
+export function routerMenuFilter(routerData,operation) { //遍历后台传来的路由字符串，转换为组件对象
+  console.log("菜单", routerData);
+  let full_routes = [];
   var accessedRouters = routerData.filter(route => {
     route.meta = {
       title: route.title,
       icon: route.icon,
-      keep_alive: route.keep_alive==1?true:false,
-      affix: !route.affix? false:true
+      keep_alive: route.keep_alive == 1 ? true : false,
+      affix: !route.affix ? false : true
     }
     if (route.component) {
-      switch(route.component){
+      switch (route.component) {
         case 'Layout':
-          route.component = resolve => require(["@/layout"],resolve);
+          route.component = resolve => require(["@/layout"], resolve);
           break;
         case 'LayoutFollow':
-          route.component = resolve => require(["@/layout/LayoutFollow"],resolve);
+          route.component = resolve => require(["@/layout/LayoutFollow"], resolve);
           break;
-        case 'LayoutFollowFollow':
-          route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
-          break;
+        // case 'LayoutFollowFollow':
+        //   route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
+        //   break;
         default:
           route.component = _import(route.component);
       }
     }
+    // full_routes.push(route);
+    // if(route.children && route.children.length && !operation){
+    //   flatAsyncRoutes(route.children,[{
+    //     path: route.path,
+    //     title: route.meta.title
+    //   }])
+    // }
+
+
     if (!route.redirect) {
       delete route.redirect
     }
     if (route.children && route.children.length) {
-
-      route.children = routerMenuFilter(route.children)
+      route.children = routerMenuFilter(route.children,'menu')
     }
+
     delete route.title
     delete route.icon
     delete route.keep_alive
@@ -63,8 +75,92 @@ export function routerMenuFilter(routerData) { //遍历后台传来的路由字�
     return true
   })
 
+  setTimeout(() => {
+    console.log('full_routes',full_routes)
+  }, 4000);
+  
+
   return accessedRouters
 }
+
+
+
+// 将多层嵌套路由处理成平级
+function flatAsyncRoutes(routes, breadcrumb, baseUrl = '') {
+  console.log('routes++++',routes)
+  let res = []
+  routes.forEach(route => {
+    console.log('routes------',route)
+    const tmp = { ...route }
+
+    console.log('routes+++====',tmp)
+    if (tmp.children) {
+      let childrenBaseUrl = ''
+      if (baseUrl == '') {
+        childrenBaseUrl = tmp.path
+      } else if (tmp.path != '') {
+        childrenBaseUrl = `${baseUrl}/${tmp.path}`
+      }
+      let childrenBreadcrumb = _.cloneDeep(breadcrumb)
+      
+      if (route.meta.breadcrumb !== false) {
+        childrenBreadcrumb.push({
+          path: childrenBaseUrl,
+          title: route.meta.title
+        })
+      }
+      let tmpRoute = _.cloneDeep(route)
+      tmpRoute.path = childrenBaseUrl
+      tmpRoute.meta.breadcrumbNeste = childrenBreadcrumb
+      delete tmpRoute.children
+      res.push(tmpRoute)
+      let childrenRoutes = flatAsyncRoutes(tmp.children, childrenBreadcrumb, childrenBaseUrl)
+      childrenRoutes.map(item => {
+        // 如果 path 一样则覆盖，因为子路由的 path 可能设置为空，导致和父路由一样，直接注册会提示路由重复
+        if (res.some(v => v.path == item.path)) {
+          res.forEach((v, i) => {
+            if (v.path == item.path) {
+              res[i] = item
+            }
+          })
+        } else {
+          res.push(item)
+        }
+      })
+    } else {
+      if (baseUrl != '') {
+        if (tmp.path != '') {
+          tmp.path = `${baseUrl}/${tmp.path}`
+        } else {
+          tmp.path = baseUrl
+        }
+      }
+      // 处理面包屑导航
+      let tmpBreadcrumb = _.cloneDeep(breadcrumb)
+      if (tmp.meta.breadcrumb !== false) {
+        tmpBreadcrumb.push({
+          path: tmp.path,
+          title: tmp.meta.title
+        })
+      }
+      tmp.meta.breadcrumbNeste = tmpBreadcrumb
+      res.push(tmp)
+    }
+  })
+  return res
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result

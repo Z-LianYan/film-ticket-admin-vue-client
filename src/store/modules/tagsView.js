@@ -1,6 +1,6 @@
 const state = {
   visitedViews: [],
-  cachedViews: ['Layout','LayoutFollow']
+  cachedViews: []//三级路由或以上是缓存不了的，奖三级路由router-view组件默认缓存，
 }
 
 const mutations = {
@@ -14,16 +14,9 @@ const mutations = {
   },
   ADD_CACHED_VIEW: (state, view) => {
     if (state.cachedViews.includes(view.name)) return
-    if (view.name) {
+    if (view.name && view.meta.keep_alive) {
       state.cachedViews.push(view.name)
     }
-
-    // if(state.cachedViews.includes(view.name) && !view.meta.keep_alive){
-    //   state.cachedViews.splice(state.cachedViews.indexOf(view.name),1)
-    // }
-    // if(!state.cachedViews.includes(view.name) && view.meta.keep_alive){
-    //   state.cachedViews.push(view.name)
-    // }
   },
 
   DEL_VISITED_VIEW: (state, view) => {
@@ -82,7 +75,6 @@ const actions = {
     commit('ADD_VISITED_VIEW', view)
   },
   addCachedView({ commit }, view) {
-    console.log('store----tagsView',view)
     commit('ADD_CACHED_VIEW', view)
   },
 

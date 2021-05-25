@@ -11,6 +11,17 @@ import Calendar from '@/views/calendar';
 
 
 export const constantRoutes = [
+  {
+    path: '/redirect',
+    component: ()=>import("@/layout"),
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path*',
+        component: () => import('@/views/system/redirect/index')
+      }
+    ]
+  },
   { path: '/login',name:"login", component: Login, hidden: true },
   { path: '/404',name:"error_404", component: Error_404, hidden: true },
   { path: '/calendar',name:"calendar", component: Calendar, hidden: true },

@@ -185,14 +185,14 @@ export default {
       this.getData();
     }
   },
-  beforeRouteLeave(to,from,next){
-    if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-      this.$route.meta.keep_alive = true;
-    }else{
-      this.$route.meta.keep_alive = false;
-    }
-    next();
-  },
+  // beforeRouteLeave(to,from,next){
+  //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
+  //     this.$route.meta.keep_alive = true;
+  //   }else{
+  //     this.$route.meta.keep_alive = false;
+  //   }
+  //   next();
+  // },
 };
 </script>
 

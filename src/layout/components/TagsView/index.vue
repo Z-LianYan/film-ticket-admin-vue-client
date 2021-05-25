@@ -117,7 +117,7 @@ export default {
       //     this.$store.dispatch('tagsView/addView', item)
       //   }
       // }
-      console.log('tagsView-------',this.$store.state.tagsView)
+      // console.log('tagsView-------',this.$store.state.tagsView)
       console.log('this.$route-------',this.$route)
 
 
@@ -140,8 +140,10 @@ export default {
       })
     },
     refreshSelectedTag(view) {
+      console.log('view',view)
       this.$store.dispatch('tagsView/delCachedView', view).then(() => {
-        const { fullPath } = view
+        const { fullPath } = view;
+        console.log('====',fullPath)
         this.$nextTick(() => {
           this.$router.replace({
             path: '/redirect' + fullPath

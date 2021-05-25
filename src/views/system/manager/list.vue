@@ -163,14 +163,14 @@ export default {
       this.getData();
     }
   },
-  beforeRouteLeave(to,from,next){
-    if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-      this.$route.meta.keep_alive = false;
-    }else{
-      this.$route.meta.keep_alive = true;
-    }
-    next();
-  },
+  // beforeRouteLeave(to,from,next){
+  //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
+  //     this.$route.meta.keep_alive = false;
+  //   }else{
+  //     this.$route.meta.keep_alive = true;
+  //   }
+  //   next();
+  // },
 };
 </script>
 
