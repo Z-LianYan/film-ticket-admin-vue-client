@@ -36,42 +36,55 @@ export function routerMenuFilter(routerData,operation) { //遍历后台传来的
       affix: !route.affix ? false : true
     }
     if (route.component) {
-      switch (route.component) {
-        case 'Layout':
-          route.component = resolve => require(["@/layout"], resolve);
-          break;
-        case 'LayoutFollow':
-          route.component = resolve => require(["@/layout/LayoutFollow"], resolve);
-          break;
-        // case 'LayoutFollowFollow':
-        //   route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
-        //   break;
-        default:
-          route.component = _import(route.component);
-      }
+      // switch (route.component) {
+      //   case 'Layout':
+      //     route.component = resolve => require(["@/layout"], resolve);
+      //     break;
+      //   case 'LayoutFollow':
+      //     route.component = resolve => require(["@/layout/LayoutFollow"], resolve);
+      //     break;
+      //   // case 'LayoutFollowFollow':
+      //   //   route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
+      //   //   break;
+      //   default:
+      //     route.component = _import(route.component);
+      // }
+
+      route.component = handleComponent(route.component)
     }
-    // full_routes.push(route);
-    // if(route.children && route.children.length && !operation){
-    //   flatAsyncRoutes(route.children,[{
-    //     path: route.path,
-    //     title: route.meta.title
-    //   }])
+
+    let _route = _.cloneDeep(route);
+
+    full_routes.push(_route);
+    if(_route.children && _route.children.length && !operation){
+      flatAsyncRoutes(_route.children,[{
+        path: _route.path,
+        title: _route.title
+      }],_route.path)
+    }
+    
+
+
+    // if (!route.redirect) {
+    //   delete route.redirect
     // }
-
-
-    if (!route.redirect) {
-      delete route.redirect
-    }
     if (route.children && route.children.length) {
       route.children = routerMenuFilter(route.children,'menu')
     }
 
-    delete route.title
-    delete route.icon
-    delete route.keep_alive
-    delete route.module_id
-    delete route._id
-    delete route.affix
+    
+
+
+    
+
+    delete route.title;
+    delete route.icon;
+    delete route.keep_alive;
+    delete route.module_id;
+    delete route._id;
+    delete route.affix;
+
+
     return true
   })
 
@@ -83,71 +96,85 @@ export function routerMenuFilter(routerData,operation) { //遍历后台传来的
   return accessedRouters
 }
 
+function handleComponent(component){
+  switch (component) {
+    case 'Layout':
+      return resolve => require(["@/layout"], resolve);
+      // break;
+    case 'LayoutFollow':
+      return resolve => require(["@/layout/LayoutFollow"], resolve);
+      // break;
+    // case 'LayoutFollowFollow':
+    //   route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
+    //   break;
+    default:
+      return _import(component);
+  }
+}
 
+
+function  recursionChilden(routes,breadcrumb=[],baseUrl,operation,current_breadcrumb=[]){
+  let result = [];
+  if(operation){
+    result = operation;
+  }
+  for(let item of routes){
+    let base_url = baseUrl + '/'+ item.path;
+    item.path = base_url;
+
+    
+    if(!operation || !current_breadcrumb.length){
+      let cur_breadcrumb = _.cloneDeep(breadcrumb[0]);
+      current_breadcrumb = [];
+      current_breadcrumb.push(cur_breadcrumb);
+    }else{
+      current_breadcrumb.push({
+        path:base_url,
+        title:item.title
+      })
+    }
+    
+    
+    if(item.children && item.children.length){
+      recursionChilden(item.children,breadcrumb,base_url,result,current_breadcrumb)
+    }else{
+
+      item.component = handleComponent(item.component);
+
+      item.meta = {
+        title: item.title,
+        icon: item.icon,
+        keep_alive: item.keep_alive == 1 ? true : false,
+        affix: !item.affix ? false : true,
+        breadcrumb:current_breadcrumb
+      }
+
+      // current_breadcrumb = [];
+
+      delete item.title;
+      delete item.icon;
+      delete item.keep_alive;
+      delete item.module_id;
+      delete item._id;
+      delete item.affix;
+
+      result.push(item);
+    }
+
+  }
+  return result;
+}
 
 // 将多层嵌套路由处理成平级
-function flatAsyncRoutes(routes, breadcrumb, baseUrl = '') {
-  console.log('routes++++',routes)
-  let res = []
-  routes.forEach(route => {
-    console.log('routes------',route)
-    const tmp = { ...route }
-
-    console.log('routes+++====',tmp)
-    if (tmp.children) {
-      let childrenBaseUrl = ''
-      if (baseUrl == '') {
-        childrenBaseUrl = tmp.path
-      } else if (tmp.path != '') {
-        childrenBaseUrl = `${baseUrl}/${tmp.path}`
-      }
-      let childrenBreadcrumb = _.cloneDeep(breadcrumb)
-      
-      if (route.meta.breadcrumb !== false) {
-        childrenBreadcrumb.push({
-          path: childrenBaseUrl,
-          title: route.meta.title
-        })
-      }
-      let tmpRoute = _.cloneDeep(route)
-      tmpRoute.path = childrenBaseUrl
-      tmpRoute.meta.breadcrumbNeste = childrenBreadcrumb
-      delete tmpRoute.children
-      res.push(tmpRoute)
-      let childrenRoutes = flatAsyncRoutes(tmp.children, childrenBreadcrumb, childrenBaseUrl)
-      childrenRoutes.map(item => {
-        // 如果 path 一样则覆盖，因为子路由的 path 可能设置为空，导致和父路由一样，直接注册会提示路由重复
-        if (res.some(v => v.path == item.path)) {
-          res.forEach((v, i) => {
-            if (v.path == item.path) {
-              res[i] = item
-            }
-          })
-        } else {
-          res.push(item)
-        }
-      })
-    } else {
-      if (baseUrl != '') {
-        if (tmp.path != '') {
-          tmp.path = `${baseUrl}/${tmp.path}`
-        } else {
-          tmp.path = baseUrl
-        }
-      }
-      // 处理面包屑导航
-      let tmpBreadcrumb = _.cloneDeep(breadcrumb)
-      if (tmp.meta.breadcrumb !== false) {
-        tmpBreadcrumb.push({
-          path: tmp.path,
-          title: tmp.meta.title
-        })
-      }
-      tmp.meta.breadcrumbNeste = tmpBreadcrumb
-      res.push(tmp)
-    }
-  })
-  return res
+function flatAsyncRoutes(routes, breadcrumb=[],baseUrl) {
+  console.log('routes++++',routes);
+  try{
+    let result = recursionChilden(routes,breadcrumb,baseUrl);
+    console.log('result----childen',result);
+  }catch(err){
+    // console.log('catch----err',err.message);
+    console.error(err.message)
+  }
 }
 
 
