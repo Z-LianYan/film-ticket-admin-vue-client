@@ -29,6 +29,7 @@ export function routerMenuFilter(routerData,operation) { //遍历后台传来的
   console.log("菜单", routerData);
   let full_routes = [];
   var accessedRouters = routerData.filter(route => {
+    
     route.meta = {
       title: route.title,
       icon: route.icon,
@@ -50,13 +51,14 @@ export function routerMenuFilter(routerData,operation) { //遍历后台传来的
           route.component = _import(route.component);
       }
     }
-    // full_routes.push(route);
-    // if(route.children && route.children.length && !operation){
-    //   flatAsyncRoutes(route.children,[{
-    //     path: route.path,
-    //     title: route.meta.title
-    //   }])
-    // }
+
+    full_routes.push(route);
+    if(route.children && route.children.length && !operation){//生成路由
+      flatAsyncRoutes(route.children,[{
+        path: route.path,
+        title: route.meta.title
+      }])
+    }
 
 
     if (!route.redirect) {
@@ -65,7 +67,6 @@ export function routerMenuFilter(routerData,operation) { //遍历后台传来的
     if (route.children && route.children.length) {
       route.children = routerMenuFilter(route.children,'menu')
     }
-
     delete route.title
     delete route.icon
     delete route.keep_alive
@@ -93,22 +94,26 @@ function flatAsyncRoutes(routes, breadcrumb, baseUrl = '') {
     console.log('routes------',route)
     const tmp = { ...route }
 
+    tmp.meta = {}
+
     console.log('routes+++====',tmp)
     if (tmp.children) {
-      let childrenBaseUrl = ''
-      if (baseUrl == '') {
-        childrenBaseUrl = tmp.path
-      } else if (tmp.path != '') {
+      console.log('routes+++====breadcrumb',breadcrumb)
+      let childrenBaseUrl = '';
+      if (!baseUrl) {
+        childrenBaseUrl = tmp.path;
+      } else if (tmp.path) {
         childrenBaseUrl = `${baseUrl}/${tmp.path}`
       }
       let childrenBreadcrumb = _.cloneDeep(breadcrumb)
-      
-      if (route.meta.breadcrumb !== false) {
+      console.log('routes+++====tmp888',childrenBreadcrumb)
+      if (route.meta.breadcrumb) {
         childrenBreadcrumb.push({
           path: childrenBaseUrl,
           title: route.meta.title
         })
       }
+      
       let tmpRoute = _.cloneDeep(route)
       tmpRoute.path = childrenBaseUrl
       tmpRoute.meta.breadcrumbNeste = childrenBreadcrumb
@@ -127,6 +132,7 @@ function flatAsyncRoutes(routes, breadcrumb, baseUrl = '') {
           res.push(item)
         }
       })
+      
     } else {
       if (baseUrl != '') {
         if (tmp.path != '') {
