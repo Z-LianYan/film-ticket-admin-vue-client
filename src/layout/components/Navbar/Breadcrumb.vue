@@ -35,8 +35,9 @@ export default {
         // console.log('this.matched',this.matched);
         matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
       }
-      this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-      // console.log('this.levelList',matched,this.levelList)
+
+      this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false);
+      console.log('this.levelList',this.levelList);
     },
     isDashboard(route) {
       const name = route && route.name

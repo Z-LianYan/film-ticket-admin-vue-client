@@ -25,10 +25,10 @@ export function removeUserInfo() {
   delete localStorage.userInfo;
 }
 
-export function routerMenuFilter(routerData,operation) { //遍历后台传来的路由字符串，转换为组件对象
-  console.log("菜单", routerData);
-  let full_routes = [];
-  var accessedRouters = routerData.filter(route => {
+export function routerMenuFilter(router_Data,operation) { //遍历后台传来的路由字符串，转换为组件对象
+  console.log("菜单", router_Data);
+  let routerData = [];
+  var menuData = router_Data.filter( async route => {
     
     route.meta = {
       title: route.title,
@@ -37,123 +37,122 @@ export function routerMenuFilter(routerData,operation) { //遍历后台传来的
       affix: !route.affix ? false : true
     }
     if (route.component) {
-      switch (route.component) {
-        case 'Layout':
-          route.component = resolve => require(["@/layout"], resolve);
-          break;
-        case 'LayoutFollow':
-          route.component = resolve => require(["@/layout/LayoutFollow"], resolve);
-          break;
-        // case 'LayoutFollowFollow':
-        //   route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
-        //   break;
-        default:
-          route.component = _import(route.component);
-      }
+      route.component = handleComponent(route.component)
     }
 
-    full_routes.push(route);
-    if(route.children && route.children.length && !operation){//生成路由
-      flatAsyncRoutes(route.children,[{
-        path: route.path,
-        title: route.meta.title
-      }])
+    
+
+    // if (!route.redirect) {
+    //   delete route.redirect
+    // }
+    
+    delete route.title;
+    delete route.icon;
+    delete route.keep_alive;
+    delete route.module_id;
+    delete route._id;
+    delete route.affix;
+
+    // if(!operation){
+      let _route = _.cloneDeep(route);
+      routerData.push(_route);
+    // }
+    
+    if(_route.children && _route.children.length && !operation){
+      flatAsyncRoutes(_route,[{//二级以上路由转一二级路由
+        path: _route.path,
+        title: _route.title
+      }],_route.path)
     }
 
-
-    if (!route.redirect) {
-      delete route.redirect
-    }
     if (route.children && route.children.length) {
-      route.children = routerMenuFilter(route.children,'menu')
+      route.children = await routerMenuFilter(route.children,'menu')
     }
-    delete route.title
-    delete route.icon
-    delete route.keep_alive
-    delete route.module_id
-    delete route._id
-    delete route.affix
+
+
     return true
   })
 
-  setTimeout(() => {
-    console.log('full_routes',full_routes)
-  }, 4000);
-  
+  console.log('77777777',routerData)
 
-  return accessedRouters
+  return menuData
 }
 
+function handleComponent(component){
+  switch (component) {
+    case 'Layout':
+      return resolve => require(["@/layout"], resolve);
+      // break;
+    case 'LayoutFollow':
+      return resolve => require(["@/layout/LayoutFollow"], resolve);
+      // break;
+    // case 'LayoutFollowFollow':
+    //   route.component = resolve => require(["@/layout/LayoutFollowFollow"],resolve);
+    //   break;
+    default:
+      return _import(component);
+  }
+}
 
+function  recursionChilden(routes,breadcrumb=[],baseUrl,operation,child_breadcrumb=[]){
+  let result = [];
+  if(operation){
+    result = operation;
+  }
+  for(let item of routes){
+    let base_url = baseUrl + '/'+ item.path;
+    item.path = base_url;
+    // console.log('base_url',base_url);
+    if(!operation || !child_breadcrumb.length){//处理面包屑
+      let cur_breadcrumb = _.cloneDeep(breadcrumb[0]);
+      child_breadcrumb = [];
+      child_breadcrumb.push(cur_breadcrumb);
+    }
+    child_breadcrumb.push({
+      path:base_url,
+      title:item.title
+    })
+    if(item.children && item.children.length){
+      recursionChilden(item.children,breadcrumb,base_url,result,child_breadcrumb)
+    }else{
+
+      item.component = handleComponent(item.component);
+
+      let tem_child_breadcrumb = _.cloneDeep(child_breadcrumb);
+      child_breadcrumb.splice(child_breadcrumb.length-1,1);
+
+      item.meta = {
+        title: item.title,
+        icon: item.icon,
+        keep_alive: item.keep_alive == 1 ? true : false,
+        affix: !item.affix ? false : true,
+        breadcrumb:tem_child_breadcrumb
+      }
+
+      delete item.title;
+      delete item.icon;
+      delete item.keep_alive;
+      delete item.module_id;
+      delete item._id;
+      delete item.affix;
+
+      result.push(item);
+    }
+
+  }
+  return result;
+}
 
 // 将多层嵌套路由处理成平级
-function flatAsyncRoutes(routes, breadcrumb, baseUrl = '') {
-  console.log('routes++++',routes)
-  let res = []
-  routes.forEach(route => {
-    console.log('routes------',route)
-    const tmp = { ...route }
-
-    tmp.meta = {}
-
-    console.log('routes+++====',tmp)
-    if (tmp.children) {
-      console.log('routes+++====breadcrumb',breadcrumb)
-      let childrenBaseUrl = '';
-      if (!baseUrl) {
-        childrenBaseUrl = tmp.path;
-      } else if (tmp.path) {
-        childrenBaseUrl = `${baseUrl}/${tmp.path}`
-      }
-      let childrenBreadcrumb = _.cloneDeep(breadcrumb)
-      console.log('routes+++====tmp888',childrenBreadcrumb)
-      if (route.meta.breadcrumb) {
-        childrenBreadcrumb.push({
-          path: childrenBaseUrl,
-          title: route.meta.title
-        })
-      }
-      
-      let tmpRoute = _.cloneDeep(route)
-      tmpRoute.path = childrenBaseUrl
-      tmpRoute.meta.breadcrumbNeste = childrenBreadcrumb
-      delete tmpRoute.children
-      res.push(tmpRoute)
-      let childrenRoutes = flatAsyncRoutes(tmp.children, childrenBreadcrumb, childrenBaseUrl)
-      childrenRoutes.map(item => {
-        // 如果 path 一样则覆盖，因为子路由的 path 可能设置为空，导致和父路由一样，直接注册会提示路由重复
-        if (res.some(v => v.path == item.path)) {
-          res.forEach((v, i) => {
-            if (v.path == item.path) {
-              res[i] = item
-            }
-          })
-        } else {
-          res.push(item)
-        }
-      })
-      
-    } else {
-      if (baseUrl != '') {
-        if (tmp.path != '') {
-          tmp.path = `${baseUrl}/${tmp.path}`
-        } else {
-          tmp.path = baseUrl
-        }
-      }
-      // 处理面包屑导航
-      let tmpBreadcrumb = _.cloneDeep(breadcrumb)
-      if (tmp.meta.breadcrumb !== false) {
-        tmpBreadcrumb.push({
-          path: tmp.path,
-          title: tmp.meta.title
-        })
-      }
-      tmp.meta.breadcrumbNeste = tmpBreadcrumb
-      res.push(tmp)
-    }
-  })
-  return res
+function flatAsyncRoutes(routes, breadcrumb=[],baseUrl) {
+  console.log('routes++++哈哈哈😄',routes);
+  try{
+    routes.children = recursionChilden(routes.children,breadcrumb,baseUrl);
+    // console.log('result----childen',result);
+  }catch(err){
+    // console.log('catch----err',err.message);
+    console.error(err.message)
+  }
 }
 
 
