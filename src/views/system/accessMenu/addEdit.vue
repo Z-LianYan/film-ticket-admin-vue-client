@@ -103,7 +103,7 @@ function ruleForm() {
     module_id: "",
     path: "",
     component: "",
-    redirect: "noRedirect",
+    redirect: "",
     name: "",
     title: "",
     icon: "",
@@ -212,7 +212,7 @@ export default {
   padding-right: 10px;
 }
 .menu-add-edit-scrollbar-wrapper{
-  // height: calc(100vh - 100px);
-  height: 400px;
+  height: calc(100vh - 60px);
+  // height: 400px;
 }
 </style>

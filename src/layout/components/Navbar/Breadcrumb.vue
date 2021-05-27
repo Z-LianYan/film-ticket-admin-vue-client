@@ -6,7 +6,7 @@
         <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item> -->
       <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
-        <span v-if="!item.redirect||item.redirect==='noRedirect'||index==levelList.length-1" class="no-redirect">{{ item.title }}</span>
+        <span v-if="!item.redirect||index==levelList.length-1" class="no-redirect">{{ item.title }}</span>
         <a v-else @click.prevent="handleLink(item)">{{ item.title }}</a>
       </el-breadcrumb-item>
     </transition-group>

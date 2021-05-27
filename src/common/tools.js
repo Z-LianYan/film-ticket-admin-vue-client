@@ -58,15 +58,13 @@ export function routerMenuFilter(router_Data, operation) { //遍历后台传来�
           flatAsyncRoutes(_route, [{//二级以上路由转一二级路由
             path: _route.path,
             title: _route.meta.title,
-            redirect: _route.redirect,
+            // redirect: _route.redirect,
           }], _route.path)
 
-          delete _route.redirect
+          // delete _route.redirect
         }
       }
-      if (!route.redirect || route.redirect=='noRedirect') {
-        delete route.redirect
-      }
+      
       if (route.children && route.children.length) {
         routerMenuFilter(route.children, 'menu')
       }
@@ -96,7 +94,7 @@ function handleComponent(component) {
     //   break;
     default:
       console.log('component',component);
-      return component?_import(component):'';
+      return _import(component);
   }
 }
 
@@ -114,15 +112,11 @@ function recursionChilden(routes, breadcrumb = [], baseUrl, operation, child_bre
       child_breadcrumb.push(cur_breadcrumb);
     }
     child_breadcrumb.push({
-      path: item.path,
+      path: baseUrl + '/' + item.path,
       title: item.title,
       redirect: item.redirect,
     })
     item.path = base_url;
-
-    if(item.redirect == 'noRedirect'){
-      item.redirect = '';
-    }
     
 
     if (item.children && item.children.length) {
