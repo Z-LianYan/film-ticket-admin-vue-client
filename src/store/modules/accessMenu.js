@@ -81,15 +81,17 @@ const actions = {
         if (res.error == 0) {
           console.log("菜---哈哈哈哈---单",res.data);
           resolve(res.data);
-          var accessRouter = routerMenuFilter(res.data.data);
+          var data = routerMenuFilter(res.data.data);
+          console.log("菜------单",data);
+          var menu_list = router.options.routes.concat(data.menuList);
 
-          console.log("菜------单",accessRouter);
-          var router_menu = router.options.routes.concat(accessRouter);
-          store.commit("accessMenu/MENU_ROUTER", router_menu);
+          var router_list = router.options.routes.concat(data.routerList);
+          store.commit("accessMenu/MENU_ROUTER", menu_list);
 
           var error_404 = { path: '*', redirect: '/404', hidden: true };
-          router_menu.push(error_404);
-          router.selfaddRoutes(router_menu);//返回的数据，生成路由
+          router_list.push(error_404);
+
+          router.selfaddRoutes(router_list);//返回的数据，生成路由
           
           state.initialize_system = true;
         } else {

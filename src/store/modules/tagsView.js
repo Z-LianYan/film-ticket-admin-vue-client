@@ -1,6 +1,6 @@
 const state = {
   visitedViews: [],
-  cachedViews: []//三级路由或以上是缓存不了的，奖三级路由router-view组件默认缓存，
+  cachedViews: []
 }
 
 const mutations = {

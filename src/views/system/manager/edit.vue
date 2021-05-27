@@ -85,7 +85,7 @@
 <script>
 import UploadImage from "@/components/UploadImage"
 export default {
-  name:'manager_edit',
+  name:'ManagerEdit',
   components:{
     UploadImage
   },

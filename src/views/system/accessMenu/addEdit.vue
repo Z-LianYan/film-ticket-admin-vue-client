@@ -2,15 +2,15 @@
   <el-drawer
     :title="isAdd? '添加菜单': '编辑菜单'"
     :visible.sync="isDrawer"
-    size="45%"
+    size="50%"
     @close="drawerClose"
   >
-    <el-scrollbar wrap-class="scrollbar-wrapper">
+    <el-scrollbar wrap-class="menu-add-edit-scrollbar-wrapper">
       <el-form
         :model="ruleForm"
         :rules="rules"
         ref="ruleForm"
-        label-width="130px"
+        label-width="165px"
         class="demo-ruleForm"
       >
         <el-form-item label="菜单名称 title" prop="title">
@@ -37,12 +37,14 @@
           <div>注：如果是子路由 前面不得加 / 如：/childrenRouter 子路由错误的写法</div>
         </el-form-item>
 
-        <el-form-item label="组件 component" prop="component">
-          <el-input v-model="ruleForm.component" placeholder="请引入views下的组件"></el-input>
+        <el-form-item label="组件路径 component " prop="component">
+          <el-input v-model="ruleForm.component" placeholder="请直接引入views文件下的组件"></el-input>
+          <div>注：直接引入views文件下的组件 如：system/manager/list</div>
         </el-form-item>
 
         <el-form-item label="路由名称 name" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
+          <div>注：此名称关系到组件缓存，必须与组件的name一致组件才能缓存</div>
         </el-form-item>
 
         <el-form-item label="重定向 redirect" prop="redirect">
@@ -53,6 +55,13 @@
 
         <el-form-item label="图标" prop="icon">
           <el-input v-model="ruleForm.icon"></el-input>
+        </el-form-item>
+
+        <el-form-item label="是否创建路由" prop="is_create_router">
+          <el-radio-group v-model="ruleForm.is_create_router">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
+          </el-radio-group>
         </el-form-item>
 
         <el-form-item label="是否缓存页面" prop="keep_alive">
@@ -81,6 +90,7 @@
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm">重置</el-button>
         </el-form-item>
+        
       </el-form>
     </el-scrollbar>
   </el-drawer>
@@ -93,13 +103,14 @@ function ruleForm() {
     module_id: "",
     path: "",
     component: "",
-    redirect: "",
+    redirect: "noRedirect",
     name: "",
     title: "",
     icon: "",
     keep_alive: 0,
     hidden: 0, //0显示，1隐藏
-    affix: 0 //0不粘上可关闭，1粘上不可关闭
+    affix: 0, //0不粘上可关闭，1粘上不可关闭
+    is_create_router:1,//是否创建路由 1是，0否
   };
 }
 export default {
@@ -200,7 +211,8 @@ export default {
 .el-drawer__body {
   padding-right: 10px;
 }
-.scrollbar-wrapper{
-  height: calc(100vh - 60px);
+.menu-add-edit-scrollbar-wrapper{
+  // height: calc(100vh - 100px);
+  height: 400px;
 }
 </style>

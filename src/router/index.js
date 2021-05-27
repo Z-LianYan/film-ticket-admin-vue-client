@@ -14,7 +14,7 @@ export const constantRoutes = [
   {
     path: '/redirect',
     component: ()=>import("@/layout"),
-    hidden: true,
+    hidden: false,
     children: [
       {
         path: '/redirect/:path*',
@@ -22,9 +22,9 @@ export const constantRoutes = [
       }
     ]
   },
-  { path: '/login',name:"login", component: Login, hidden: true },
-  { path: '/404',name:"error_404", component: Error_404, hidden: true },
-  { path: '/calendar',name:"calendar", component: Calendar, hidden: true },
+  { path: '/login',name:"login", component: Login, hidden: false },
+  { path: '/404',name:"error_404", component: Error_404, hidden: false },
+  // { path: '/calendar',name:"calendar", component: Calendar, hidden: false },
   {
     path: '/', component: ()=>import("@/layout"), redirect: '/dashboard', children: [
       { 
@@ -32,9 +32,15 @@ export const constantRoutes = [
         name: 'Dashboard', 
         component: resolve => require(["@/views/dashboard/index"],resolve), 
         meta: { 
-          title: '首页', icon: 'el-icon-s-home',
+          title: '首页', 
+          icon: 'el-icon-s-home',
           affix:true,
-          activeMenu: '/dashboard'
+          activeMenu: '/dashboard',
+          breadcrumb:[{
+            path: "/dashboard",
+            redirect: "/dashboard",
+            title: "首页"
+          }]
         }
       }
     ]

@@ -110,7 +110,7 @@
 <script>
 import FilmDetail  from "@/views/filmList/Detail"
 export default {
-  name: "filmList",
+  name: "FilmList",
   data() {
     return {
       loading: false,

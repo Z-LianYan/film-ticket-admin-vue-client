@@ -35,8 +35,11 @@
       <!-- <el-table-column prop="url" label="访问路径"></el-table-column> -->
       <el-table-column prop="hidden" label="是否缓存页面" width="110">
         <template slot-scope="scope">
-          <img src="@/assets/images/yes.gif" v-if="scope.row.keep_alive==1" alt />
-          <img src="@/assets/images/no.gif" v-if="scope.row.keep_alive==0" alt />
+          <div v-if="!scope.row.children">
+            <img src="@/assets/images/yes.gif" v-if="scope.row.keep_alive==1" alt />
+            <img src="@/assets/images/no.gif" v-if="scope.row.keep_alive==0" alt />
+          </div>
+          
         </template>
       </el-table-column>
       <el-table-column prop="hidden" label="是否显示菜单" width="110">

@@ -147,7 +147,7 @@ function formOptions(){
   }
 }
 export default {
-  name:'manager_add',
+  name:'FilmEdit',
   components:{
     UploadImage,
     UploadImageMul

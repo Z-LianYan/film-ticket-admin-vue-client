@@ -150,7 +150,7 @@ function formOptions(){
   }
 }
 export default {
-  name:'manager_add',
+  name:'FilmAdd',
   components:{
     UploadImage,
     UploadImageMul

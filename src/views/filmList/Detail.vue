@@ -97,7 +97,7 @@
 
 <script>
 export default {
-  name: "film-detail",
+  name: "FilmDetail",
   components: {},
   data() {
     return {

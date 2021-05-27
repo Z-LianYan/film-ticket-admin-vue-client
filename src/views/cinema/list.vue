@@ -83,7 +83,7 @@
 import FilmDetail  from "@/views/filmList/Detail";
 import AddEdit  from "@/views/cinema/addEdit";
 export default {
-  name: "filmList",
+  name: "CinemaList",
   data() {
     return {
       loading: false,
