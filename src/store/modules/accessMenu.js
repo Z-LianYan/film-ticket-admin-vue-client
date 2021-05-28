@@ -79,20 +79,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       requstTools.get(aipUrl.GET_ACCESS_MENU, requestParams).then(res => {
         if (res.error == 0) {
-          console.log("菜---哈哈哈哈---单",res.data);
           resolve(res.data);
           var data = routerMenuFilter(res.data.data);
-          console.log("菜------单",data);
           var menu_list = router.options.routes.concat(data.menuList);
-
           var router_list = router.options.routes.concat(data.routerList);
           store.commit("accessMenu/MENU_ROUTER", menu_list);
-
           var error_404 = { path: '*', redirect: '/404', hidden: true };
           router_list.push(error_404);
-
           router.selfaddRoutes(router_list);//返回的数据，生成路由
-          
           state.initialize_system = true;
         } else {
           Message.error(res.message);

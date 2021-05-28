@@ -107,21 +107,9 @@ export default {
     },
     addTags() {
       const { name,matched } = this.$route;
-
       if (name) {
         this.$store.dispatch('tagsView/addView', this.$route)
       }
-      
-      // for(let item of matched){
-      //   if (item.name) {
-      //     this.$store.dispatch('tagsView/addView', item)
-      //   }
-      // }
-      // console.log('tagsView-------',this.$store.state.tagsView)
-      console.log('this.$route-------',this.$route)
-
-
-
       return false
     },
     moveToCurrentTag() {

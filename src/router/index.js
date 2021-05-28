@@ -14,37 +14,46 @@ export const constantRoutes = [
   {
     path: '/redirect',
     component: ()=>import("@/layout"),
-    hidden: false,
+    hidden: true,
     children: [
       {
         path: '/redirect/:path*',
-        component: () => import('@/views/system/redirect/index')
+        component: () => import('@/views/system/redirect/index'),
+        // meta:{
+        //   title: '',
+        //   icon: '',
+        //   breadcrumb: [{//解决右键历史菜单刷新报错（面包屑 Breadcrumb组件路由监听 ）
+        //     name:'Redirect',
+        //     path: '/redirect',
+        //     title: ''
+        //   }]
+        // },
       }
     ]
   },
-  { path: '/login',name:"login", component: Login, hidden: false },
-  { path: '/404',name:"error_404", component: Error_404, hidden: false },
-  // { path: '/calendar',name:"calendar", component: Calendar, hidden: false },
-  {
-    path: '/', component: ()=>import("@/layout"), redirect: '/dashboard', children: [
-      { 
-        path: 'dashboard', 
-        name: 'Dashboard', 
-        component: resolve => require(["@/views/dashboard/index"],resolve), 
-        meta: { 
-          title: '首页', 
-          icon: 'el-icon-s-home',
-          affix:true,
-          activeMenu: '/dashboard',
-          breadcrumb:[{
-            path: "/dashboard",
-            redirect: "/dashboard",
-            title: "首页"
-          }]
-        }
-      }
-    ]
-  },
+  { path: '/login',name:"login", component: Login, hidden: true },
+  { path: '/404',name:"error_404", component: Error_404, hidden: true },
+  // {
+  //   path: '/',component: ()=>import("@/layout"), redirect: '/dashboard', children: [
+  //     { 
+  //       path: 'dashboard', 
+  //       name: 'Dashboard', 
+  //       hidden: false,
+  //       component: resolve => require(["@/views/dashboard/index"],resolve), 
+  //       meta: { 
+  //         title: '首页', 
+  //         icon: 'el-icon-s-home',
+  //         affix:true,
+  //         activeMenu: '/dashboard',
+  //         breadcrumb:[{
+  //           path: "/dashboard",
+  //           redirect: "/dashboard",
+  //           title: "首页"
+  //         }]
+  //       }
+  //     }
+  //   ]
+  // }
 ]
 
 const createRouter = () => new VueRouter({

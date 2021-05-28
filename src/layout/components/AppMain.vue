@@ -12,7 +12,6 @@
 export default {
   name: 'AppMain',
   mounted(){
-    console.log('hahahahha---main',this.$route.meta)
   },
   computed: {
     cachedViews() {

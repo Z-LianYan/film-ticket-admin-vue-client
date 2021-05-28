@@ -12,12 +12,11 @@ const state = {
 
 const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {
-    console.log("key",key,'value',value);
+    // console.log("key",key,'value',value);
     if (state.hasOwnProperty(key)) {
       state[key] = value;
       // jsCookie.set("theme",value);
       localStorage.setItem("theme",value);
-      console.log("store---",state.theme);
     }
   }
 }

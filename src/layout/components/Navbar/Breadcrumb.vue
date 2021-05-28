@@ -55,23 +55,22 @@ export default {
     //   return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
     // },
     getBreadcrumb() {
-      // only show routes with meta.title
-      console.log('this.$route嘻嘻😁',this.$route)
+      if((this.$route.meta.breadcrumb && !this.$route.meta.breadcrumb.length)||!this.$route.meta.breadcrumb) return;
       let breadcrumb = this.$route.meta.breadcrumb.filter(item=>item.title);
-      console.log('this.$route嘻嘻😁-',breadcrumb)
       const first = (breadcrumb && breadcrumb.length)?breadcrumb[0]:{};
+      
       if (!this.isDashboard(first)) {
         breadcrumb = [{ path: '/dashboard', redirect: '/dashboard', title: '首页' }].concat(breadcrumb)
       }
       this.levelList = (breadcrumb && breadcrumb.length)?breadcrumb:[];
-      console.log('this.levelList',this.levelList);
     },
     isDashboard(item) {
-      const title = item && item.title
-      if (!title) {
+      const name = item && item.name
+      if (!name) {
         return false
       }
-      return title.trim() === '首页'
+      // return title.trim() === '首页'
+      return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
