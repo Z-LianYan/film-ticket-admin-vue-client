@@ -27,31 +27,14 @@ export function removeUserInfo() {
 
 export function routerMenuFilter(router_Data, operation) { //遍历后台传来的路由字符串，转换为组件对象
   try {
-
-    // console.log("菜单", router_Data);
     let routerData = [];
     for (let route of router_Data) {
-      // console.log(route.path);
-      let breadcrumb = [];
-      if(route.path!='/'){
-        
-        breadcrumb.push({
-          name:route.name,
-          path: route.path,
-          title: route.title,
-          redirect: route.redirect,
-        })
-      }else{
-        console.log('///////',breadcrumb)
-      }
-
-
-      // let breadcrumb = [{
-      //   name:route.name,
-      //   path: route.path,
-      //   title: route.title,
-      //   redirect: route.redirect,
-      // }]
+      let breadcrumb = [{
+        name:route.name,
+        path: route.path,
+        title: route.title,
+        redirect: route.redirect,
+      }];
       route.meta = {
         title: route.title,
         icon: route.icon,
@@ -89,9 +72,7 @@ export function routerMenuFilter(router_Data, operation) { //遍历后台传来�
   } catch (err) {
     console.error(err.message);
   }
-
 }
-
 function handleComponent(component) {
   switch (component) {
     case 'Layout':
@@ -104,26 +85,15 @@ function handleComponent(component) {
 }
 
 function recursionChilden(routes, breadcrumb = [], baseUrl,child_base_url, operation, child_breadcrumb = []) {
-  let result = [];
-  if (operation) {
-    result = operation;
-  }
+  let result = operation?operation:[];
   for (let item of routes) {
     let base_url = (baseUrl=='/'?'':baseUrl) + '/' + item.path;
     if (!operation || !child_breadcrumb.length) {//处理面包屑（child_breadcrumb 与router.matched类似）
-      // let cur_breadcrumb = _.cloneDeep(breadcrumb[0]);
-      // child_breadcrumb = [];
-      // child_breadcrumb.push(cur_breadcrumb);
-
-
-      let cur_breadcrumb = (breadcrumb && breadcrumb.length)?_.cloneDeep(breadcrumb[0]):{};
+      let cur_breadcrumb = (breadcrumb && breadcrumb.length)?_.cloneDeep(breadcrumb[0]):null;
       child_breadcrumb = [];
-      if(cur_breadcrumb && Object.keys(cur_breadcrumb).length){
+      if(cur_breadcrumb && routes.length!=1){
         child_breadcrumb.push(cur_breadcrumb);
       }
-
-
-
     }
     child_breadcrumb.push({
       name: item.name,
@@ -134,6 +104,9 @@ function recursionChilden(routes, breadcrumb = [], baseUrl,child_base_url, opera
     let path_url = (operation?(child_base_url + '/'):'') + item.path;
     item.path = path_url;//二级路由路径
     if (item.children && item.children.length) {
+      if(item.children.length==1){//如果子路由只有一个的话面包屑不显示上级菜单名称（跟菜单类似）
+        child_breadcrumb.splice(child_breadcrumb.length-1,1);
+      }
       recursionChilden(item.children, breadcrumb, base_url, path_url, result, child_breadcrumb)
     } else {
       item.component = handleComponent(item.component);

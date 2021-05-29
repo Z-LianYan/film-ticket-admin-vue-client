@@ -130,7 +130,6 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store.dispatch("user/doLogin", this.loginForm).then((res) => {
-            
             this.loading = false;
             if(res.error==0){
               this.is_init_system_modal = true;

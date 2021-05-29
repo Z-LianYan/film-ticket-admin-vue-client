@@ -7,8 +7,6 @@ import { getToken, getUserInfo, routerMenuFilter } from '@/common/tools';
 import router from '@/router'
 
 const state = {
-  routerMenu:[],
-  initialize_system:false
 }
 
 const mutations = {

@@ -113,12 +113,8 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.$store.dispatch("user/doLogout").then(() => {
-          this.$store.state.accessMenu.routerMenu = [];
-          this.$store.state.accessMenu.login_success_go_def_route = '';
-        });
+        this.$store.dispatch("user/doLogout");
       }).catch(() => {
-
         this.$message({
           type: "info",
           message: "已取消退出系统"

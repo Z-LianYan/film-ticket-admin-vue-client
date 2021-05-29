@@ -1,20 +1,23 @@
 <template>
   <div :class="classObj" class="app-wrapper" v-if="$store.state.accessMenu.initialize_system">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
     <sidebar class="sidebar-container" />
-    <div class="main-container">
+    <div :class="{hasTagsView:needTagsView}" class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
-        <tags-view />
+        <tags-view v-if="needTagsView"/>
       </div>
       <app-main />
+      <right-panel v-if="showSettings">
+        <settings />
+      </right-panel>
     </div>
   </div>
   <InitSystemModal v-else/>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain, TagsView } from "./components";
+import { Navbar, Sidebar, AppMain, TagsView, Settings, RightPanel } from "./components";
 import ResizeMixin from "./mixin/ResizeHandler";
 import InitSystemModal from "@/components/init-system-modal";
 
@@ -25,7 +28,9 @@ export default {
     Sidebar,
     AppMain,
     TagsView,
-    InitSystemModal
+    InitSystemModal,
+    RightPanel,
+    Settings
   },
   mixins: [ResizeMixin],
   created(){},
@@ -47,7 +52,13 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === "mobile"
       };
-    }
+    },
+    showSettings(){
+      return this.$store.state.settings.showSettings
+    },
+    needTagsView(){
+      return this.$store.state.settings.needTagsView
+    } 
   },
   methods: {
     handleClickOutside() {
@@ -97,4 +108,17 @@ export default {
 .mobile .fixed-header {
   width: 100%;
 }
+
+.hasTagsView {
+  .app-main {
+    /* 84 = navbar + tags-view = 50 + 34 */
+    min-height: calc(100vh - 84px);
+  }
+
+  .fixed-header+.app-main {
+    padding-top: 84px;
+  }
+}
+
+
 </style>

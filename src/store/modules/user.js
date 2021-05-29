@@ -3,6 +3,7 @@ import * as aipUrl from "@/common/api";
 import router from '@/router/index';
 import { setToken, getToken, removeToken, setUserInfo, getUserInfo, removeUserInfo } from "@/common/tools";
 import { Message, Loading } from 'element-ui';
+import store from '@/store/index';
 
 export default {
   namespaced: true,
@@ -77,6 +78,8 @@ export default {
             resolve();
             removeToken();
             removeUserInfo();
+            store.state.accessMenu.routerMenu = [];
+            store.state.accessMenu.isLoadingMenu = true;//退出登录isLoadingMenu状态为false时，登录时重新请求菜单列表
             router.replace({ path: "/login", query: { redirect: router.currentRoute.fullPath } })
             Message.success(res.message);
           } else {

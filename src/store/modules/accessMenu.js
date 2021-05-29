@@ -5,10 +5,13 @@ import { Message, Loading } from 'element-ui';
 import store from '@/store';
 import { getToken, getUserInfo, routerMenuFilter } from '@/common/tools';
 import router from '@/router'
+import Vue from 'vue';
+
 
 const state = {
   routerMenu:[],
-  initialize_system:false
+  initialize_system:false,
+  isLoadingMenu:true//处理登录成功，路由重定向请求两遍菜单
 }
 
 const mutations = {
@@ -76,6 +79,7 @@ const actions = {
 
   
   getAccessMenu({ commit, state },requestParams){
+    state.initialize_system = false;
     return new Promise((resolve, reject) => {
       requstTools.get(aipUrl.GET_ACCESS_MENU, requestParams).then(res => {
         if (res.error == 0) {
@@ -87,14 +91,16 @@ const actions = {
           var error_404 = { path: '*', redirect: '/404', hidden: true };
           router_list.push(error_404);
           router.selfaddRoutes(router_list);//返回的数据，生成路由
-          state.initialize_system = true;
+          setTimeout(() => {
+            state.initialize_system = true;
+          },50);
         } else {
           Message.error(res.message);
-          state.initialize_system = true;
+          state.initialize_system = false;
         }
       }).catch(error => {
         reject(error);
-        state.initialize_system = true;
+        state.initialize_system = false;
       })
     })
   }
