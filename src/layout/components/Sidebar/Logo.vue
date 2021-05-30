@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-logo-container" :class="{'collapse':collapse}" :style="{'background':this.$store.state.settings.theme}">
+  <div class="sidebar-logo-container" :class="{'collapse':collapse}" :style="{'background':$store.state.settings.theme}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="">
         <img v-if="site_data.site_logo" :src="site_data.site_logo" class="sidebar-logo">

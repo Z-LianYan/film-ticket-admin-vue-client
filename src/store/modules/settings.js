@@ -3,7 +3,7 @@ import variables from '@/styles/element-variables.scss'
 
 const state = {
   theme: variables.theme,
-  showSettings: true,
+  showSettings: true,//是否显示设置按钮
   fixedHeader: false,
   sidebarLogo: true,
   needTagsView: true
@@ -13,9 +13,9 @@ const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {
     // console.log("key",key,'value',value);
     if (state.hasOwnProperty(key)) {
-      state[key] = value;
+      state[key] = value==1?true:false;
       // jsCookie.set("theme",value);
-      localStorage.setItem("theme",value);
+      localStorage.setItem(key,value);
     }
   }
 }
