@@ -1,5 +1,4 @@
 import Layout from '@/layout';
-import LayoutFollow from '@/layout/LayoutFollow';
 import router from '@/router';
 import _ from 'lodash';
 
@@ -49,7 +48,6 @@ export function routerMenuFilter(router_Data, operation) { //遍历后台传来�
       delete route.module_id;
       delete route._id;
       delete route.affix;
-      delete route.is_create_router;
       if (route.component) {
         route.component = handleComponent(route.component)
       }
@@ -125,7 +123,6 @@ function recursionChilden(routes, breadcrumb = [], baseUrl,child_base_url, opera
       delete item.module_id;
       delete item._id;
       delete item.affix;
-      delete item.is_create_router;
       result.push(item);
     }
   }

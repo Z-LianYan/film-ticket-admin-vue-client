@@ -1,11 +1,15 @@
 <template>
-  <div :class="classObj" class="app-wrapper" v-if="$store.state.accessMenu.initialize_system">
+  <div
+    :class="classObj"
+    class="app-wrapper"
+    v-if="$store.state.accessMenu.initialize_system"
+  >
     <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
     <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+    <div :class="{ hasTagsView: needTagsView }" class="main-container">
+      <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
-        <tags-view v-if="needTagsView"/>
+        <tags-view v-if="needTagsView" />
       </div>
       <app-main />
       <right-panel v-if="showSettings">
@@ -13,11 +17,18 @@
       </right-panel>
     </div>
   </div>
-  <InitSystemModal v-else/>
+  <InitSystemModal v-else />
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain, TagsView, Settings, RightPanel } from "./components";
+import {
+  Navbar,
+  Sidebar,
+  AppMain,
+  TagsView,
+  Settings,
+  RightPanel,
+} from "./components";
 import ResizeMixin from "./mixin/ResizeHandler";
 import InitSystemModal from "@/components/init-system-modal";
 
@@ -30,10 +41,10 @@ export default {
     TagsView,
     InitSystemModal,
     RightPanel,
-    Settings
+    Settings,
   },
   mixins: [ResizeMixin],
-  created(){},
+  created() {},
   mounted() {},
   computed: {
     sidebar() {
@@ -50,23 +61,29 @@ export default {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === "mobile"
+        mobile: this.device === "mobile",
       };
     },
-    showSettings(){
-      return this.$store.state.settings.showSettings
+    showSettings() {
+      return this.$store.state.settings.showSettings;
     },
-    needTagsView(){
-      return this.$store.state.settings.needTagsView
-    } 
+    needTagsView() {
+      return this.$store.state.settings.needTagsView;
+    },
   },
   methods: {
     handleClickOutside() {
       this.$store.dispatch("app/closeSideBar", { withoutAnimation: false });
-    }
-  }
+    },
+  },
 };
 </script>
+<style>
+.layout-scrollbar-wrapper {
+  height: 100vh !important;
+  /* margin-bottom: -15px !important; */
+}
+</style>
 
 <style lang="scss" scoped>
 @import "~@/styles/mixin.scss";
@@ -115,10 +132,14 @@ export default {
     min-height: calc(100vh - 84px);
   }
 
-  .fixed-header+.app-main {
+  .fixed-header + .app-main {
     padding-top: 84px;
   }
 }
+</style>
 
-
+<style>
+body::-webkit-scrollbar { width: 0 !important; display: none; }
+body { -ms-overflow-style: none; }
+body { overflow: -moz-scrollbars-none; }
 </style>

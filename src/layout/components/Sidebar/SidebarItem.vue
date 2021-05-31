@@ -4,8 +4,12 @@
     <template 
     v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||(onlyOneChild.children && !onlyOneChild.children.length)||onlyOneChild.noShowingChildren)">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+        <el-menu-item 
+        :index="resolvePath(onlyOneChild.path)" 
+        :class="{'submenu-title-noDropdown':!isNest}">
+          <item 
+          :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" 
+          :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </app-link>
     </template>

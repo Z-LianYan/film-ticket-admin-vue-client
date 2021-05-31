@@ -17,10 +17,18 @@ const state = {
 const mutations = {
   MENU_ROUTER:(state,data)=>{
     state.routerMenu = data
+  },
+  RESET_STATUS: (state,data)=>{
+    state.routerMenu = [];
+    state.initialize_system = false;
+    state.isLoadingMenu = true;
   }
 }
 
 const actions = {
+  reSetStatus({ commit, state }, requestParams){
+    commit('RESET_STATUS')
+  },
   list({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
       requstTools.get(aipUrl.ACCESS_MENU_LIST, requestParams).then(res => {

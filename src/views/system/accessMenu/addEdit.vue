@@ -63,12 +63,7 @@
             <el-input v-model="ruleForm.sort"></el-input>
           </el-form-item>
 
-          <el-form-item label="是否生成路由" prop="is_create_router">
-            <el-radio-group v-model="ruleForm.is_create_router">
-              <el-radio :label="1">是</el-radio>
-              <el-radio :label="0">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
+          
 
           <el-form-item label="是否缓存页面" prop="keep_alive">
             <el-radio-group v-model="ruleForm.keep_alive">
@@ -118,7 +113,6 @@ function ruleForm() {
     keep_alive: 0,
     hidden: 0, //0显示，1隐藏
     affix: 0, //0不粘上可关闭，1粘上不可关闭
-    is_create_router:1,//是否创建路由 1是，0否
     sort:""
   };
 }

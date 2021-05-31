@@ -2,6 +2,7 @@
 import { Message,Loading } from 'element-ui'
 import router from '@/router/index';
 import { getToken,removeToken } from '@/common/tools';
+import store from '@/store';
 
 import qs from 'qs';
 
@@ -43,6 +44,7 @@ service.interceptors.response.use(
       console.log("403",response)
       removeToken();
       router.currentRoute.path!='/login'?router.replace({path:"/login",query:{redirect:router.currentRoute.fullPath}}):null;//去登录; 
+      store.dispatch('accessMenu/reSetStatus');//重置获取菜单状态
       response.data.data={};
       return response;
     }else{

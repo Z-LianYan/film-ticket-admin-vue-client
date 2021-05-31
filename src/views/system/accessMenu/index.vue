@@ -47,14 +47,7 @@
           <img src="@/assets/images/no.gif" v-if="scope.row.hidden==1" alt />
         </template>
       </el-table-column>
-      <el-table-column prop="is_create_router" label="是否生成路由" width="110">
-          <template slot-scope="scope">
-            <div v-if="!scope.row.children">
-              <img src="@/assets/images/yes.gif" v-if="scope.row.is_create_router==1" alt />
-              <img src="@/assets/images/no.gif" v-if="scope.row.is_create_router==0" alt />
-            </div>
-          </template>
-      </el-table-column>
+     
 
       <el-table-column label="操作">
         <template slot-scope="scope">

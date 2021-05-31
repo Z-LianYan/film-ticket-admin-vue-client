@@ -39,37 +39,27 @@ export default {
     }
   },
   mounted(){
-    // const fixedHeader = localStorage.getItem("fixedHeader");
-    // if(fixedHeader){
-    //   this.fixedHeader = fixedHeader
-    // }
-    let tagsView = localStorage.getItem("tagsView");
-    if(tagsView!=='null'){
-      console.log('tagsView123--',tagsView,typeof(tagsView));
-      this.$store.state.settings.tagsView = tagsView==1?true:false;
+    let needTagsView = localStorage.getItem("needTagsView");
+    if(needTagsView){
+      this.$store.state.settings.needTagsView = needTagsView==1?true:false;
     }
     let fixedHeader = localStorage.getItem("fixedHeader");
-    if(fixedHeader!=='null'){
-      console.log('fixedHeader123--',fixedHeader,typeof(fixedHeader));
+    if(fixedHeader){
       this.$store.state.settings.fixedHeader = fixedHeader==1?true:false;
     }
     let sidebarLogo = localStorage.getItem("sidebarLogo");
-    if(sidebarLogo!=='null'){
-      console.log('fixedHeader123--',sidebarLogo,typeof(sidebarLogo));
+    if(sidebarLogo){
       this.$store.state.settings.sidebarLogo = sidebarLogo==1?true:false;
     }
-    
   },
   watch:{
   },
   computed: {
     fixedHeader: {
       get() {
-        console.log('fixedHeader---get',localStorage.getItem('fixedHeader'))
         return this.$store.state.settings.fixedHeader
       },
       set(val){
-        console.log('fixedHeader---set')
         this.$store.dispatch('settings/changeSetting', {
           key: 'fixedHeader',
           value: val?1:0
@@ -100,13 +90,6 @@ export default {
     }
   },
   methods: {
-    fixedHeaderChange(val){
-      console.log('val',val);
-      this.$store.dispatch('settings/changeSetting', {
-        key: 'fixedHeader',
-        value: val
-      })
-    },
     // themeChange(val) {
     //   this.$store.dispatch('settings/changeSetting', {
     //     key: 'theme',
