@@ -47,6 +47,8 @@
           <img src="@/assets/images/no.gif" v-if="scope.row.hidden==1" alt />
         </template>
       </el-table-column>
+      <el-table-column prop="sort" label="排序" width="110"></el-table-column>
+
      
 
       <el-table-column label="操作">
