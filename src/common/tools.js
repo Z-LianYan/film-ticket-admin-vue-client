@@ -62,7 +62,7 @@ export function routerMenuFilter(router_Data, operation) { //遍历后台传来�
         routerMenuFilter(route.children, 'menu')
       }
     }
-    console.log('77777777', routerData, router_Data)
+    // console.log('77777777', routerData, router_Data)
     return {
       routerList:routerData,
       menuList:router_Data,
