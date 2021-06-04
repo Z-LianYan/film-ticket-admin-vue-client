@@ -24,7 +24,6 @@ router.beforeEach((to, from, next) => {
       if(!store.state.accessMenu.routerMenu.length && store.state.accessMenu.isLoadingMenu && to.path !== '/404') {
         store.state.accessMenu.isLoadingMenu = false;
         store.dispatch("accessMenu/getAccessMenu");
-        store.dispatch("siteSetting/getSetData");
       }
       next()
     }

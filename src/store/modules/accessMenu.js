@@ -99,13 +99,16 @@ const actions = {
           var error_404 = { path: '*', redirect: '/404', hidden: true };
           router_list.push(error_404);
           router.selfaddRoutes(router_list);//返回的数据，生成路由
+          store.dispatch("siteSetting/getSetData");//获取网站数据
           setTimeout(() => {
             state.initialize_system = true;
           },50);
+          
         } else {
           Message.error(res.message);
           state.initialize_system = false;
         }
+        
       }).catch(error => {
         reject(error);
         state.initialize_system = false;

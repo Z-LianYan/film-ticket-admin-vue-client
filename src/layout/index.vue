@@ -4,7 +4,12 @@
     class="app-wrapper"
     v-if="$store.state.accessMenu.initialize_system"
   >
-    <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
+    <!-- 移动端弹出左侧菜单的模态框 -->
+    <div 
+    v-if="device==='mobile'&&sidebar.opened" 
+    class="drawer-bg" 
+    @click="handleClickOutside" />
+
     <sidebar class="sidebar-container" />
     <div :class="{ hasTagsView: needTagsView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
