@@ -11,7 +11,13 @@
     @click="handleClickOutside" />
 
     <sidebar class="sidebar-container" />
-    <div :class="{ hasTagsView: needTagsView }" class="main-container">
+    <!-- <div :class="{ hasTagsView: needTagsView }" class="main-container"> -->
+    <div class="navbar-tags-container" :class="{ hasTagsView: !needTagsView }" v-if="fixedHeader"></div>
+    <el-scrollbar :wrap-class="[
+    'main-container-scrollbar-wrapper',
+    fixedHeader?'change-main-container-scrollbar-wrapper':'',
+    !needTagsView?'ned-tags-view-main-container-scrollbar-wrapper':'',
+    'main-container']">
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
         <tags-view v-if="needTagsView" />
@@ -20,7 +26,8 @@
       <right-panel v-if="showSettings">
         <settings />
       </right-panel>
-    </div>
+    </el-scrollbar>
+    <!-- </div> -->
   </div>
   <InitSystemModal v-else />
 </template>
@@ -94,6 +101,8 @@ export default {
 @import "~@/styles/mixin.scss";
 @import "~@/styles/variables.scss";
 
+
+
 .app-wrapper {
   @include clearfix;
   position: relative;
@@ -131,20 +140,39 @@ export default {
   width: 100%;
 }
 
-.hasTagsView {
-  .app-main {
-    /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
-  }
+// .hasTagsView {
+//   .app-main {
+//     /* 84 = navbar + tags-view = 50 + 34 */
+//     min-height: calc(100vh - 84px);
+//   }
 
-  .fixed-header + .app-main {
-    padding-top: 84px;
-  }
-}
+//   .fixed-header + .app-main {
+//     padding-top: 84px;
+//   }
+// }
+
 </style>
 
-<style>
-body::-webkit-scrollbar { width: 0 !important; display: none; }
+<style lang="scss">
+.main-container-scrollbar-wrapper{
+  // height: calc(100vh - 80px) !important;
+  height: 100vh !important;
+  &.change-main-container-scrollbar-wrapper {
+    height: calc(100vh - 80px) !important;
+    &.ned-tags-view-main-container-scrollbar-wrapper {
+      height: calc(100vh - 50px) !important;
+    }
+  }
+  
+}
+.navbar-tags-container {
+  height: 84px !important;
+  &.hasTagsView{
+    height: 50px !important;
+  }
+}
+
+/* body::-webkit-scrollbar { width: 0 !important; display: none; }
 body { -ms-overflow-style: none; }
-body { overflow: -moz-scrollbars-none; }
+body { overflow: -moz-scrollbars-none; } */
 </style>

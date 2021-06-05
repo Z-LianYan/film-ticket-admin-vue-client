@@ -5,8 +5,8 @@
     size="50%"
     @close="drawerClose"
   >
-     <div class="menu-add-edit">
-      <!--<el-scrollbar wrap-class="menu-add-edit-scrollbar-wrapper"> -->
+     <!-- <div class="menu-add-edit"> -->
+      <el-scrollbar :wrap-class="['menu-add-edit-scrollbar-wrapper','456']">
         <el-form
           :model="ruleForm"
           :rules="rules"
@@ -93,8 +93,8 @@
           </el-form-item>
           
         </el-form>
-      <!-- </el-scrollbar>-->
-    </div> 
+      </el-scrollbar>
+    <!-- </div>  -->
     
   </el-drawer>
 </template>
@@ -214,13 +214,13 @@ export default {
 .el-drawer__body {
   padding-right: 10px;
 }
-.menu-add-edit{
-  height: calc(100vh - 80px);
-  // background: #ccc;
-  overflow-x: hidden;
-}
+// .menu-add-edit{
+//   height: calc(100vh - 80px);
+//   // background: #ccc;
+//   overflow-x: hidden;
+// }
 .menu-add-edit-scrollbar-wrapper{
-  height: calc(100vh - 100px);
+  height: calc(100vh - 80px) !important;
   // height: 400px;
 }
 </style>

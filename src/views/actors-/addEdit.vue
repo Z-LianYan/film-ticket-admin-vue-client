@@ -5,7 +5,7 @@
     size="45%"
     @close="drawerClose"
   >
-    <el-scrollbar wrap-class="scrollbar-wrapper">
+    <el-scrollbar wrap-class="actors-scrollbar-wrapper">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -120,7 +120,7 @@ export default {
 .el-drawer__body {
   padding-right: 10px;
 }
-.scrollbar-wrapper{
+.actors-scrollbar-wrapper{
   height: calc(100vh - 60px);
 }
 </style>

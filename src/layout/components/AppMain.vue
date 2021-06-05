@@ -33,9 +33,9 @@ export default {
   /* overflow: hidden; */
 }
 
-.fixed-header+.app-main {
+/* .fixed-header+.app-main {
   padding-top: 50px;
-}
+} */
 
 </style>
 
