@@ -154,25 +154,36 @@ export default {
 </style>
 
 <style lang="scss">
-.main-container-scrollbar-wrapper{
-  // height: calc(100vh - 80px) !important;
-  height: 100vh !important;
-  &.change-main-container-scrollbar-wrapper {
-    height: calc(100vh - 80px) !important;
-    &.ned-tags-view-main-container-scrollbar-wrapper {
-      height: calc(100vh - 50px) !important;
-    }
-  }
+.app-wrapper{
   
+  .main-container-scrollbar-wrapper{
+    // height: calc(100vh - 80px) !important;
+    margin-bottom: 0px !important;
+    overflow-x: hidden;
+    height: 100vh !important;
+    &.change-main-container-scrollbar-wrapper {
+      height: calc(100vh - 80px) !important;
+      &.ned-tags-view-main-container-scrollbar-wrapper {
+        height: calc(100vh - 50px) !important;
+      }
+    }
+    
+  }
 }
+
 .navbar-tags-container {
   height: 84px !important;
   &.hasTagsView{
     height: 50px !important;
   }
 }
+// .app-wrapper{
+//   .el-scrollbar{
+//     overflow-x: hidden !important;
+//   }
+// }
 
-/* body::-webkit-scrollbar { width: 0 !important; display: none; }
-body { -ms-overflow-style: none; }
-body { overflow: -moz-scrollbars-none; } */
+// body::-webkit-scrollbar { width: 0 !important; display: none; }
+// body { -ms-overflow-style: none; }
+// body { overflow: -moz-scrollbars-none; }
 </style>
