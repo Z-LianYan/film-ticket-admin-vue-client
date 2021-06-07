@@ -35,8 +35,14 @@
       style="width: 100%"
     >
       <el-table-column prop="id" label="id"></el-table-column>
-      <el-table-column prop="name" label="电影名称"></el-table-column>
+      <el-table-column prop="name" label="影院名称"></el-table-column>
       <el-table-column prop="address" label="地址"></el-table-column>
+      <el-table-column prop="low_price" label="最低价">
+        <template slot-scope="scope">
+          {{scope.row.low_price|currencyFormat}}
+        </template>
+      </el-table-column>
+      <el-table-column prop="phone" label="联系电话"></el-table-column>
       
       
       <el-table-column prop="status" label="状态">
@@ -75,7 +81,7 @@
     </el-row>
 
     <FilmDetail ref="film_detail"/>
-    <AddEdit ref="add_edit"/>
+    <AddEdit ref="add_edit" @on-getData='getData'/>
   </el-card>
 </template>
 

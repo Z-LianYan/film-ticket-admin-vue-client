@@ -1,6 +1,6 @@
 import Vue from 'vue'
 // import dayjs from 'dayjs';
-// import currency from 'currency.js';
+import currency from 'currency.js';
 
 
 Vue.filter("formatDateMS",function(timestamp,geshi){
@@ -18,5 +18,9 @@ Vue.filter("formatDate",function(timestamp,geshi){
 	}else{
 		return d;
 	}
+});
+
+Vue.filter("currencyFormat",function(price){
+	return currency(price);
 });
 

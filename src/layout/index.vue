@@ -158,7 +158,7 @@ export default {
   
   .main-container-scrollbar-wrapper{
     // height: calc(100vh - 80px) !important;
-    margin-bottom: 0px !important;
+    margin-bottom: -10px !important;
     overflow-x: hidden;
     height: 100vh !important;
     &.change-main-container-scrollbar-wrapper {
