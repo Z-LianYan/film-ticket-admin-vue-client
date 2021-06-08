@@ -23,6 +23,9 @@
           <el-form-item label="上映时间" prop="show_time">{{
             detialData.show_time | formatDate
           }}</el-form-item>
+          <el-form-item label="语言" prop="language">{{
+            detialData.language
+          }}</el-form-item>
           <el-form-item label="评分" prop="grade">{{
             detialData.grade
           }}</el-form-item>

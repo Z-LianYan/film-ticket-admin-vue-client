@@ -112,6 +112,9 @@
       <el-form-item label="摘要" prop="abstract">
         <el-input v-model="ruleForm.abstract" type="textarea" rows="3"></el-input>
       </el-form-item>
+      <el-form-item label="语言" prop="language">
+        <el-input v-model="ruleForm.language" type="text"></el-input>
+      </el-form-item>
       <el-form-item label="剧照" prop="stage_photo">
         <UploadImageMul 
           :imageLimit="5"
@@ -147,6 +150,7 @@ function formOptions(){
     abstract:"",
     stage_photo:[],
     play_type:2,
+    language:""
   }
 }
 export default {
