@@ -1,6 +1,6 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
         v-for="tag in visitedViews"
         ref="tag"
@@ -13,15 +13,16 @@
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
+        <i :class="tag.meta.icon" style="font-size:12px;margin:0 2px;"></i>
         {{ tag.title }}
         <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">Close</li>
-      <li @click="closeOthersTags">Close Others</li>
-      <li @click="closeAllTags(selectedTag)">Close All</li>
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其它</li>
+      <li @click="closeAllTags(selectedTag)">关闭全部</li>
     </ul>
   </div>
 </template>
@@ -29,7 +30,6 @@
 <script>
 import ScrollPane from './ScrollPane'
 import path from 'path'
-import router from '@/router'
 
 export default {
   components: { ScrollPane },
@@ -100,16 +100,19 @@ export default {
       const affixTags = this.affixTags = this.filterAffixTags(this.routes)
       for (const tag of affixTags) {
         // Must have tag name
-        if (tag.name) {
+        // if (tag.name) {
+        //   this.$store.dispatch('tagsView/addVisitedView', tag)
+        // }
+        if (tag.meta.title) {
           this.$store.dispatch('tagsView/addVisitedView', tag)
         }
       }
     },
     addTags() {
       const { name,matched } = this.$route;
-      if (name) {
+      // if (name) {
         this.$store.dispatch('tagsView/addView', this.$route)
-      }
+      // }
       return false
     },
     moveToCurrentTag() {
@@ -194,6 +197,9 @@ export default {
     },
     closeMenu() {
       this.visible = false
+    },
+    handleScroll() {
+      this.closeMenu()
     }
   }
 }
@@ -207,7 +213,7 @@ export default {
   background: #fff;
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
-  .tags-view-wrapper {
+  .tags-view-wrapper { 
     .tags-view-item {
       display: inline-block;
       position: relative;

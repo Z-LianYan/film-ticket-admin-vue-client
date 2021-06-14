@@ -72,6 +72,7 @@ const actions = {
     dispatch('addCachedView', view)
   },
   addVisitedView({ commit }, view) {
+    if(!view.meta.title) return;
     commit('ADD_VISITED_VIEW', view)
   },
   addCachedView({ commit }, view) {

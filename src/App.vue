@@ -16,4 +16,8 @@ export default {
 .common-float-right{
   float: right;
 }
+.price{
+  color: #f73131;
+  font-weight: bolder;
+}
 </style>

@@ -47,7 +47,7 @@
 
           <el-form-item label="路由名称 name" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
-            <div>注：此名称关系到组件缓存，必须与组件的name一致组件才能缓存</div>
+            <!-- <div>注：此名称关系到组件缓存，必须与组件的name一致组件才能缓存</div> -->
           </el-form-item>
 
           <el-form-item label="重定向 redirect" prop="redirect">
@@ -113,7 +113,7 @@ function ruleForm() {
     keep_alive: 0,
     hidden: 0, //0显示，1隐藏
     affix: 0, //0不粘上可关闭，1粘上不可关闭
-    sort:""
+    sort:0
   };
 }
 export default {
@@ -130,9 +130,9 @@ export default {
         component: [
           { required: true, message: "请引入views下的组件", trigger: "blur" }
         ],
-        // title: [
-        //   { required: true, message: "请输入菜单名称", trigger: "change" }
-        // ],
+        title: [
+          { required: true, message: "请输入菜单名称", trigger: "change" }
+        ],
         // name: [
         //   { required: true, message: "请输入路由名称", trigger: "change" }
         // ]

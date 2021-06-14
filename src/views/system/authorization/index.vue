@@ -21,7 +21,7 @@
       </el-col>
       <el-col :span="18">
         <el-tree
-        :data="accessMenuData"
+        :data="menuData"
         :show-checkbox="true"
         node-key="_id"
         default-expand-all
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       roleListPosition: 'left',
-      accessMenuData:[],
+      menuData:[],
       defaultProps: {
         children: 'children',
         label: 'title'
@@ -59,14 +59,18 @@ export default {
   },
   computed: {},
   mounted() {
-    this.getRoleData();
-    this.getAccessMenuData();
+    this.$nextTick(()=>{
+      this.getRoleData();
+      this.getAccessMenuData();
+    })
+    
   },
   watch: {},
   methods: {
     getRoleData() {
-      const { _id } = this.$route.query;
-      this.activeName = _id.toString();
+      console.log('----',this.$store.getters.userInfo.role_id)
+      // const { _id } = this.$route.query;
+      // this.activeName = _id.toString();
       this.$store.dispatch("role/list").then(res => {
         this.roleList = res;
       });
@@ -75,22 +79,22 @@ export default {
     getAccessMenuData() {
       this.$store.dispatch("accessMenu/list").then(res => {
         // res.data.shift()
-        this.accessMenuData = res.data;
+        this.menuData = res.data;
         this.roleAuth();
       });
     },
 
-    filterMenu(accessMenuData){//递归筛选出无子菜单的_id
+    filterMenu(menuData){//递归筛选出无子菜单的_id
 
-      for(let i=0;i<accessMenuData.length;i++){
+      for(let i=0;i<menuData.length;i++){
 
-        if(accessMenuData[i].children){
+        if(menuData[i].children){
 
-          this.filterMenu(accessMenuData[i].children)
+          this.filterMenu(menuData[i].children)
 
         }else{
 
-          this.notParentChildren.push(accessMenuData[i]._id)
+          this.notParentChildren.push(menuData[i]._id)
 
         }
 
@@ -102,13 +106,15 @@ export default {
 
       const { _id } = this.$route.query;
 
-      this.roleId = roleId ? roleId : _id;
+      // this.roleId = roleId ? roleId : _id;
 
+      this.activeName = _id?_id.toString():(this.$store.getters.userInfo && this.$store.getters.userInfo.role_id.toString());
+      this.roleId = roleId ? roleId : this.activeName;
       this.$store.dispatch("authorization/roleAuth", { role_id: this.roleId }).then(res => {//获取当前角色被选中的所有节点
 
         this.notParentChildren = [];
 
-        this.filterMenu(this.accessMenuData);
+        this.filterMenu(this.menuData);
 
         let checkedChildrenId = [];
 
@@ -118,7 +124,7 @@ export default {
 
         }
 
-        this.$refs.tree_menu.setCheckedKeys(checkedChildrenId);
+        this.$refs.tree_menu && this.$refs.tree_menu.setCheckedKeys(checkedChildrenId);
 
       });
 

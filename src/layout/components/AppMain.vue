@@ -1,10 +1,18 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
+    <!-- <transition name="fade-transform" mode="out-in">
       <keep-alive :include="cachedViews">
         <router-view :key="key" />
       </keep-alive>
+    </transition> -->
+
+    <transition name="fade-transform" mode="out-in">
+      <router-view v-if="!$route.meta.keep_alive"></router-view>
     </transition>
+    <keep-alive>
+      <router-view v-if="$route.meta.keep_alive"></router-view>
+    </keep-alive>
+    
   </section>
 </template>
 

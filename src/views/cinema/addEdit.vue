@@ -164,6 +164,7 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.ruleForm = ruleForm();
     },
     open(val) {
       if (val) {

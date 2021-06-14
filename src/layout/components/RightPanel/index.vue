@@ -33,7 +33,6 @@ export default {
     }
   },
   mounted(){
-    console.log('8888888rightPanel')
   },
   computed: {
     theme() {
@@ -128,21 +127,21 @@ export default {
 }
 
 .handle-button {
-  width: 48px;
-  height: 48px;
+  width: 25px;
+  height: 40px;
   position: absolute;
-  left: -48px;
+  left: -25px;
   text-align: center;
-  font-size: 24px;
+  font-size: 18px;
   border-radius: 6px 0 0 6px !important;
   z-index: 0;
   pointer-events: auto;
   cursor: pointer;
   color: #fff;
-  line-height: 48px;
+  line-height: 40px;
   i {
-    font-size: 24px;
-    line-height: 48px;
+    font-size: 18px;
+    line-height: 40px;
   }
 }
 </style>
