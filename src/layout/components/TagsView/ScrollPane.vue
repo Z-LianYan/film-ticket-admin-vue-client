@@ -26,7 +26,6 @@ export default {
     },
   },
   mounted() {
-    console.log('this.$refs.scrollContaine',this.$refs.scrollContainer.$refs.wrap);
     this.scrollWrapper.addEventListener("scroll", this.emitScroll, true);
   },
   beforeDestroy() {

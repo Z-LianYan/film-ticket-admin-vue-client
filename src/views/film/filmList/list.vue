@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import FilmDetail  from "@/views/filmList/Detail"
+import FilmDetail  from "@/views/film/filmList/Detail"
 export default {
   name: "FilmList",
   data() {
@@ -153,7 +153,7 @@ export default {
       });
     },
     doEdit(rows) {
-      this.$router.push({ path: "/film-system/film/edit/" + rows.id });
+      this.$router.push({ path: "/film/film/edit/" + rows.id });
     },
     doDelete(rows) {
       const { id } = rows;

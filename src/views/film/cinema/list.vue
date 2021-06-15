@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import FilmDetail  from "@/views/filmList/Detail";
-import AddEdit  from "@/views/cinema/addEdit";
+import FilmDetail  from "@/views/film/filmList/Detail";
+import AddEdit  from "@/views/film/cinema/addEdit";
 export default {
   name: "CinemaList",
   data() {

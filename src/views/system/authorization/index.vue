@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import role from '../../../store/modules/role';
 export default {
   name: "Authorization",
   data() {
@@ -150,3 +149,14 @@ export default {
   }
 };
 </script>
+
+<style lang='scss' scoped>
+.box-card{
+  /deep/{
+    .el-tree>.el-tree-node.is-expanded>.el-tree-node__children{
+      display: flex;
+    }
+  }
+}
+
+</style>
