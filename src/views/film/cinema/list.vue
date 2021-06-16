@@ -55,14 +55,22 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <!-- <el-button type="text" size="small" @click="doDetail(scope.row)">
-            <i class="el-icon-view"></i>详情
-          </el-button> -->
-          <el-button type="text" size="small" @click="doEdit(scope.row)">
-            <i class="el-icon-edit"></i>编辑
+          <el-button class="el-icon-time" type="text" size="small" @click="onSchedule(scope.row)">
+           排片
           </el-button>
-          <el-button type="text" size="small" @click="doDelete(scope.row)">
-            <i class="el-icon-delete"></i>删除
+          <el-button 
+          class="el-icon-edit" 
+          type="text" 
+          size="small" 
+          @click="doEdit(scope.row)">
+           编辑
+          </el-button>
+          <el-button 
+          class="el-icon-delete" 
+          type="text" 
+          size="small" 
+          @click="doDelete(scope.row)">
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -116,6 +124,9 @@ export default {
   },
   watch: {},
   methods: {
+    onSchedule(){
+      this.$router.push("/film-system/schedule")
+    },
     doAdd(){
       this.$refs.add_edit.open();
     },
