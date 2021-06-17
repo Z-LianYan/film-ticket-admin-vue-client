@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" style="text-align:center;" class="clearfix">
+    <div slot="header" style="text-align: center" class="clearfix">
       <span>排片</span>
       <el-button type="text" @click="getData" class="float-right">
         <i class="el-icon-refresh"></i>刷新
@@ -8,24 +8,36 @@
     </div>
 
     <el-form label-width="90px">
-      <el-form-item label="影院" style="display:inline-block">
-        <el-select
-          v-model="fetchOptions.cinema_id"
-          multiple
-          filterable
-          remote
-          reserve-keyword
-          placeholder="请输入关键词"
-          :remote-method="remoteMethod"
-          :loading="loading">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
+      <el-row :gutter="10">
+        <el-col :span="12">
+          <el-form-item label="影院">
+            <el-select
+              v-model="fetchOptions.cinema_id"
+              filterable
+              reserve-keyword
+              placeholder="请输入关键词"
+            >
+              <el-option
+                v-for="item in cinemaList"
+                :key="item.id + 'c'"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="月份">
+            <el-date-picker
+              v-model="fetchOptions.month"
+              type="month"
+              placeholder="选择月份"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
 
     <!-- <el-table
@@ -87,8 +99,7 @@
       </el-table-column>
       
     </el-table> -->
-    <br>
-
+    <br />
   </el-card>
 </template>
 
@@ -100,75 +111,45 @@ export default {
       loading: false,
       tableData: [],
       fetchOptions: {
-        cinema_id:'',
+        cinema_id: "",
         page: 1,
         limit: 20,
         keywords: "",
-        start_show_time:'',
-        end_show_time:''
+        start_show_time: "",
+        end_show_time: "",
       },
       show_time_range: [],
       total: 0,
-      currentView:"",
+      currentView: "",
 
-      options: [],
-      value: [],
-      list: [],
-      loading: false,
-      states: ["Alabama", "Alaska", "Arizona",
-      "Arkansas", "California", "Colorado",
-      "Connecticut", "Delaware", "Florida",
-      "Georgia", "Hawaii", "Idaho", "Illinois",
-      "Indiana", "Iowa", "Kansas", "Kentucky",
-      "Louisiana", "Maine", "Maryland",
-      "Massachusetts", "Michigan", "Minnesota",
-      "Mississippi", "Missouri", "Montana",
-      "Nebraska", "Nevada", "New Hampshire",
-      "New Jersey", "New Mexico", "New York",
-      "North Carolina", "North Dakota", "Ohio",
-      "Oklahoma", "Oregon", "Pennsylvania",
-      "Rhode Island", "South Carolina",
-      "South Dakota", "Tennessee", "Texas",
-      "Utah", "Vermont", "Virginia",
-      "Washington", "West Virginia", "Wisconsin",
-      "Wyoming"]
-
-
-
+      cinemaList: [],
     };
   },
-  components: {
-  },
+  components: {},
   computed: {},
   mounted() {
     // this.getData();
-    this.list = this.states.map(item => {
-      return { value: `value:${item}`, label: `label:${item}` };
-    });
+    this.getCinemaList();
   },
   watch: {},
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          this.options = this.list.filter(item => {
-            return item.label.toLowerCase()
-              .indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
-      } else {
-        this.options = [];
-      }
+    async getCinemaList() {
+      let result = await this.$store.dispatch("cinemaManager/list", {
+        page: 1,
+        limit: 1000000,
+      });
+      this.cinemaList = result.rows;
+      console.log("result---cinemaList", result);
     },
     getData() {
       this.loading = true;
-      this.$store.dispatch("filmListManager/list", this.fetchOptions).then(res => {
-        this.tableData = res.rows;
-        this.total = res.count;
-        this.loading = false;
-      });
+      this.$store
+        .dispatch("filmListManager/list", this.fetchOptions)
+        .then((res) => {
+          this.tableData = res.rows;
+          this.total = res.count;
+          this.loading = false;
+        });
     },
     // doDelete(rows) {
     //   const { id } = rows;
@@ -187,8 +168,6 @@ export default {
     //     });
     //   });
     // },
-
-    
   },
 };
 </script>
