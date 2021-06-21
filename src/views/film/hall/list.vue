@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" style="text-align:center;" class="clearfix">
-      <span>影厅列表</span>
+      <span>影厅管理</span>
       <el-button 
       type="text" 
       @click="doAdd" 
@@ -17,7 +17,7 @@
           v-model="fetchOptions.keywords"
           style="width:200px;"
           @keyup.enter.native="getData()"
-          placeholder="请输入关键字"
+          placeholder="搜索影厅名称，影院名称"
         ></el-input>
       </el-form-item>
       
@@ -34,15 +34,14 @@
       border
       style="width: 100%"
     >
-      <el-table-column prop="id" label="#"></el-table-column>
-      <el-table-column prop="name" label="影院名称"></el-table-column>
-      <el-table-column prop="address" label="地址"></el-table-column>
-      <el-table-column prop="phone" label="联系电话"></el-table-column>
-      <el-table-column prop="low_price" label="最低价">
-        <template slot-scope="scope">
-          <span class="price">¥ {{scope.row.low_price|currencyFormat}}</span>
-        </template>
-      </el-table-column>
+      <!-- <el-table-column prop="id" label="#id"></el-table-column> -->
+      <el-table-column prop="name" label="影厅名称"></el-table-column>
+      <el-table-column prop="cinema_name" label="影院名称" width="300"></el-table-column>
+      <el-table-column prop="seat_num" label="座位数"></el-table-column>
+      <el-table-column prop="seat_row_num" label="排数"></el-table-column>
+      <el-table-column prop="seat_column_num" label="列数"></el-table-column>
+      <el-table-column prop="describe" label="描述" width="300"></el-table-column>
+     
       
       
       <el-table-column prop="status" label="状态">
@@ -55,6 +54,13 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
+          <el-button 
+          class="el-icon-setting" 
+          type="text" 
+          size="small" 
+          @click="onArrangeSeat(scope.row)">
+           安排座位
+          </el-button>
           
           <el-button 
           class="el-icon-edit" 
@@ -102,8 +108,7 @@ export default {
         page: 1,
         limit: 20,
         keywords: "",
-        start_show_time:'',
-        end_show_time:''
+        cinema_id:'',
       },
       show_time_range: [],
       total: 0,
@@ -115,10 +120,23 @@ export default {
   },
   computed: {},
   mounted() {
+    let { query } = this.$route;
+    console.log('query',query);
+    if(query.cinema_id){
+      this.fetchOptions.cinema_id = query.cinema_id;
+    }
     this.getData();
   },
   watch: {},
   methods: {
+    onArrangeSeat(rows){
+      this.$router.push({
+        path:'/film-system/arrange-seat',
+        query:{
+          hall_id:rows.id
+        }
+      })
+    },
     doAdd(){
       this.$refs.add_edit.open();
     },
@@ -148,7 +166,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.$store.dispatch("cinemaManager/doDel", { id }).then(() => {
+        this.$store.dispatch("hall/del", { id }).then(() => {
           this.getData();
         });
       }).catch(() => {

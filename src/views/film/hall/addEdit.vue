@@ -17,15 +17,32 @@
           <el-form-item label="影厅名称" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="可售座位数" prop="seat_num">
-            <el-input v-model="ruleForm.seat_num" type="number"></el-input>
+          <el-form-item label="所属影院">
+            <el-select
+              v-model="ruleForm.cinema_id"
+              filterable
+              reserve-keyword
+              style="width:100%;"
+              placeholder="请输入关键词"
+            >
+              <el-option
+                v-for="item in cinemaList"
+                :key="item.id + 'c'"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
+          <!-- <el-form-item label="可售座位数" prop="seat_num">
+            <el-input v-model="ruleForm.seat_num" type="number"></el-input>
+          </el-form-item> -->
           <el-form-item label="排数" prop="seat_row_num">
             <el-input v-model="ruleForm.seat_row_num" type="number"></el-input>
           </el-form-item>
 
           <el-form-item label="列数" prop="seat_column_num">
-            <el-input v-model="ruleForm.seat_column_num"></el-input>
+            <el-input v-model="ruleForm.seat_column_num" type="number"></el-input>
           </el-form-item>
           <el-form-item label="描述" prop="describe">
             <el-input v-model="ruleForm.describe" type="textarea"></el-input>
@@ -56,11 +73,12 @@
 function ruleForm() {
   return {
     name: "",
-    seat_num: "",
+    // seat_num: "",
     seat_row_num: "",
     seat_column_num: "",
     describe: "",
     status: 1,
+    cinema_id:""
   };
 }
 export default {
@@ -75,9 +93,9 @@ export default {
         name: [
           { required: true, message: "影厅名称不能为空", trigger: "blur" },
         ],
-        seat_num: [
-          { required: true, message: "可售座位数不能空", trigger: "blur" },
-        ],
+        // seat_num: [
+        //   { required: true, message: "可售座位数不能空", trigger: "blur" },
+        // ],
         seat_row_num: [
           { required: true, message: "排数不能为空", trigger: "blur" },
         ],
@@ -85,11 +103,23 @@ export default {
           { required: true, message: "列数不能为空", trigger: "blur" },
         ],
         status: [{ required: true, message: "状态不能为空", trigger: "blur" }],
+        cinema_id: [{ required: true, message: "影院id不能为空", trigger: "blur" }],
       },
+      cinemaList:[]
     };
   },
-  mounted() {},
+  mounted() {
+    this.getCinemaList();
+  },
   methods: {
+    async getCinemaList() {
+      let result = await this.$store.dispatch("cinemaManager/list", {
+        page: 1,
+        limit: 1000000,
+      });
+      this.cinemaList = result.rows;
+      console.log("result---cinemaList", result);
+    },
     onComfirmSearch(res) {
       console.log("res--", res);
       this.ruleForm = {
@@ -107,12 +137,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.title == "添加") {
-            this.$store.dispatch("hall/doAdd", this.ruleForm).then(() => {
+            this.$store.dispatch("hall/add", this.ruleForm).then(() => {
               this.$emit("on-getData");
               this.resetForm();
             });
           } else {
-            this.$store.dispatch("hall/doEdit", this.ruleForm).then(() => {
+            this.$store.dispatch("hall/update", this.ruleForm).then(() => {
               this.$emit("on-getData");
             });
           }
