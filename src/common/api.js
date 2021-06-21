@@ -56,3 +56,8 @@ export const EDIT_CINEMA = '/API/cinema/doEdit';//编辑影院
 export const DEL_CINEMA = '/API/cinema/doDel';//删除影院
 
 export const GET_CITY_LIST = '/API/city/list';//城市列表
+
+export const GET_HALL_LIST = '/API/hall/list';//获取影厅列表
+export const ADD_HALL = '/API/hall/add';//添加影厅
+export const UPDATE_HALL = '/API/hall/update';//更新影厅信息
+export const DEL_HALL = '/API/hall/del';//删除影厅

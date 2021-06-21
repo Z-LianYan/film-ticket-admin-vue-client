@@ -1,13 +1,13 @@
 <template>
   <el-card class="box-card">
     <div slot="header" style="text-align:center;" class="clearfix">
-      <span>影院列表</span>
+      <span>影厅列表</span>
       <el-button 
       type="text" 
       @click="doAdd" 
       class="float-right" 
       style="marign-right:10px;">
-        <i class="el-icon-plus"></i>添加影院
+        <i class="el-icon-plus"></i>添加影厅
       </el-button>
     </div>
 
@@ -55,16 +55,7 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button class="el-icon-time" type="text" size="small" @click="onSchedule(scope.row)">
-           排片
-          </el-button>
-          <el-button 
-          class="el-icon-setting" 
-          type="text" 
-          size="small" 
-          @click="onHallManager(scope.row)">
-           影厅管理
-          </el-button>
+          
           <el-button 
           class="el-icon-edit" 
           type="text" 
@@ -100,9 +91,9 @@
 </template>
 
 <script>
-import AddEdit  from "@/views/film/cinema/addEdit";
+import AddEdit  from "@/views/film/hall/addEdit";
 export default {
-  name: "CinemaList",
+  name: "HallList",
   data() {
     return {
       loading: false,
@@ -128,19 +119,11 @@ export default {
   },
   watch: {},
   methods: {
-    onHallManager(rows){
-      this.$router.push({
-        path:"/film-system/hall",
-        query:{
-          cinema_id:rows.id
-        }
-      })
-    },
-    onSchedule(){
-      this.$router.push("/film-system/schedule")
-    },
     doAdd(){
       this.$refs.add_edit.open();
+    },
+    doDetail(rows){
+      this.$refs.film_detail.open(rows);
     },
     onDateChange(date){
       this.fetchOptions.start_show_time = date?date[0]:'';
@@ -149,7 +132,7 @@ export default {
     },
     getData() {
       this.loading = true;
-      this.$store.dispatch("cinemaManager/list", this.fetchOptions).then(res => {
+      this.$store.dispatch("hall/list", this.fetchOptions).then(res => {
         this.tableData = res.rows;
         this.total = res.count;
         this.loading = false;
