@@ -35,7 +35,7 @@ export default {
     let { query } = this.$route;
     if(query.hall_id) {
       this.fetchOptions.hall_id = query.hall_id;
-      // this.getSeat();
+      this.getSeat();
     };
 
   },

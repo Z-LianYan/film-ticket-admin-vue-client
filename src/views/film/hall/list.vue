@@ -1,11 +1,11 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" style="text-align:center;display:flex;align-items:center;justify-content: space-between;">
-      <el-page-header @back="goBack" title="返回" content="影厅管理" center/>
-      <span>{{$route.query.cinema_name && decodeURIComponent($route.query.cinema_name)}}</span>
+    <div slot="header" style="text-align:center;" class="clearfix">
+      <span>影厅管理</span>
       <el-button 
       type="text" 
       @click="doAdd" 
+      class="float-right" 
       style="marign-right:10px;">
         <i class="el-icon-plus"></i>添加影厅
       </el-button>
@@ -121,7 +121,7 @@ export default {
   computed: {},
   mounted() {
     let { query } = this.$route;
-    // console.log('query',query);
+    console.log('query',query);
     if(query.cinema_id){
       this.fetchOptions.cinema_id = query.cinema_id;
     }
@@ -129,18 +129,11 @@ export default {
   },
   watch: {},
   methods: {
-    goBack(){
-      this.$router.back();
-    },
     onArrangeSeat(rows){
-      let { query } = this.$route;
       this.$router.push({
         path:'/film-system/arrange-seat',
         query:{
-          hall_id:rows.id,
-          hall_name:encodeURIComponent(rows.name),
-          cinema_id:rows.cinema_id,
-          cinema_name:encodeURIComponent(rows.cinema_name),
+          hall_id:rows.id
         }
       })
     },

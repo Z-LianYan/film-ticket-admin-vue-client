@@ -70,11 +70,11 @@ const actions = {
     })
   },
 
+
   arrangeSeat({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
       requstTools.post(aipUrl.FILM_HALL_SEAT_ARRANGE, requestParams, '加载中...').then(res => {
         if (res.error == 0) {
-          Message.success(res.message);
           resolve();
         } else {
           Message.error(res.message);
