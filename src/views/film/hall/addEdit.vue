@@ -17,7 +17,7 @@
           <el-form-item label="影厅名称" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="所属影院">
+          <!-- <el-form-item label="所属影院">
             <el-select
               v-model="ruleForm.cinema_id"
               filterable
@@ -33,7 +33,7 @@
               >
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <!-- <el-form-item label="可售座位数" prop="seat_num">
             <el-input v-model="ruleForm.seat_num" type="number"></el-input>
           </el-form-item> -->
@@ -68,8 +68,6 @@
 </template>
 
 <script>
-// import _ from "lodash";
-// import MapSearch from "@/components/mapSearch";
 function ruleForm() {
   return {
     name: "",
@@ -103,23 +101,27 @@ export default {
           { required: true, message: "列数不能为空", trigger: "blur" },
         ],
         status: [{ required: true, message: "状态不能为空", trigger: "blur" }],
-        cinema_id: [{ required: true, message: "影院id不能为空", trigger: "blur" }],
+        // cinema_id: [{ required: true, message: "影院id不能为空", trigger: "blur" }],
       },
-      cinemaList:[]
+      // cinemaList:[]
     };
   },
   mounted() {
-    this.getCinemaList();
+    // this.getCinemaList();
+    let { query } = this.$route;
+    if(query.cinema_id){
+      this.ruleForm.cinema_id = query.cinema_id;
+    }
   },
   methods: {
-    async getCinemaList() {
-      let result = await this.$store.dispatch("cinemaManager/list", {
-        page: 1,
-        limit: 1000000,
-      });
-      this.cinemaList = result.rows;
-      console.log("result---cinemaList", result);
-    },
+    // async getCinemaList() {
+    //   let result = await this.$store.dispatch("cinemaManager/list", {
+    //     page: 1,
+    //     limit: 1000000,
+    //   });
+    //   this.cinemaList = result.rows;
+    //   console.log("result---cinemaList", result);
+    // },
     onComfirmSearch(res) {
       console.log("res--", res);
       this.ruleForm = {

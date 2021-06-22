@@ -132,7 +132,8 @@ export default {
       this.$router.push({
         path:"/film-system/hall",
         query:{
-          cinema_id:rows.id
+          cinema_id:rows.id,
+          cinema_name:encodeURIComponent(rows.name)
         }
       })
     },

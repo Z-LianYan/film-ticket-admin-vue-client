@@ -61,3 +61,7 @@ export const GET_HALL_LIST = '/API/hall/list';//获取影厅列表
 export const ADD_HALL = '/API/hall/add';//添加影厅
 export const UPDATE_HALL = '/API/hall/update';//更新影厅信息
 export const DEL_HALL = '/API/hall/del';//删除影厅
+
+export const FILM_HALL_SEAT_ARRANGE = '/API/hall/arrangeSeat';//影厅位置
+
+
