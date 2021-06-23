@@ -75,7 +75,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       requstTools.post(aipUrl.FILM_HALL_SEAT_ARRANGE, requestParams, '加载中...').then(res => {
         if (res.error == 0) {
-          resolve();
+          resolve(res.data);
         } else {
           Message.error(res.message);
         }
