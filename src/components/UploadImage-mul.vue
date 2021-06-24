@@ -9,7 +9,7 @@
       :auto-upload="true"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
-	  :on-progress="handleProgress"
+	    :on-progress="handleProgress"
       :data="qiniuData"
       :show-file-list="true"
       :limit="imageLimit"
@@ -128,10 +128,10 @@ export default {
       }
       this.$emit("input", value);
 
-	  if(type=='clearNum'){
-		  this.beforeUploadNum = 0;
-		  this.uploadSuccessNum = 0;
-	  }
+      if(type=='clearNum'){
+        this.beforeUploadNum = 0;
+        this.uploadSuccessNum = 0;
+      }
     },
     getValues() {
       let value = [];
@@ -151,6 +151,7 @@ export default {
 
     async beforeUpload(file) {
       console.log("beforeUpload---上传前", file);
+      this.beforeUploadNum += 1;
       return new Promise((resolve, reject) => {
         if (this.compress) {
           qiniu
@@ -178,22 +179,21 @@ export default {
         }
       });
     },
-	handleProgress(event, file, fileList){
-		console.log('文件上传时的钩子',event, file, fileList);
-		this.beforeUploadNum += 1;
-	},
+    handleProgress(event, file, fileList){
+      // console.log('文件上传时的钩子',event, file, fileList);
+    },
     handleAddUploadSuccess(res, file, fileList) {
-		this.uploadSuccessNum += 1;
-		console.log("上传成功呢", res, file, fileList, this.uploadNum);
-		var url = this.upload_qiniu_addr + res.key;
-		this.fileList.push({ url: url });
-		if(this.beforeUploadNum == this.uploadSuccessNum){
-			this.emitInput(this.fileList,'clearNum');
-		}
+      this.uploadSuccessNum += 1;
+      // console.log("上传成功呢", res, file, fileList, this.uploadNum);
+      var url = this.upload_qiniu_addr + res.key;
+      this.fileList.push({ url: url });
+      if(this.beforeUploadNum == this.uploadSuccessNum){
+        this.emitInput(this.fileList,'clearNum');
+      }
     },
     handleUploadError(err, file, fileList) {
-      console.log("文件上传失败时的钩子", err, file, fileList);
-	  this.beforeUploadNum -= 1;
+      // console.log("文件上传失败时的钩子", err, file, fileList);
+	    this.beforeUploadNum -= 1;
     },
     
     clearFiles() {

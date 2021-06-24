@@ -100,6 +100,7 @@ const actions = {
           router_list.push(error_404);
           router.selfaddRoutes(router_list);//返回的数据，生成路由
           store.dispatch("siteSetting/getSetData");//获取网站数据
+          console.log("路由表",router_list)
           setTimeout(() => {
             state.initialize_system = true;
           },50);

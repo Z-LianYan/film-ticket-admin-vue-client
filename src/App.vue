@@ -13,6 +13,7 @@ export default {
 </script>
 
 <style lang="scss">
+// ./ding -config=./ding.cfg -subdomain=eryi-qy-manager 1028
 .common-float-right{
   float: right;
 }
