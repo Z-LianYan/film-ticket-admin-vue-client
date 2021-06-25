@@ -18,7 +18,7 @@
           <el-input
             v-model="fetchOptions.keywords"
             style="width: 200px"
-            @keyup.enter.native="getData()"
+            @keyup.enter.native="getData(true)"
             placeholder="搜索影院名称"
           ></el-input>
         </el-form-item>
@@ -35,10 +35,10 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="id" label="#id" width="100"></el-table-column>
+        <!-- <el-table-column prop="id" label="#id" width="100"></el-table-column> -->
         <el-table-column prop="name" label="影院名称"></el-table-column>
         <el-table-column prop="address" label="地址"></el-table-column>
-        <el-table-column prop="phone" label="联系电话"></el-table-column>
+        <el-table-column prop="phone" label="联系电话"  width="220"></el-table-column>
         <el-table-column prop="low_price" label="最低价" width="100">
           <template slot-scope="scope">
             <span class="price"

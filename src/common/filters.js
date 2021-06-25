@@ -12,7 +12,7 @@ Vue.filter("formatDateMS",function(timestamp,geshi){
 	}
 });
 Vue.filter("formatDate",function(timestamp,geshi){
-	var d = timestamp?dayjs(timestamp*1000).format(geshi?geshi:"YYYY/MM/DD HH:mm"):'';
+	var d = timestamp?dayjs(timestamp*1000).format(geshi?geshi:"YYYY/MM/DD"):'';
 	if(d=='Invalid date'){
 		return timestamp;
 	}else{

@@ -40,7 +40,7 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="id" label="#id"></el-table-column>
+        <!-- <el-table-column prop="id" label="#id" width="80"></el-table-column> -->
         <el-table-column prop="film_name" label="电影名称">
           <template slot-scope="scope">
             {{ scope.row.film_name }}
@@ -49,8 +49,8 @@
             }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="category_labels" label="类型"></el-table-column>
-        <el-table-column prop="poster_img" label="海报">
+        <el-table-column prop="category_labels" label="类型"  width="150"></el-table-column>
+        <el-table-column prop="poster_img" label="海报"  width="80">
           <template slot-scope="scope">
             <el-image
               fit="contain"
@@ -61,40 +61,55 @@
             </el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="director" label="导演"></el-table-column>
-        <el-table-column prop="nation" label="国家"></el-table-column>
-        <el-table-column prop="play_time" label="播放时间">
+        <el-table-column prop="director" label="导演"  width="80"></el-table-column>
+        <el-table-column prop="nation" label="区域"  width="100"></el-table-column>
+        <el-table-column prop="play_time" label="播放时间"  width="90">
           <template slot-scope="scope">
             {{ scope.row.play_time }} 分钟
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态">
+        <el-table-column prop="status" label="状态"  width="100">
           <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.status == 1">上架</el-tag>
             <el-tag type="info" v-else>下架</el-tag>
           </template>
         </el-table-column>
+        <el-table-column prop="grade" label="评分"  width="80"></el-table-column>
         <el-table-column prop="show_time" label="上映时间">
           <template slot-scope="scope">{{
             scope.row.show_time | formatDate
           }}</template>
         </el-table-column>
-        <el-table-column prop="add_time" label="添加时间">
+        <!-- <el-table-column prop="add_time" label="添加时间">
           <template slot-scope="scope">{{
             scope.row.create_at | formatDate
           }}</template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="doDetail(scope.row)">
-              <i class="el-icon-view"></i>详情
+            <el-button 
+            class="el-icon-view" 
+            type="text" 
+            size="small" 
+            @click="doDetail(scope.row)">
+              详情
             </el-button>
-            <el-button type="text" size="small" @click="doEdit(scope.row)">
-              <i class="el-icon-edit"></i>编辑
+            <el-divider direction="vertical"></el-divider>
+            <el-button 
+            class="el-icon-edit" 
+            type="text" 
+            size="small" 
+            @click="doEdit(scope.row)">
+              编辑
             </el-button>
-            <el-button type="text" size="small" @click="doDelete(scope.row)">
-              <i class="el-icon-delete"></i>删除
+            <el-divider direction="vertical"></el-divider>
+            <el-button 
+            class="el-icon-delete" 
+            type="text" 
+            size="small" 
+            @click="doDelete(scope.row)">
+              删除
             </el-button>
           </template>
         </el-table-column>

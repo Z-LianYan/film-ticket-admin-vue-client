@@ -62,6 +62,11 @@ export const ADD_HALL = '/API/hall/add';//添加影厅
 export const UPDATE_HALL = '/API/hall/update';//更新影厅信息
 export const DEL_HALL = '/API/hall/del';//删除影厅
 
-export const FILM_HALL_SEAT_ARRANGE = '/API/hall/arrangeSeat';//影厅位置
+export const FILM_HALL_SEAT_ARRANGE = '/API/hall/arrangeSeat';//影厅安排位置
+
+export const GET_FILM_SCHEDULE_LIST = '/API/film/schedule/list';//影厅位置
+export const FILM_SCHEDULE_ADD = '/API/film/schedule/add';//排片
+export const FILM_SCHEDULE_UPDATE = '/API/film/schedule/update';//更新排片
+export const FILM_SCHEDULE_DEL = '/API/film/schedule/del';//删除排片
 
 
