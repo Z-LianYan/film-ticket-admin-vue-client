@@ -10,6 +10,7 @@
         "
       >
         <el-page-header @back="goBack" title="返回" content="影厅管理" center />
+        <span>{{cinema_name}}</span>
         <el-button
           type="text"
           @click="doAdd"
@@ -22,7 +23,7 @@
       <el-form label-width="90px">
         <el-row :gutter="24">
           <el-col :span="12">
-            <el-form-item label="影院">
+            <!-- <el-form-item label="影院">
               <el-select
                 style="width: 350px"
                 v-model="fetchOptions.cinema_id"
@@ -39,7 +40,7 @@
                 >
                 </el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
           </el-col>
           <el-col :span="12">
             <el-form-item label="关键字搜索" style="display: inline-block">
@@ -47,7 +48,7 @@
                 v-model="fetchOptions.keywords"
                 style="width: 200px"
                 @keyup.enter.native="getData(true)"
-                placeholder="搜索影厅名称，影院名称"
+                placeholder="搜索影厅名称"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -71,11 +72,11 @@
           label="影厅名称"
           width="100"
         ></el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="cinema_name"
           label="影院名称"
           width="300"
-        ></el-table-column>
+        ></el-table-column> -->
         <el-table-column
           prop="seat_num"
           label="座位数"
@@ -116,7 +117,7 @@
             </el-button>
             <el-divider direction="vertical"></el-divider>
 
-            <el-button
+            <!-- <el-button
               class="el-icon-edit"
               type="text"
               size="small"
@@ -124,7 +125,7 @@
             >
               编辑
             </el-button>
-            <el-divider direction="vertical"></el-divider>
+            <el-divider direction="vertical"></el-divider> -->
             <el-button
               class="el-icon-delete"
               type="text"
@@ -170,6 +171,7 @@ export default {
       show_time_range: [],
       total: 0,
       cinemaList: [],
+      cinema_name:""
     };
   },
   components: {
@@ -182,26 +184,26 @@ export default {
     if (query.cinema_id) {
       this.fetchOptions.cinema_id = query.cinema_id;
     }
-    this.getCinemaList();
+    // this.getCinemaList();
     this.getData();
   },
   watch: {
-    $route(to, from) {
-      // console.log('to',to,"from",from);
-      if (from.path == "/film-system/cinema/list") {
-        this.fetchOptions.cinema_id = to.query.cinema_id;
-        this.getData();
-      }
-    },
+    // $route(to, from) {
+    //   // console.log('to',to,"from",from);
+    //   if (from.path == "/film-system/cinema/list") {
+    //     this.fetchOptions.cinema_id = to.query.cinema_id;
+    //     this.getData();
+    //   }
+    // },
   },
   methods: {
-    async getCinemaList() {
-      let result = await this.$store.dispatch("cinemaManager/list", {
-        page: 1,
-        limit: 1000000,
-      });
-      this.cinemaList = result.rows;
-    },
+    // async getCinemaList() {
+    //   let result = await this.$store.dispatch("cinemaManager/list", {
+    //     page: 1,
+    //     limit: 1000000,
+    //   });
+    //   this.cinemaList = result.rows;
+    // },
     goBack() {
       this.$router.back();
     },
@@ -230,7 +232,8 @@ export default {
       }
       this.loading = true;
       this.$store.dispatch("hall/list", this.fetchOptions).then((res) => {
-        this.tableData = res.rows;
+        this.cinema_name = res.data.name;
+        this.tableData = res.data.halls;
         this.total = res.count;
         this.loading = false;
       });

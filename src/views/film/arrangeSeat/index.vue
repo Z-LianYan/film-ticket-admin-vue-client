@@ -25,6 +25,7 @@
               line-height: 50px;
               border-bottom: 1px solid #eee;
               border-right: 1px solid #eee;
+              font-size:0.9em;
             "
             v-for="(item, index) in arr"
             :key="index + 'a'"

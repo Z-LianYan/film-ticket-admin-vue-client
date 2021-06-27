@@ -123,8 +123,6 @@ export default {
         page: 1,
         limit: 20,
         keywords: "",
-        start_show_time: "",
-        end_show_time: "",
       },
       show_time_range: [],
       total: 0,
@@ -148,8 +146,13 @@ export default {
         },
       });
     },
-    onSchedule() {
-      this.$router.push("/film-system/schedule");
+    onSchedule(row) {
+      this.$router.push({
+        path:"/film-system/schedule",
+        query:{
+          cinema_id: row.id
+        }
+      });
     },
     doAdd() {
       this.$refs.add_edit.open();
