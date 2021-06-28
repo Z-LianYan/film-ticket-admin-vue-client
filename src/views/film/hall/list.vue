@@ -70,8 +70,12 @@
         <el-table-column
           prop="name"
           label="影厅名称"
-          width="100"
-        ></el-table-column>
+          width="200"
+        >
+          <template slot-scope="scope">
+            {{scope.row.name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
+          </template>
+        </el-table-column>
         <!-- <el-table-column
           prop="cinema_name"
           label="影院名称"
@@ -117,7 +121,7 @@
             </el-button>
             <el-divider direction="vertical"></el-divider>
 
-            <!-- <el-button
+            <el-button
               class="el-icon-edit"
               type="text"
               size="small"
@@ -125,7 +129,7 @@
             >
               编辑
             </el-button>
-            <el-divider direction="vertical"></el-divider> -->
+            <el-divider direction="vertical"></el-divider>
             <el-button
               class="el-icon-delete"
               type="text"

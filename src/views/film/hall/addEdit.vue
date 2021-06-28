@@ -37,22 +37,39 @@
           <!-- <el-form-item label="可售座位数" prop="seat_num">
             <el-input v-model="ruleForm.seat_num" type="number"></el-input>
           </el-form-item> -->
-          <el-form-item label="排数" prop="seat_row_num">
+
+          <el-form-item label="影厅类型" prop="hall_type_id">
+            <el-select
+              v-model="ruleForm.hall_type_id"
+              filterable
+              reserve-keyword
+              style="width:100%;"
+              placeholder="请输入关键词"
+            >
+              <el-option
+                v-for="item in hallTypeList"
+                :key="item.id + 'ht'"
+                :label="item.hall_type_name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="排数" prop="seat_row_num" v-if="title=='添加'">
             <el-input v-model="ruleForm.seat_row_num" type="number"></el-input>
           </el-form-item>
 
-          <el-form-item label="列数" prop="seat_column_num">
+          <el-form-item label="列数" prop="seat_column_num" v-if="title=='添加'">
             <el-input v-model="ruleForm.seat_column_num" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="描述" prop="describe">
-            <el-input v-model="ruleForm.describe" type="textarea"></el-input>
-          </el-form-item>
-
           <el-form-item label="状态" prop="status">
             <el-radio-group v-model="ruleForm.status">
               <el-radio :label="1">启用</el-radio>
               <el-radio :label="0">禁用</el-radio>
             </el-radio-group>
+          </el-form-item>
+          <el-form-item label="描述" prop="describe">
+            <el-input v-model="ruleForm.describe" type="textarea"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -68,6 +85,7 @@
 </template>
 
 <script>
+import hall from '@/store/modules/film/hall';
 function ruleForm() {
   return {
     name: "",
@@ -76,7 +94,8 @@ function ruleForm() {
     seat_column_num: "",
     describe: "",
     status: 1,
-    cinema_id:""
+    cinema_id:"",
+    hall_type_id:""
   };
 }
 export default {
@@ -101,19 +120,27 @@ export default {
           { required: true, message: "列数不能为空", trigger: "blur" },
         ],
         status: [{ required: true, message: "状态不能为空", trigger: "blur" }],
-        // cinema_id: [{ required: true, message: "影院id不能为空", trigger: "blur" }],
+        hall_type_id: [{ required: true, message: "影厅类型", trigger: "blur" }],
       },
-      // cinemaList:[]
+      // cinemaList:[],
+      hallTypeList:[]
     };
   },
   mounted() {
     // this.getCinemaList();
+    this.getHallType();
     let { query } = this.$route;
     if(query.cinema_id){
       this.ruleForm.cinema_id = query.cinema_id;
     }
+
   },
   methods: {
+    async getHallType(){
+      let result = await this.$store.dispatch('hall/hallType');
+      console.log('影厅类型',result);
+      this.hallTypeList = result.rows;
+    },
     // async getCinemaList() {
     //   let result = await this.$store.dispatch("cinemaManager/list", {
     //     page: 1,
