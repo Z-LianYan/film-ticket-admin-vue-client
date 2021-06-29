@@ -100,3 +100,20 @@ export default {
   }
 }
 </script>
+
+<style lang='scss' scoped>
+.menu-wrapper {
+  .iconfont{
+    
+    text-transform: none;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+    
+  }
+}
+</style>

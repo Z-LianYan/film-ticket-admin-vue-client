@@ -17,76 +17,75 @@
       </div>
 
       <el-form label-width="70px">
-        <!-- <el-row :gutter="10"> -->
-          <!-- <el-col :span="12"> -->
-            <el-form-item
-              label="影院"
-              label-width="50px"
-              style="display: inline-block"
-            >
-              <el-select
-                style="width: 300px"
-                v-model="fetchOptions.cinema_id"
-                filterable
-                reserve-keyword
-                placeholder="请选择影院"
-                @change="onChangeCinema"
-              >
-                <el-option key="-c" label="全部" value />
-                <el-option
-                  v-for="item in cinemaList"
-                  :key="item.id + 'c'"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item
-              label="影厅"
-              label-width="50px"
-              style="display: inline-block"
-            >
-              <el-select
-                style="width: 150px"
-                v-model="fetchOptions.hall_id"
-                filterable
-                reserve-keyword
-                placeholder="请选择影厅"
-                @change="getData(true)"
-              >
-                <el-option label="全部" value />
-                <el-option
-                  v-for="item in hallList"
-                  :key="item.id + 'h'"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          <!-- </el-col> -->
-          <!-- <el-col :span="4"> -->
-            <el-form-item label="放映日期" style="display: inline-block">
-              <el-date-picker
-                style="width:150px;"
-                v-model="fetchOptions.play_date"
-                type="date"
-                placeholder="选择放映日期"
-                @change="getData(true)"
-              />
-            </el-form-item>
-          <!-- </el-col> -->
-          <!-- <el-col :span="6"> -->
-            <el-form-item label="搜索电影" style="display: inline-block">
-              <el-input
-                v-model="fetchOptions.keywords"
-                style="width: 200px"
-                @keyup.enter.native="getData(true)"
-                placeholder="搜索电影名称"
-              ></el-input>
-            </el-form-item>
-          <!-- </el-col> -->
-        </el-row>
-        <el-form-item>
+        <el-form-item
+          label="影院"
+          label-width="50px"
+          style="display: inline-block"
+        >
+          <el-select
+            style="width: 300px"
+            v-model="fetchOptions.cinema_id"
+            filterable
+            reserve-keyword
+            placeholder="请选择影院"
+            @change="onChangeCinema"
+          >
+            <el-option key="-c" label="全部" value />
+            <el-option
+              v-for="item in cinemaList"
+              :key="item.id + 'c'"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="影厅"
+          label-width="50px"
+          style="display: inline-block"
+        >
+          <el-select
+            style="width: 150px"
+            v-model="fetchOptions.hall_id"
+            filterable
+            reserve-keyword
+            placeholder="请选择影厅"
+            @change="getData(true)"
+          >
+            <el-option label="全部" value />
+            <el-option
+              v-for="item in hallList"
+              :key="item.id + 'h'"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="放映日期" style="display: inline-block">
+          <el-date-picker
+            style="width: 150px"
+            v-model="fetchOptions.play_date"
+            type="date"
+            placeholder="选择放映日期"
+            @change="getData(true)"
+          />
+        </el-form-item>
+        <el-form-item label="搜索电影" style="display: inline-block">
+          <el-input
+            v-model="fetchOptions.keywords"
+            style="width: 200px"
+            @keyup.enter.native="getData(true)"
+            placeholder="搜索电影名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="状态" style="display: inline-block">
+          <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
+            <el-radio label>全部</el-radio>
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="0">禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item style="display: inline-block">
           <el-button type="primary" @click="getData(true)">搜索</el-button>
         </el-form-item>
       </el-form>
@@ -125,6 +124,15 @@
           label="结束放映时间"
         ></el-table-column>
 
+        <el-table-column
+          prop="status"
+          label="状态"
+        >
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.status==1?'success':'info'">{{scope.row.status==1?'启用':'禁用'}}</el-tag>
+          </template>
+        </el-table-column>
+
         <el-table-column label="操作">
           <template slot-scope="scope">
             <!-- <el-button type="text" size="small" @click="doDetail(scope.row)">
@@ -157,7 +165,7 @@
       />
     </el-card>
 
-    <svg id="icon-1-1" viewBox="0 0 1074 1024">
+    <!-- <svg id="icon-1-1" viewBox="0 0 1074 1024">
       <path
         d="M953.029703 182.49505h77.793584A43.849505 43.849505 0 0 1 1074.693069 226.334416v635.721505a43.849505 43.849505 0 0 1-43.869782 43.839366h-55.66099a10.138614 10.138614 0 0 0-10.138614 10.138614v33.710891A43.849505 43.849505 0 0 1 921.174178 993.584158H153.52903a43.849505 43.849505 0 0 1-43.869782-43.839366V916.023762a10.138614 10.138614 0 0 0-10.138614-10.138613h-55.66099A43.849505 43.849505 0 0 1 0 862.055921V226.334416A43.849505 43.849505 0 0 1 43.869782 182.49505H121.663366V81.108911a81.108911 81.108911 0 0 1 81.108911-81.108911h669.148515a81.108911 81.108911 0 0 1 81.108911 81.108911v101.386139z"
         fill="#FFFFFF"
@@ -170,7 +178,7 @@
         d="M1030.823287 182.49505A43.849505 43.849505 0 0 1 1074.693069 226.334416v635.721505a43.849505 43.849505 0 0 1-43.869782 43.839366h-55.66099a10.138614 10.138614 0 0 0-10.138614 10.138614v33.710891A43.849505 43.849505 0 0 1 921.174178 993.584158H153.52903a43.849505 43.849505 0 0 1-43.869782-43.839366V916.023762a10.138614 10.138614 0 0 0-10.138614-10.138613h-55.66099A43.849505 43.849505 0 0 1 0 862.055921V226.334416A43.849505 43.849505 0 0 1 43.869782 182.49505h87.92206v20.277227H43.869782A23.572277 23.572277 0 0 0 20.277228 226.334416v635.721505a23.572277 23.572277 0 0 0 23.592554 23.562138h55.66099a30.415842 30.415842 0 0 1 30.415842 30.415842v33.710891A23.572277 23.572277 0 0 0 153.518891 973.306931h767.63501a23.572277 23.572277 0 0 0 23.592554-23.562139V916.023762a30.415842 30.415842 0 0 1 30.415842-30.415841h55.66099A23.572277 23.572277 0 0 0 1054.415842 862.055921V226.334416A23.572277 23.572277 0 0 0 1030.823287 202.772277h-86.989307v-20.277227h86.989307z m0 0A43.849505 43.849505 0 0 1 1074.693069 226.334416v635.721505a43.849505 43.849505 0 0 1-43.869782 43.839366h-55.66099a10.138614 10.138614 0 0 0-10.138614 10.138614v33.710891A43.849505 43.849505 0 0 1 921.174178 993.584158H153.52903a43.849505 43.849505 0 0 1-43.869782-43.839366V916.023762a10.138614 10.138614 0 0 0-10.138614-10.138613h-55.66099A43.849505 43.849505 0 0 1 0 862.055921V226.334416A43.849505 43.849505 0 0 1 43.869782 182.49505H121.663366v20.277227H43.869782A23.572277 23.572277 0 0 0 20.277228 226.334416v635.721505a23.572277 23.572277 0 0 0 23.592554 23.562138h55.66099a30.415842 30.415842 0 0 1 30.415842 30.415842v33.710891A23.572277 23.572277 0 0 0 153.518891 973.306931h767.63501a23.572277 23.572277 0 0 0 23.592554-23.562139V916.023762a30.415842 30.415842 0 0 1 30.415842-30.415841h55.66099A23.572277 23.572277 0 0 0 1054.415842 862.055921V226.334416A23.572277 23.572277 0 0 0 1030.823287 202.772277H953.029703v-20.277227h77.793584z"
         fill="#EFC100"
       ></path>
-    </svg>
+    </svg> -->
   </div>
 </template>
 
@@ -190,6 +198,7 @@ export default {
         page: 1,
         limit: 20,
         keywords: "",
+        status:""
       },
       show_time_range: [],
       total: 0,
@@ -236,6 +245,7 @@ export default {
       let result = await this.$store.dispatch("cinemaManager/list", {
         page: 1,
         limit: 1000000,
+        status: 1,
       });
       this.cinemaList = result.rows;
     },

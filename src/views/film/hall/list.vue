@@ -10,7 +10,7 @@
         "
       >
         <el-page-header @back="goBack" title="返回" content="影厅管理" center />
-        <span>{{cinema_name}}</span>
+        <!-- <span>{{ cinema_name }}</span> -->
         <el-button
           type="text"
           @click="doAdd"
@@ -21,41 +21,41 @@
       </div>
 
       <el-form label-width="90px">
-        <el-row :gutter="24">
-          <el-col :span="12">
-            <!-- <el-form-item label="影院">
-              <el-select
-                style="width: 350px"
-                v-model="fetchOptions.cinema_id"
-                filterable
-                reserve-keyword
-                placeholder="请输入关键词"
-                @change="getData(true)"
-              >
-                <el-option
-                  v-for="item in cinemaList"
-                  :key="item.id + 'c'"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item> -->
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="关键字搜索" style="display: inline-block">
-              <el-input
-                v-model="fetchOptions.keywords"
-                style="width: 200px"
-                @keyup.enter.native="getData(true)"
-                placeholder="搜索影厅名称"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-form-item label="">
-          <el-button @click="getData">筛选</el-button>
+        <el-form-item label="影院" style="display: inline-block">
+          <el-select
+            style="width: 350px"
+            v-model="fetchOptions.cinema_id"
+            filterable
+            reserve-keyword
+            placeholder="请输入关键词"
+            @change="getData(true)"
+          >
+            <el-option
+              v-for="item in cinemaList"
+              :key="item.id + 'c'"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="关键字搜索" style="display: inline-block">
+          <el-input
+            v-model="fetchOptions.keywords"
+            style="width: 200px"
+            @keyup.enter.native="getData(true)"
+            placeholder="搜索影厅名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="状态" style="display: inline-block">
+          <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
+            <el-radio label>全部</el-radio>
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="0">禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="" style="display: inline-block">
+          <el-button type="primary" @click="getData">筛选</el-button>
         </el-form-item>
       </el-form>
 
@@ -67,20 +67,16 @@
         style="width: 100%"
       >
         <!-- <el-table-column prop="id" label="#id"></el-table-column> -->
-        <el-table-column
-          prop="name"
-          label="影厅名称"
-          width="200"
-        >
+        <el-table-column prop="name" label="影厅名称" width="200">
           <template slot-scope="scope">
-            {{scope.row.name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
+            {{ scope.row.name }}<el-tag>{{ scope.row.hall_type_name }}</el-tag>
           </template>
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           prop="cinema_name"
           label="影院名称"
           width="300"
-        ></el-table-column> -->
+        ></el-table-column> 
         <el-table-column
           prop="seat_num"
           label="座位数"
@@ -99,7 +95,7 @@
         <el-table-column
           prop="describe"
           label="描述"
-          width="300"
+          width="150"
         ></el-table-column>
 
         <el-table-column prop="status" label="状态" width="80">
@@ -153,7 +149,7 @@
         />
       </el-row>
 
-      <AddEdit ref="add_edit" @on-getData="getData" />
+      <AddEdit ref="add_edit" @on-getData="getData" :cinemaList='cinemaList'/>
     </el-card>
   </div>
 </template>
@@ -171,11 +167,12 @@ export default {
         limit: 20,
         keywords: "",
         cinema_id: "",
+        status: "",
       },
       show_time_range: [],
       total: 0,
       cinemaList: [],
-      cinema_name:""
+      // cinema_name: "",
     };
   },
   components: {
@@ -186,9 +183,9 @@ export default {
     let { query } = this.$route;
     // console.log("query", query);
     if (query.cinema_id) {
-      this.fetchOptions.cinema_id = query.cinema_id;
+      this.fetchOptions.cinema_id = Number(query.cinema_id);
     }
-    // this.getCinemaList();
+    this.getCinemaList();
     this.getData();
   },
   watch: {
@@ -201,13 +198,13 @@ export default {
     // },
   },
   methods: {
-    // async getCinemaList() {
-    //   let result = await this.$store.dispatch("cinemaManager/list", {
-    //     page: 1,
-    //     limit: 1000000,
-    //   });
-    //   this.cinemaList = result.rows;
-    // },
+    async getCinemaList() {
+      let result = await this.$store.dispatch("cinemaManager/list", {
+        page: 1,
+        limit: 1000000,
+      });
+      this.cinemaList = result.rows;
+    },
     goBack() {
       this.$router.back();
     },
@@ -236,8 +233,8 @@ export default {
       }
       this.loading = true;
       this.$store.dispatch("hall/list", this.fetchOptions).then((res) => {
-        this.cinema_name = res.data.name;
-        this.tableData = res.data.halls;
+        // this.cinema_name = res.data.name;
+        this.tableData = res.data;
         this.total = res.count;
         this.loading = false;
       });

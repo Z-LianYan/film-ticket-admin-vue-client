@@ -110,6 +110,12 @@
               placeholder="选择输入语言"
             />
           </el-form-item>
+          <el-form-item label="状态" style="display: inline-block">
+            <el-radio-group v-model="ruleForm.status" @change="getData(true)">
+              <el-radio :label="1">启用</el-radio>
+              <el-radio :label="0">禁用</el-radio>
+            </el-radio-group>
+          </el-form-item>
           <!-- <el-form-item label="影厅名称" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
@@ -157,6 +163,7 @@ function ruleForm() {
     play_date: "",
     price: 0,
     language: "",
+    status:1,
   };
 }
 export default {

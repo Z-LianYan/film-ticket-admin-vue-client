@@ -44,6 +44,11 @@ export const DEL_FILM = '/API/films/doDel';//删除电影
 export const GET_CATEGORY_LIST = '/API/films/getCategoryList';//获取分类列表
 export const GET_FILM_DETAIL = '/API/films/getFilmDetail';//获取电影详情
 
+export const GET_FILM_CATEGORY = '/API/films/getCategory';//获取电影类型
+export const ADD_FILM_CATEGORY = '/API/films/addCategory';//添加电影类型
+export const EDIT_FILM_CATEGORY = '/API/films/editCategory';//编辑电影类型
+export const DEL_FILM_CATEGORY = '/API/films/delCategory';//删除电影类型
+
 
 export const GET_ACTORS_LIST = '/API/actors/list';//演员列表
 export const ADD_ACTORS = '/API/actors/doAdd';//添加演员
@@ -61,7 +66,12 @@ export const GET_HALL_LIST = '/API/hall/list';//获取影厅列表
 export const ADD_HALL = '/API/hall/add';//添加影厅
 export const UPDATE_HALL = '/API/hall/update';//更新影厅信息
 export const DEL_HALL = '/API/hall/del';//删除影厅
-export const HALL_TYPE = '/API/hall/type';//获取影厅类型
+export const GET_HALL_TYPE = '/API/hall/getType';//获取影厅类型
+export const ADD_HALL_TYPE = '/API/hall/addtype';//添加影厅类型
+export const UPDATE_HALL_TYPE = '/API/hall/updateType';//更新影厅类型
+export const DEL_HALL_TYPE = '/API/hall/DelType';//删除影厅类型
+export const GET_USABLE_HALL_TYPE = '/API/hall/getUsabelHallType';//获取启用的影厅类型
+
 
 export const FILM_HALL_SEAT_ARRANGE = '/API/hall/arrangeSeat';//影厅安排位置
 
