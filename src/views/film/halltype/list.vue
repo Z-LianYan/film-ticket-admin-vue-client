@@ -25,13 +25,13 @@
             placeholder="搜索影厅类型名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="状态" style="display: inline-block">
+        <!-- <el-form-item label="状态" style="display: inline-block">
           <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
             <el-radio label>全部</el-radio>
             <el-radio :label="1">启用</el-radio>
             <el-radio :label="0">禁用</el-radio>
           </el-radio-group>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="" style="display: inline-block">
           <el-button type="primary" @click="getData">筛选</el-button>
         </el-form-item>
@@ -55,14 +55,14 @@
           label="类型名称"
         ></el-table-column>
 
-        <el-table-column
+        <!-- <el-table-column
           prop="status"
           label="状态"
         >
           <template slot-scope="scope">
             <el-tag :type="scope.row.status==1?'success':'info'">{{scope.row.status==1?'启用':'禁用'}}</el-tag>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column
           prop="sort"

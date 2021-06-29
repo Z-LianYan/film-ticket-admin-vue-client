@@ -24,11 +24,11 @@
         style="width: 100%"
       >
         
-        <el-table-column
+        <!-- <el-table-column
           prop="id"
           label="#id"
           width="100"
-        ></el-table-column> 
+        ></el-table-column>  -->
         <el-table-column
           prop="label"
           label="类型名称"

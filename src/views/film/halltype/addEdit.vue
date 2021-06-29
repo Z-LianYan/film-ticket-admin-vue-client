@@ -18,12 +18,12 @@
             <el-input v-model="ruleForm.hall_type_name"></el-input>
           </el-form-item>
 
-          <el-form-item label="状态" prop="status" style="display: inline-block">
+          <!-- <el-form-item label="状态" prop="status" style="display: inline-block">
             <el-radio-group v-model="ruleForm.status">
               <el-radio :label="1">启用</el-radio>
               <el-radio :label="0">禁用</el-radio>
             </el-radio-group>
-          </el-form-item>
+          </el-form-item> -->
           
           <el-form-item label="排序" prop="sort">
             <el-input v-model="ruleForm.sort" type="number"></el-input>
@@ -49,7 +49,7 @@ function ruleForm() {
   return {
     hall_type_name: "",
     sort: 0,
-    status:1
+    // status:1
   };
 }
 export default {

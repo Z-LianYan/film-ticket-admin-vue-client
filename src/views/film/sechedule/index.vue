@@ -230,7 +230,7 @@ export default {
           cinema_id: cinema_id,
         })
         .then((res) => {
-          this.hallList = res.data.halls;
+          this.hallList = res.data;
         });
     },
     onChangeCinema(cinema_id) {
@@ -245,7 +245,7 @@ export default {
       let result = await this.$store.dispatch("cinemaManager/list", {
         page: 1,
         limit: 1000000,
-        status: 1,
+        // status: 1,
       });
       this.cinemaList = result.rows;
     },
