@@ -72,6 +72,10 @@
             <el-input v-model="ruleForm.describe" type="textarea"></el-input>
           </el-form-item>
 
+          <el-form-item label="分区" prop="sectionPrice">
+            
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
               >提交</el-button
