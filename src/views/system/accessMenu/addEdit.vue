@@ -6,7 +6,7 @@
     @close="drawerClose"
   >
      <!-- <div class="menu-add-edit"> -->
-      <el-scrollbar :wrap-class="['menu-add-edit-scrollbar-wrapper','456']">
+      <el-scrollbar :wrap-class="['menu-add-edit-scrollbar-wrapper']">
         <el-form
           :model="ruleForm"
           :rules="rules"

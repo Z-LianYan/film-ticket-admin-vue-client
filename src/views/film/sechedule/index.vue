@@ -105,11 +105,16 @@
           label="影厅"
           width="90"
         ></el-table-column>
-        <!-- <el-table-column prop="price" label="售价">
+        <el-table-column prop="premium" label="服务费">
+          <template slot-scope="scope">
+            <span class="price">¥ {{ scope.row.premium | currencyFormat }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="price" label="售价">
           <template slot-scope="scope">
             <span class="price">¥ {{ scope.row.price | currencyFormat }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column prop="play_date" label="放映日期">
           <template slot-scope="scope">
             {{ scope.row.play_date | formatDate }}
