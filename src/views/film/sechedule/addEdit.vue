@@ -2,7 +2,7 @@
   <el-drawer
     :title="title + '排片'"
     :visible.sync="isDrawer"
-    size="70%"
+    size="60%"
     @close="drawerClose"
   >
     <el-scrollbar wrap-class="cinema-addedit-scrollbar-wrapper">
@@ -121,10 +121,6 @@
         prop="premium" 
         style="width:300px;"
         >
-        <!-- :rules="[
-        { type: 'object', required: true,  trigger: 'blur',message: '请输入服务费', fields: {
-          premium: {required: true,  trigger: 'blur'}
-        }}]" -->
           <el-input type="number" v-model="ruleForm.premium">
             <el-button slot="append">元</el-button>
           </el-input>
@@ -153,6 +149,7 @@
 
         <el-form-item label="座位分区价格" prop="sectionPrice" v-if="ruleForm.is_section==1">
           <el-button 
+          style="margin-right:30px;"
           type="text"
           class="el-icon-plus float-right" 
           @click="onAddSectionPrice">添加</el-button>
@@ -165,8 +162,7 @@
               label="分区名称">
               <template slot-scope="scope">
                 <el-form-item 
-                label="" 
-                :prop="'sectionPrice.'+scope.$index+'.section_name'">
+                label="">
                   <el-input placeholder="请输入分区名称" v-model="scope.row.section_name"/>
                 </el-form-item>
               </template>
@@ -176,8 +172,7 @@
               label="售价">
               <template slot-scope="scope">
                 <el-form-item 
-                label="" 
-                :prop="'sectionPrice.'+scope.$index+'.price'">
+                label="">
                   <el-input v-model="scope.row.price" placeholder="请输入分区售价">
                     <el-button slot="append">元</el-button>
                   </el-input>
@@ -185,6 +180,7 @@
               </template>
             </el-table-column>
             <el-table-column
+              width="100"
               label="操作">
               <template slot-scope="scope">
                 <el-button 
@@ -220,10 +216,11 @@ function ruleForm() {
     price: "",
     premium:0,
     sectionPrice:[{
-      section_id:"",
+      section_id:"a",
       section_name:"",
       price:""
-    }]
+    }],
+    
   };
 }
 export default {
@@ -241,8 +238,13 @@ export default {
   watch:{
     "ruleForm.sectionPrice":{
       handler(val){
-        for(let item of val){
-          // item.section_id = 
+        try{
+          for(let i=0;i<val.length;i++){
+            val[i].section_id = this.sectionList[i];
+          }
+          this.ruleForm.sectionPrice = val;
+        }catch(err){
+          console.error(err.message);
         }
       },
       deep: true, //true 深度监听
@@ -278,6 +280,7 @@ export default {
       filmList: [],
       cinema_id:"",
       hallList:[],
+      sectionList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
     };
   },
@@ -323,10 +326,21 @@ export default {
     },
 
     submitForm(formName) {
-      let { query } = this.$route;
-      if (query.cinema_id) {
-        this.ruleForm.cinema_id = query.cinema_id;
+      // let { query } = this.$route;
+      // if (query.cinema_id) {
+      //   this.ruleForm.cinema_id = query.cinema_id;
+      // }
+      let { is_section,sectionPrice,price } = this.ruleForm;
+      if(is_section==0){
+        if(!price) return this.$message.error('缺少售价')
+      }else{
+        for(var item of sectionPrice){
+          if(!item.section_id) return this.$message.error('缺少分区id');
+          if(!item.section_name) return this.$message.error('缺少分区名称');
+          if(!item.price) return this.$message.error('缺少分区售价');
+        }
       }
+      
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.title == "添加") {

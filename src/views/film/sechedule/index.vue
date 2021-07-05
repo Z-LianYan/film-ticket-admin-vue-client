@@ -110,9 +110,17 @@
             <span class="price">¥ {{ scope.row.premium | currencyFormat }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="price" label="售价">
+        <el-table-column prop="price" label="售价" width="150">
           <template slot-scope="scope">
-            <span class="price">¥ {{ scope.row.price | currencyFormat }}</span>
+            <div v-if="scope.row.is_section==1">
+              <div v-for="(item,index) in scope.row.sectionPrice" :key="index">
+                  <el-tag>{{item.section_name}} <span class="price">¥ {{item.price}}</span></el-tag>
+                  
+              </div>
+            </div>
+            <span 
+            class="price" 
+            v-else>¥ {{ scope.row.price | currencyFormat }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="play_date" label="放映日期">
