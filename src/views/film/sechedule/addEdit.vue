@@ -395,15 +395,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.cinema-addedit-scrollbar-wrapper {
-  height: calc(100vh - 60px) !important;
-  .el-drawer__body {
-    padding-right: 10px;
+<style lang="scss" scoped>
+/deep/ {
+  .cinema-addedit-scrollbar-wrapper {
+    height: calc(100vh - 60px) !important;
+    .el-drawer__body {
+      padding-right: 10px;
+    }
   }
 }
-</style>
-<style scoped>
 .amap-container {
   height: 500px;
 }
