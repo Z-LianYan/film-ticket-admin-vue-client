@@ -14,6 +14,15 @@
         <span>{{ hall_info.cinema_name }}</span>
       </div>
 
+      <ul class="template-ul">
+        <li class="selected">
+          选中 <i class="selected-col-icon el-icon-check"></i>
+        </li>
+        <li class="disabled">
+          禁用 <i class="selected-col-icon el-icon-circle-close"></i>
+        </li>
+      </ul>
+
       <el-button
         type="text"
         class="el-icon-circle-close"
@@ -32,6 +41,7 @@
           <el-checkbox-group v-model="checkedRow">
             <div class="row" v-for="(row, key) in seat" :key="key">
               <el-checkbox
+                :indeterminate="row.indeterminate"
                 style="display:block;"
                 :label="key"
                 @change="handleCheckedChange($event,key)"
@@ -40,20 +50,25 @@
           </el-checkbox-group>
         </div>
         <div class="table-wrapper">
-          <div class="row" v-for="(arr, key) in seat" :key="key + 'r'">
+          <div class="row" v-for="(value, key) in seat" :key="key + 'r'">
             <div
               :class="[
                 'init-col',
+                item.disabled==1?'disabled-col':'',
                 selectedSeatIds.includes(item.id) ? 'selected-col' : '',
               ]"
-              v-for="(item, index) in arr"
+              v-for="(item, index) in value.seat_data"
               :key="index + 'c'"
-              @click="onSelectSeat(item)"
+              @click="onSelectSeat(item,value.seat_data,key)"
             >
               {{ item.row }}排{{ item.column }}座
               <i
                 v-if="selectedSeatIds.includes(item.id)"
                 class="selected-col-icon el-icon-check"
+              ></i>
+              <i
+                v-else-if="item.disabled==1"
+                class="selected-col-icon el-icon-circle-close"
               ></i>
             </div>
           </div>
@@ -86,7 +101,9 @@ export default {
     };
   },
   components: {},
-  computed: {},
+  computed: {
+    
+  },
   mounted() {
     let { query } = this.$route;
     if (query.hall_id) {
@@ -98,36 +115,51 @@ export default {
   methods: {
     handleCheckedChange(bool,row) {
       let { seat,selectedSeatIds } = this;
-      let row_arr = seat[row];
+      seat[row].indeterminate = false;
+      let row_arr = seat[row].seat_data;
       for(let item of row_arr){
-        if(bool){
-          if(!selectedSeatIds.includes(item.id)) this.selectedSeatIds.push(item.id);
-        }
-        if(!bool){
-          let idx = selectedSeatIds.indexOf(item.id);
-          if(idx!=-1) this.selectedSeatIds.splice(idx,1);
-        }
+        if(bool && !selectedSeatIds.includes(item.id)) this.selectedSeatIds.push(item.id);
+        let idx = selectedSeatIds.indexOf(item.id);
+        if(!bool && idx!=-1) this.selectedSeatIds.splice(idx,1);
       }
     },
     async onSetSeatDisabled(val) {
       let result = await this.$store.dispatch("hall/setSeatDisabled", {
-        seat_ids: [2158, 2159],
+        seat_ids: this.selectedSeatIds,
         disabled: val,
       });
+      this.getSeat();
     },
-    onSelectSeat(item) {
-      let { selectedSeatIds } = this;
+    onSelectSeat(item,seat_data,row) {
+      let { selectedSeatIds,seat } = this;
       if (selectedSeatIds.includes(item.id)) {
         selectedSeatIds.splice(selectedSeatIds.indexOf(item.id), 1);
       } else {
         selectedSeatIds.push(item.id);
       }
+      let num = 0;
+      for(let item of seat_data){
+        if(selectedSeatIds.includes(item.id)) num += 1;
+      }
+      if(num==seat_data.length) {
+        seat[row].indeterminate = false;
+        this.checkedRow.push(row.toString());
+      }else if(num!=0){
+        seat[row].indeterminate = true;
+      }else{
+        seat[row].indeterminate = false;
+        this.checkedRow.splice(selectedSeatIds.indexOf(row.id),1);
+      }
     },
     goBack() {
       this.$router.back();
     },
-
+    reSeat(){
+      this.checkedRow = [];
+      this.selectedSeatIds = [];
+    },
     async getSeat() {
+      this.reSeat();
       let result = await this.$store.dispatch(
         "hall/arrangeSeat",
         this.fetchOptions
@@ -143,10 +175,12 @@ export default {
       let obj = {};
       for (let item of seat) {
         if (!obj[item.row]) {
-
-          obj[item.row] = [item];
+          obj[item.row] = {
+            indeterminate:false,
+            seat_data:[item]
+          };
         } else {
-          obj[item.row].push(item);
+          obj[item.row].seat_data.push(item);
         }
       }
 
@@ -160,6 +194,32 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
+.template-ul{
+  display: flex;
+  li{
+    width: 60px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position:relative;
+    border: 1px solid #eee;
+    font-size: 12px;
+  }
+  .selected{
+    background: #13c2c2;
+  }
+  .disabled{
+    background: #ccc;
+  }
+}
+.selected-col-icon {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 12px;
+}
 .table-container {
   display: flex;
   .table-wrapper {
@@ -183,23 +243,16 @@ export default {
         -webkit-user-select: none; //阻止双击被选中文字
         -moz-user-select: none; //阻止双击被选中文字
       }
+      .disabled-col{
+        background: #ccc;
+        position: relative;
+      }
       .selected-col {
         background: #13c2c2;
         position: relative;
-        .selected-col-icon {
-          position: absolute;
-          top: 2px;
-          right: 4px;
-          // top: 50%;
-          // transform: translateY(-50%);
-          color: #fff;
-          font-weight: bolder;
-          font-size: 12px;
-        }
       }
     }
   }
-
   .checked-wrapper{
     border-bottom: 1px solid #eee;
     .row{
