@@ -19,21 +19,32 @@
           选中 <i class="selected-col-icon el-icon-check"></i>
         </li>
         <li class="disabled">
-          禁用 <i class="selected-col-icon el-icon-circle-close"></i>
+          禁售 <i class="selected-col-icon el-icon-circle-close"></i>
+        </li>
+        <li class="on-disabled">
+          启用
         </li>
       </ul>
-
+      <br/>
       <el-button
         type="text"
+        style="color:#ccc;font-weight:bold;"
         class="el-icon-circle-close"
         @click="onSetSeatDisabled(1)"
-        >禁用</el-button
+        >禁售</el-button
       >
       <el-button
         type="text"
         class="el-icon-circle-check"
         @click="onSetSeatDisabled(0)"
         >启用</el-button
+      >
+      <el-button
+        type="text"
+        style="color:#1890FF;"
+        class="el-icon-delete"
+        @click="onSetSeatDisabled(2)"
+        >无座</el-button
       >
 
       <div class="table-container">
@@ -61,7 +72,7 @@
               :key="index + 'c'"
               @click="onSelectSeat(item,value.seat_data,key)"
             >
-              {{ item.row }}排{{ item.column }}座
+              <span v-if="item.disabled!=2">{{ item.row }}排{{ item.column }}座</span>
               <i
                 v-if="selectedSeatIds.includes(item.id)"
                 class="selected-col-icon el-icon-check"
@@ -98,6 +109,8 @@ export default {
 
       selectedSeatIds: [],
       checkedRow: [],
+
+      // isControlOpration:false
     };
   },
   components: {},
@@ -118,37 +131,52 @@ export default {
       seat[row].indeterminate = false;
       let row_arr = seat[row].seat_data;
       for(let item of row_arr){
-        if(bool && !selectedSeatIds.includes(item.id)) this.selectedSeatIds.push(item.id);
+        if(bool && !selectedSeatIds.includes(item.id)) selectedSeatIds.push(item.id);
         let idx = selectedSeatIds.indexOf(item.id);
-        if(!bool && idx!=-1) this.selectedSeatIds.splice(idx,1);
+        if(!bool && idx!=-1) selectedSeatIds.splice(idx,1);
       }
     },
     async onSetSeatDisabled(val) {
-      let result = await this.$store.dispatch("hall/setSeatDisabled", {
-        seat_ids: this.selectedSeatIds,
-        disabled: val,
+      let { selectedSeatIds } = this;
+      if(!selectedSeatIds.length) return this.$message.info('请选择座位');
+      this.$confirm(`您确定要${val==1?'禁售':val==2?'设置无座':'启用'}吗`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        let result = await this.$store.dispatch("hall/setSeatDisabled", {
+          seat_ids: this.selectedSeatIds,
+          disabled: val,
+        });
+        this.getSeat();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
       });
-      this.getSeat();
+      
     },
     onSelectSeat(item,seat_data,row) {
-      let { selectedSeatIds,seat } = this;
+      let { selectedSeatIds,seat,checkedRow } = this;
       if (selectedSeatIds.includes(item.id)) {
         selectedSeatIds.splice(selectedSeatIds.indexOf(item.id), 1);
       } else {
         selectedSeatIds.push(item.id);
       }
       let num = 0;
-      for(let item of seat_data){
-        if(selectedSeatIds.includes(item.id)) num += 1;
-      }
+      for(let it of seat_data) if(selectedSeatIds.includes(it.id)) num += 1;
       if(num==seat_data.length) {
         seat[row].indeterminate = false;
-        this.checkedRow.push(row.toString());
+        checkedRow.push(row.toString());
       }else if(num!=0){
+        let idx = checkedRow.indexOf(row);
+        if(idx!=-1) checkedRow.splice(idx,1);
         seat[row].indeterminate = true;
       }else{
         seat[row].indeterminate = false;
-        this.checkedRow.splice(selectedSeatIds.indexOf(row.id),1);
+        let idx = checkedRow.indexOf(row);
+        if(idx!=-1) checkedRow.splice(idx,1);
       }
     },
     goBack() {
@@ -183,9 +211,7 @@ export default {
           obj[item.row].seat_data.push(item);
         }
       }
-
       this.seat = obj;
-
       console.log("obj", obj);
     },
   },
@@ -210,6 +236,10 @@ export default {
   }
   .disabled{
     background: #ccc;
+    color: #999;
+  }
+  .on-disabled{
+    
   }
 }
 .selected-col-icon {
@@ -245,10 +275,12 @@ export default {
       }
       .disabled-col{
         background: #ccc;
+        color: #999;
         position: relative;
       }
       .selected-col {
         background: #13c2c2;
+        color: #000;
         position: relative;
       }
     }
