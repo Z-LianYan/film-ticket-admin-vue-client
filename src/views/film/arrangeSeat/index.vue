@@ -19,11 +19,15 @@
           选中 <i class="selected-col-icon el-icon-check"></i>
         </li>
         <li class="disabled">
-          禁售 <i class="selected-col-icon el-icon-circle-close"></i>
+          禁用 <i class="selected-col-icon el-icon-circle-close"></i>
         </li>
         <li class="on-disabled">
-          启用
+          n排n座 
+          <!-- <i class="selected-col-icon"></i> -->
         </li>
+        <!-- <li class="no-seat">
+          无座 <i class="selected-col-icon el-icon-delete"></i>
+        </li> -->
       </ul>
       <br/>
       <el-button
@@ -31,7 +35,7 @@
         style="color:#ccc;font-weight:bold;"
         class="el-icon-circle-close"
         @click="onSetSeatDisabled(1)"
-        >禁售</el-button
+        >禁用</el-button
       >
       <el-button
         type="text"
@@ -46,6 +50,7 @@
         @click="onSetSeatDisabled(2)"
         >无座</el-button
       >
+      
 
       <div class="table-container">
         <div class="checked-wrapper">
@@ -72,7 +77,7 @@
               :key="index + 'c'"
               @click="onSelectSeat(item,value.seat_data,key)"
             >
-              <span v-if="item.disabled!=2">{{ item.row }}排{{ item.column }}座</span>
+              <span v-if="item.disabled!=2">{{ item.row_id }}排{{ item.column_id }}座</span>
               <i
                 v-if="selectedSeatIds.includes(item.id)"
                 class="selected-col-icon el-icon-check"
@@ -81,6 +86,9 @@
                 v-else-if="item.disabled==1"
                 class="selected-col-icon el-icon-circle-close"
               ></i>
+              <!-- <i 
+              v-else-if="item.disabled==2"
+              class="selected-col-icon el-icon-delete"></i> -->
             </div>
           </div>
         </div>
@@ -147,6 +155,7 @@ export default {
         let result = await this.$store.dispatch("hall/setSeatDisabled", {
           seat_ids: this.selectedSeatIds,
           disabled: val,
+          hall_id: this.hall_info.id
         });
         this.getSeat();
       }).catch(() => {
@@ -233,22 +242,34 @@ export default {
   }
   .selected{
     background: #13c2c2;
+    color: #fff;
   }
   .disabled{
     background: #ccc;
     color: #999;
   }
   .on-disabled{
-    
+    .selected-col-icon{
+      line-height: 1;
+    }
+    .selected-col-icon:before{
+      content: '启用';
+      font-size: 12px;
+    }
+  }
+  .no-seat{
+    .selected-col-icon{
+      color: rgb(24, 144, 255);
+    }
   }
 }
 .selected-col-icon {
   position: absolute;
   top: 2px;
   right: 4px;
-  color: #fff;
   font-weight: bolder;
   font-size: 12px;
+  // color: #fff;
 }
 .table-container {
   display: flex;
@@ -272,16 +293,17 @@ export default {
         user-select: none; //阻止双击被选中文字
         -webkit-user-select: none; //阻止双击被选中文字
         -moz-user-select: none; //阻止双击被选中文字
+
+        position: relative;
       }
       .disabled-col{
         background: #ccc;
-        color: #999;
-        position: relative;
+        color: #fff;
       }
       .selected-col {
         background: #13c2c2;
-        color: #000;
-        position: relative;
+        color: #fff;
+        // position: relative;
       }
     }
   }
