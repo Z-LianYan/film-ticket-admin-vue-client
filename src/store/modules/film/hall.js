@@ -98,6 +98,20 @@ const actions = {
       })
     })
   },
+  setSeatRowSort({ commit, state }, requestParams) {
+    return new Promise((resolve, reject) => {
+      requstTools.post(aipUrl.SET_SEAT_ROW_SORT, requestParams, '正在提交...').then(res => {
+        if (res.error == 0) {
+          Message.success(res.message);
+          resolve(res.data);
+        } else {
+          Message.error(res.message);
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
   getUsableHallType({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {

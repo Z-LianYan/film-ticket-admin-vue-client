@@ -30,26 +30,41 @@
         </li> -->
       </ul>
       <br/>
-      <el-button
-        type="text"
-        style="color:#ccc;font-weight:bold;"
-        class="el-icon-circle-close"
-        @click="onSetSeatDisabled(1)"
-        >禁用</el-button
-      >
-      <el-button
-        type="text"
-        class="el-icon-circle-check"
-        @click="onSetSeatDisabled(0)"
-        >启用</el-button
-      >
-      <el-button
-        type="text"
-        style="color:#1890FF;"
-        class="el-icon-delete"
-        @click="onSetSeatDisabled(2)"
-        >无座</el-button
-      >
+
+      <div style="display:flex;align-items:center;">
+        <div style="flex:1;">
+          <el-button
+            type="text"
+            style="color:#ccc;font-weight:bold;"
+            class="el-icon-circle-close"
+            @click="onSetSeatDisabled(1)"
+            >禁用</el-button
+          >
+          <el-button
+            type="text"
+            class="el-icon-circle-check"
+            @click="onSetSeatDisabled(0)"
+            >启用</el-button
+          >
+          <el-button
+            type="text"
+            style="color:#1890FF;"
+            class="el-icon-delete"
+            @click="onSetSeatDisabled(2)"
+            >无座</el-button
+          >
+        </div>
+        <el-switch
+        style="display: block"
+        v-model="switchRowSortValue"
+        @change="onSwitchChange"
+        active-color="#6959CD"
+        inactive-color="#1890FF"
+        active-text="横排倒序"
+        active-value="desc"
+        inactive-text="横排正序"
+        inactive-value="asc"/>
+      </div>
       
 
       <div class="table-container">
@@ -119,6 +134,8 @@ export default {
       checkedRow: [],
 
       // isControlOpration:false
+
+      switchRowSortValue:'asc'
     };
   },
   components: {},
@@ -134,6 +151,28 @@ export default {
   },
   watch: {},
   methods: {
+    onSwitchChange(val){
+      console.log('val',val,this.switchRowSortValue);
+      
+      this.$confirm(`您确定要进行此操作吗`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        let result = await this.$store.dispatch("hall/setSeatRowSort", {
+          rowSort: val,
+          hall_id: this.hall_info.id
+        });
+        this.getSeat();
+      }).catch(() => {
+        this.switchRowSortValue = val=='desc'?'asc':'desc';
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });          
+      });
+
+    },
     handleCheckedChange(bool,row) {
       let { seat,selectedSeatIds } = this;
       seat[row].indeterminate = false;
@@ -202,6 +241,7 @@ export default {
         this.fetchOptions
       );
       this.hall_info = result.rows;
+      this.switchRowSortValue = result.rows.rowSort;
       console.log("result---位置", result);
       this.reduce();
     },

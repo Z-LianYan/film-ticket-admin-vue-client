@@ -74,7 +74,9 @@ export const GET_USABLE_HALL_TYPE = '/API/hall/getUsabelHallType';//获取启用
 
 
 export const FILM_HALL_SEAT_ARRANGE = '/API/hall/arrangeSeat';//影厅安排位置
-export const SET_SEAT_DISABLED = '/API/hall/setSeatDisabled';//设置位置禁用启用
+export const SET_SEAT_DISABLED = '/API/hall/setSeatDisabled';//设置位置 禁用 启用 有无座位
+export const SET_SEAT_ROW_SORT = '/API/hall/seatRowSort';//设置位置横向排序
+
 
 export const GET_FILM_SCHEDULE_LIST = '/API/film/schedule/list';//影厅位置
 export const FILM_SCHEDULE_ADD = '/API/film/schedule/add';//排片
