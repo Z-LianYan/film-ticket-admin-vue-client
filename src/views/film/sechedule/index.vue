@@ -114,7 +114,7 @@
           <template slot-scope="scope">
             <div v-if="scope.row.is_section==1">
               <div v-for="(item,index) in scope.row.sectionPrice" :key="index">
-                  <el-tag>{{item.section_name}} <span class="price">¥ {{item.price}}</span></el-tag>
+                <el-tag>{{item.section_name}} <span class="price">¥ {{item.price}}</span></el-tag>
                   
               </div>
             </div>
@@ -148,10 +148,14 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="onSetSection(scope.row)">
+            <el-button 
+            v-if="scope.row.is_section==1"
+            type="text" 
+            size="small"
+            @click="onSetSection(scope.row)">
               <i class="el-icon-setting"></i>座位分区设置
             </el-button>
-            <el-divider direction="vertical"></el-divider>
+            <el-divider v-if="scope.row.is_section==1"  direction="vertical"></el-divider>
             <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
             </el-button>
