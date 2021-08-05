@@ -148,14 +148,6 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button 
-            v-if="scope.row.is_section==1"
-            type="text" 
-            size="small"
-            @click="onSetSection(scope.row)">
-              <i class="el-icon-setting"></i>座位分区设置
-            </el-button>
-            <el-divider v-if="scope.row.is_section==1"  direction="vertical"></el-divider>
             <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
             </el-button>
@@ -241,14 +233,6 @@ export default {
   },
   watch: {},
   methods: {
-    onSetSection(rows){
-      this.$router.push({
-        path: "/film-system/cinema/hall-manage/arrange-seat",
-        query: {
-          hall_id: rows.hall_id,
-        },
-      });
-    },
     getHallList(cinema_id) {
       this.$store
         .dispatch("hall/list", {
