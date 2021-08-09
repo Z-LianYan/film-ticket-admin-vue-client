@@ -31,8 +31,8 @@
       </ul>
       <br/>
 
-      <div style="display:flex;align-items:center;">
-        <div style="flex:1;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
           <el-button
             type="text"
             style="color:#ccc;font-weight:bold;"
@@ -53,6 +53,16 @@
             @click="onSetSeatDisabled(2)"
             >无座</el-button
           >
+        </div>
+        <div>
+          <el-button 
+          v-for="(item,index) in hall_info.section" 
+          type="text"
+          :style="{color:'#ccc'}"
+          class="iconfont icon-kexuanzuobiankuang"
+          :key="index">
+            {{item.section_name}}
+          </el-button>
         </div>
         <el-switch
         style="display: block"

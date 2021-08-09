@@ -62,6 +62,18 @@
           <el-form-item label="列数" prop="seat_column_num" v-if="title=='添加'">
             <el-input v-model="ruleForm.seat_column_num" type="number" max="50"></el-input>
           </el-form-item>
+          <el-form-item label="分区设置" prop="section">
+            <el-button 
+            type="text"
+            class="el-icon-plus" 
+            @click="addSection">添加分区名称</el-button>
+            <div v-for="(item,index) in ruleForm.section" :key="index" style="margin-top:10px;">
+              <el-form-item label="分区名称" prop="section" label-width="80px">
+                <el-input style="width:250px;" v-model="item.section_name" type="text" max="50"></el-input>
+                <el-button class="el-icon-minus" type='text' @click="delSection(index)">删除</el-button>
+              </el-form-item>
+            </div>
+          </el-form-item>
           <el-form-item label="状态" prop="status">
             <el-radio-group v-model="ruleForm.status">
               <el-radio :label="1">启用</el-radio>
@@ -96,6 +108,7 @@ function ruleForm() {
     status: 1,
     cinema_id:"",
     hall_type_id:"",
+    section:[]
   };
 }
 export default {
@@ -126,7 +139,8 @@ export default {
         
       },
       // cinemaList:[],
-      hallTypeList:[]
+      hallTypeList:[],
+      sections:['a','b','c','d']
     };
   },
   mounted() {
@@ -139,6 +153,25 @@ export default {
 
   },
   methods: {
+    addSection(){
+      let { ruleForm,sections }  = this;
+      if(ruleForm.section.length>=sections.length) return this.$message.info(`最多只能添加${sections.length}个分区了`);
+      let section_arr = ruleForm.section.map(item=>item.section_id);
+      for(let item of sections){
+        if(!section_arr.includes(item)){
+          ruleForm.section.push({
+            section_id:item,
+            section_name:''
+          })
+          break;
+        }
+      }
+      
+    },
+    delSection(index){
+      let { ruleForm,sections }  = this;
+      ruleForm.section.splice(index,1);
+    },
     async getHallType(){
       let result = await this.$store.dispatch('hall/getUsableHallType');
       console.log('影厅类型',result);
