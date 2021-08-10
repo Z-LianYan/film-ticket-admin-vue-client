@@ -72,6 +72,7 @@
                 <el-input style="width:250px;" v-model="item.section_name" type="text" max="50"></el-input>
                 <el-button class="el-icon-minus" type='text' @click="delSection(index)">删除</el-button>
               </el-form-item>
+              <!-- <el-color-picker v-model="item.color"></el-color-picker> -->
             </div>
           </el-form-item>
           <el-form-item label="状态" prop="status">

@@ -58,10 +58,19 @@
           <el-button 
           v-for="(item,index) in hall_info.section" 
           type="text"
-          :style="{color:'#ccc'}"
-          class="iconfont icon-kexuanzuobiankuang"
+          style="margin-right:10px;"
+          @click="onSetSeatSection(item.section_id)"
           :key="index">
-            {{item.section_name}}
+            {{item.section_name}}<i 
+            :style="{color:handleShowColor(item.section_id),'margin-left':'10px','font-weight':'bolder'}" 
+            class="iconfont icon-kexuanzuobiankuang"></i>
+          </el-button>
+          <el-button 
+          type="text"
+          style="margin-right:10px;color:#ccc;"
+          @click="onSetSeatSection()"
+          key="index1">
+            取消分区
           </el-button>
         </div>
         <el-switch
@@ -103,6 +112,10 @@
               @click="onSelectSeat(item,value.seat_data,key)"
             >
               <span v-if="item.disabled!=2">{{ item.row_id }}排{{ item.column_id }}座</span>
+              <i 
+              v-if="item.disabled!=2 && item.section_id"
+              :style="{color:handleShowColor(item.section_id),'margin-left':'10px','font-weight':'bolder'}" 
+              class="iconfont icon-kexuanzuobiankuang"></i>
               <i
                 v-if="selectedSeatIds.includes(item.id)"
                 class="selected-col-icon el-icon-check"
@@ -161,6 +174,25 @@ export default {
   },
   watch: {},
   methods: {
+    handleShowColor(id){
+      switch(id){
+        case 'a':
+          return '#16B328'
+        case 'b':
+          return '#C213BF'
+        case 'c':
+          return '#F5222D'
+        case 'd':
+          return '#1890FF'
+      }
+
+    },
+    async onSetSeatSection(section_id){
+      let { selectedSeatIds } = this;
+      let result = await this.$store.dispatch('hall/setSeatSection',{section_id:section_id,ids:selectedSeatIds});
+      console.log('result',result);
+      this.getSeat();
+    },
     onSwitchChange(val){
       console.log('val',val,this.switchRowSortValue);
       
@@ -343,6 +375,8 @@ export default {
         user-select: none; //阻止双击被选中文字
         -webkit-user-select: none; //阻止双击被选中文字
         -moz-user-select: none; //阻止双击被选中文字
+        // display: flex;
+        // flex-flow: row wrap;
 
         position: relative;
       }

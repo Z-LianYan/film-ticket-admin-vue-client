@@ -113,6 +113,21 @@ const actions = {
     })
   },
 
+  setSeatSection({ commit, state }, requestParams) {
+    return new Promise((resolve, reject) => {
+      requstTools.post(aipUrl.SET_SEAT_SECTION, requestParams, '设置中...').then(res => {
+        if (res.error == 0) {
+          Message.success(res.message);
+          resolve(res.data);
+        } else {
+          Message.error(res.message);
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
   getUsableHallType({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
       requstTools.get(aipUrl.GET_USABLE_HALL_TYPE, requestParams, '').then(res => {
