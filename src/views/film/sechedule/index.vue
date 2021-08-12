@@ -104,6 +104,14 @@
           prop="hall_name"
           label="影厅"
           width="90"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.hall_name}}( {{scope.row.hall_type_name}} )
+          </template></el-table-column>
+        <el-table-column
+          prop="language"
+          label="语言"
+          width="90"
         ></el-table-column>
         <el-table-column prop="premium" label="服务费">
           <template slot-scope="scope">
@@ -130,12 +138,16 @@
         </el-table-column>
         <el-table-column
           prop="start_play_time"
-          label="开始放映时间"
-        ></el-table-column>
-        <el-table-column
+          label="放映时间"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.start_play_time + ' ~ ' + scope.row.end_play_time }}
+          </template>
+        </el-table-column>
+        <!-- <el-table-column
           prop="end_play_time"
           label="结束放映时间"
-        ></el-table-column>
+        ></el-table-column> -->
 
         <el-table-column
           prop="status"

@@ -56,6 +56,7 @@
             filterable
             reserve-keyword
             placeholder="排期的影厅"
+            @change="onChangeHall"
           >
             <el-option
               v-for="item in hallList"
@@ -148,11 +149,11 @@
         
 
         <el-form-item label="座位分区价格" prop="sectionPrice" v-if="ruleForm.is_section==1">
-          <el-button 
+          <!-- <el-button 
           style="margin-right:30px;"
           type="text"
           class="el-icon-plus float-right" 
-          @click="onAddSectionPrice">添加</el-button>
+          @click="onAddSectionPrice">添加</el-button> -->
           <el-table
             border
             :data="ruleForm.sectionPrice"
@@ -179,7 +180,7 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               width="100"
               label="操作">
               <template slot-scope="scope">
@@ -188,7 +189,7 @@
                 class="el-icon-delete" 
                 @click="onDeleteSectionPrice(scope.$index)">删除</el-button>
               </template>
-            </el-table-column>
+            </el-table-column> -->
           </el-table>
         </el-form-item>
 
@@ -215,11 +216,13 @@ function ruleForm() {
     is_section:0,
     price: "",
     premium:0,
-    sectionPrice:[{
-      section_id:"a",
-      section_name:"",
-      price:""
-    }],
+    sectionPrice:[
+    //   {
+    //   section_id:"a",
+    //   section_name:"",
+    //   price:""
+    // }
+    ],
     
   };
 }
@@ -236,21 +239,21 @@ export default {
     
   },
   watch:{
-    "ruleForm.sectionPrice":{
-      handler(val){
-        try{
-          for(let i=0;i<val.length;i++){
-            val[i].section_id = this.sectionList[i];
-          }
-          this.ruleForm.sectionPrice = val;
-        }catch(err){
-          console.error(err.message);
-        }
-      },
-      deep: true, //true 深度监听
-      // 加上immediate选项后，实例化后立刻回调一次
-      immediate: true
-    }
+    // "ruleForm.sectionPrice":{
+    //   handler(val){
+    //     try{
+    //       for(let i=0;i<val.length;i++){
+    //         val[i].section_id = this.sectionList[i];
+    //       }
+    //       this.ruleForm.sectionPrice = val;
+    //     }catch(err){
+    //       console.error(err.message);
+    //     }
+    //   },
+    //   deep: true, //true 深度监听
+    //   // 加上immediate选项后，实例化后立刻回调一次
+    //   immediate: true
+    // }
   },
   data() {
     return {
@@ -280,7 +283,7 @@ export default {
       filmList: [],
       cinema_id:"",
       hallList:[],
-      sectionList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+      // sectionList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
     };
   },
@@ -288,16 +291,16 @@ export default {
     this.getFilmList();
   },
   methods: {
-    onDeleteSectionPrice(index){
-      this.ruleForm.sectionPrice.splice(index,1);
-    },
-    onAddSectionPrice(){
-      this.ruleForm.sectionPrice.push({
-        section_id:"",
-        section_name:"",
-        price:""
-      })
-    },
+    // onDeleteSectionPrice(index){
+    //   this.ruleForm.sectionPrice.splice(index,1);
+    // },
+    // onAddSectionPrice(){
+    //   this.ruleForm.sectionPrice.push({
+    //     section_id:"",
+    //     section_name:"",
+    //     price:""
+    //   })
+    // },
     onChangeCinema(cinema_id){
       this.cinema_id = cinema_id;
       this.ruleForm.hall_id = '';
@@ -311,6 +314,20 @@ export default {
       }).then((res) => {
         this.hallList = res.data;
       });
+    },
+    onChangeHall(hall_id){
+      console.log('hall_id',hall_id);
+      let  { hallList } = this;
+      this.ruleForm.sectionPrice = [];
+      for(let i=0;i<hallList.length;i++){
+        if(hallList[i].id == hall_id && hallList[i].section && hallList[i].section.length){
+          let section = hallList[i].section;
+          for(let j=0;j<section.length;j++){
+            section.price = 0;
+          }
+          this.ruleForm.sectionPrice = section;
+        }
+      } 
     },
     async getFilmList() {
       let result = await this.$store.dispatch("filmListManager/list", {
@@ -373,7 +390,7 @@ export default {
       }
 
       if (val) {
-        console.log("编辑");
+        console.log("编辑",val);
         this.title = "编辑";
         
         var rows = _.clone(val);
