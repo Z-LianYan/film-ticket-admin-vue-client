@@ -23,9 +23,9 @@
           <el-form-item label="上映时间" prop="show_time">{{
             detialData.show_time | formatDate
           }}</el-form-item>
-          <el-form-item label="语言" prop="language">{{
+          <!-- <el-form-item label="语言" prop="language">{{
             detialData.language
-          }}</el-form-item>
+          }}</el-form-item> -->
           <el-form-item label="评分" prop="grade">{{
             detialData.grade
           }}</el-form-item>
@@ -34,7 +34,7 @@
           <el-form-item label="类型" prop="category_labels">{{
             detialData.category_labels
           }}</el-form-item>
-          <el-form-item label="国家" prop="nation">{{
+          <el-form-item label="上映区域" prop="nation">{{
             detialData.nation
           }}</el-form-item>
           <el-form-item label="状态" prop="status">

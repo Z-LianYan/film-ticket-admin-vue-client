@@ -35,7 +35,7 @@
         prop='hall_id'>
           <el-select
             style="width: 300px"
-            v-model="cinema_id"
+            v-model="ruleForm.cinema_id"
             filterable
             reserve-keyword
             placeholder="请选择您要排期的影院"
@@ -61,7 +61,7 @@
             <el-option
               v-for="item in hallList"
               :key="item.id + 'h'"
-              :label="item.name"
+              :label="item.name+'( '+item.hall_type_name+' )'"
               :value="item.id"
             >
             </el-option>
@@ -76,6 +76,7 @@
         </el-form-item>
         <el-form-item label="放映开始时间" prop='start_play_time'>
           <el-time-select
+            :key="ruleForm.start_play_time"
             v-model="ruleForm.start_play_time"
             :picker-options="{
               start: '00:00',
@@ -87,6 +88,7 @@
         </el-form-item>
         <el-form-item label="放映结束时间" prop='end_play_time'>
           <el-time-select
+            :key="ruleForm.end_play_time"
             v-model="ruleForm.end_play_time"
             :picker-options="{
               start: '00:00',
@@ -110,12 +112,7 @@
             placeholder="选择输入语言"
           />
         </el-form-item>
-        <el-form-item label="状态" style="display: inline-block">
-          <el-radio-group v-model="ruleForm.status" >
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
+        
         <el-form-item 
         label-width="140px"
         label="服务费" 
@@ -193,6 +190,13 @@
           </el-table>
         </el-form-item>
 
+        <el-form-item label="状态">
+          <el-radio-group v-model="ruleForm.status" >
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="0">禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <!-- <el-button @click="resetForm">重置</el-button> -->
@@ -206,6 +210,7 @@
 function ruleForm() {
   return {
     film_id: "",
+    cinema_id:"",
     hall_id: "",
     start_play_time: "",
     end_play_time: "",
@@ -304,6 +309,7 @@ export default {
     onChangeCinema(cinema_id){
       this.cinema_id = cinema_id;
       this.ruleForm.hall_id = '';
+      this.ruleForm.sectionPrice = [];
       this.getHallList();
     },
     getHallList(){

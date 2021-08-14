@@ -81,8 +81,8 @@
         <el-form-item label="状态" style="display: inline-block">
           <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
             <el-radio label>全部</el-radio>
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
+            <el-radio :label="1">上架</el-radio>
+            <el-radio :label="0">下架</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item style="display: inline-block">
@@ -106,7 +106,7 @@
           width="90"
         >
           <template slot-scope="scope">
-            {{ scope.row.hall_name}}( {{scope.row.hall_type_name}} )
+            {{ scope.row.hall_name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
           </template></el-table-column>
         <el-table-column
           prop="language"
@@ -123,7 +123,6 @@
             <div v-if="scope.row.is_section==1">
               <div v-for="(item,index) in scope.row.sectionPrice" :key="index">
                 <el-tag>{{item.section_name}} <span class="price">¥ {{item.price}}</span></el-tag>
-                  
               </div>
             </div>
             <span 
@@ -154,7 +153,7 @@
           label="状态"
         >
           <template slot-scope="scope">
-            <el-tag :type="scope.row.status==1?'success':'info'">{{scope.row.status==1?'启用':'禁用'}}</el-tag>
+            <el-tag :type="scope.row.status==1?'success':'info'">{{scope.row.status==1?'上架':'下架'}}</el-tag>
           </template>
         </el-table-column>
 

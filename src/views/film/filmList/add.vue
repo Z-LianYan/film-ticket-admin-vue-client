@@ -22,7 +22,7 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="区域" prop="nation">
+        <el-form-item label="上映区域" prop="nation">
           <el-input v-model="ruleForm.nation"></el-input>
         </el-form-item>
         <el-form-item label="导演" prop="director">
@@ -135,10 +135,10 @@
             rows="3"
           ></el-input>
         </el-form-item>
-        <el-form-item label="语言" prop="language">
+        <!-- <el-form-item label="语言" prop="language">
           <el-input v-model="ruleForm.language" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="剧照" prop="stage_photo">
+        </el-form-item> -->
+        <el-form-item label="剧照" prop="stage_photo" required>
           <UploadImageMul
             :imageLimit="5"
             :uploadPrefix="'film/stage_photo/'"
@@ -210,6 +210,10 @@ export default {
         play_type: [
           { required: true, message: "请选择播放类型", trigger: "change" },
         ],
+        abstract: [
+          { required: true, message: "请输入摘要", trigger: ["change",'input'] },
+        ],
+
       },
       categoryList: [],
     };
@@ -256,6 +260,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if(!this.ruleForm.poster_img) return this.$message.info('请上传电影海报')
+          if(!this.ruleForm.stage_photo.length) return this.$message.info('请上传剧照')
           this.ruleForm.play_type = Number(this.ruleForm.play_type);
           this.$store
             .dispatch("filmListManager/doAdd", this.ruleForm)

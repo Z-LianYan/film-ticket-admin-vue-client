@@ -9,7 +9,6 @@
           justify-content: space-between;
         "
       >
-        <span></span>
         <!-- <el-page-header @back="goBack" title="返回" content="影厅管理" center /> -->
         <!-- <span>{{ cinema_name }}</span> -->
         <el-button

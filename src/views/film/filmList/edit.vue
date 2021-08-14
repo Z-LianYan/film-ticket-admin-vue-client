@@ -26,7 +26,7 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="区域" prop="nation">
+        <el-form-item label="上映区域" prop="nation">
           <el-input v-model="ruleForm.nation"></el-input>
         </el-form-item>
         <el-form-item label="导演" prop="director">
@@ -48,7 +48,7 @@
             <el-radio :label="2">下架</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="播放类型" prop="play_type">
+        <el-form-item label="播放类型" prop="play_type" required>
           <el-radio-group v-model="ruleForm.play_type">
             <el-radio :label="2">2D</el-radio>
             <el-radio :label="3">3D</el-radio>
@@ -125,7 +125,7 @@
           </el-table>
         </el-form-item>
 
-        <el-form-item label="电影海报" prop="poster_img">
+        <el-form-item label="电影海报" prop="poster_img" required>
           <upload-image
             @getImgUrl="getImgUrl"
             uploadPrefix="film/"
@@ -140,10 +140,10 @@
             rows="3"
           ></el-input>
         </el-form-item>
-        <el-form-item label="语言" prop="language">
+        <!-- <el-form-item label="语言" prop="language">
           <el-input v-model="ruleForm.language" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="剧照" prop="stage_photo">
+        </el-form-item> -->
+        <el-form-item label="剧照" prop="stage_photo" required>
           <UploadImageMul
             :imageLimit="5"
             :uploadPrefix="'film/stage_photo/'"
@@ -197,9 +197,9 @@ export default {
           { required: true, message: "请输入播放时间", trigger: "blur" },
         ],
         nation: [{ required: true, message: "请输入国家", trigger: "blur" }],
-        poster_img: [
-          { required: true, message: "请上传海报", trigger: "change" },
-        ],
+        // poster_img: [
+        //   { required: true, message: "请上传海报", trigger: "change" },
+        // ],
         director: [{ required: true, message: "请输入导演", trigger: "blur" }],
         show_time: [
           { required: true, message: "请选择上映时间", trigger: "change" },
@@ -210,6 +210,9 @@ export default {
         ],
         actors: [
           { required: true, message: "请上传演员信息", trigger: "change" },
+        ],
+        abstract: [
+          { required: true, message: "请输入摘要", trigger: "change" },
         ],
       },
       categoryList: [],
@@ -272,6 +275,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if(!this.ruleForm.poster_img) return this.$message.info('请上传电影海报')
+          if(!this.ruleForm.stage_photo.length) return this.$message.info('请上传剧照')
           this.$store
             .dispatch("filmListManager/doEdit", this.ruleForm)
             .then(() => {
