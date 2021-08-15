@@ -9,8 +9,7 @@
           justify-content: space-between;
         "
       >
-        <!-- <el-page-header @back="goBack" title="返回" content="影厅管理" center /> -->
-        <!-- <span>{{ cinema_name }}</span> -->
+        <span></span>
         <el-button
           type="text"
           @click="doAdd"
@@ -21,24 +20,6 @@
       </div>
 
       <el-form label-width="90px">
-        <el-form-item label="影院" style="display: inline-block">
-          <el-select
-            style="width: 350px"
-            v-model="fetchOptions.cinema_id"
-            filterable
-            reserve-keyword
-            placeholder="请输入关键词"
-            @change="getData(true)"
-          >
-            <el-option
-              v-for="item in cinemaList"
-              :key="item.id + 'c'"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="关键字搜索" style="display: inline-block">
           <el-input
             v-model="fetchOptions.keywords"
@@ -47,13 +28,7 @@
             placeholder="搜索影厅名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="状态" style="display: inline-block">
-          <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
-            <el-radio label>全部</el-radio>
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
+        
         <el-form-item label="" style="display: inline-block">
           <el-button type="primary" @click="getData">筛选</el-button>
         </el-form-item>
@@ -66,57 +41,19 @@
         border
         style="width: 100%"
       >
-        <!-- <el-table-column prop="id" label="#id"></el-table-column> -->
-        <el-table-column prop="name" label="影厅名称" width="200">
+        <el-table-column prop="avatar" label="头像" width="200">
           <template slot-scope="scope">
-            {{ scope.row.name }}<el-tag>{{ scope.row.hall_type_name }}</el-tag>
+            <el-avatar :size="50" :src="scope.row.avatar"></el-avatar>
           </template>
         </el-table-column>
         <el-table-column
-          prop="cinema_name"
-          label="影院名称"
+          prop="name"
+          label="姓名"
           width="300"
         ></el-table-column> 
-        <el-table-column
-          prop="seat_num"
-          label="座位数"
-          width="70"
-        ></el-table-column>
-        <el-table-column
-          prop="seat_row_num"
-          label="排数"
-          width="50"
-        ></el-table-column>
-        <el-table-column
-          prop="seat_column_num"
-          label="列数"
-          width="50"
-        ></el-table-column>
-        <el-table-column
-          prop="describe"
-          label="描述"
-          width="150"
-        ></el-table-column>
-
-        <el-table-column prop="status" label="状态" width="80">
-          <template slot-scope="scope">
-            <el-tag type="success" v-if="scope.row.status == 1">启用</el-tag>
-            <el-tag type="info" v-else>禁用</el-tag>
-          </template>
-        </el-table-column>
-
+        
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              class="el-icon-setting"
-              type="text"
-              size="small"
-              @click="onArrangeSeat(scope.row)"
-            >
-              安排座位
-            </el-button>
-            <el-divider direction="vertical"></el-divider>
-
             <el-button
               class="el-icon-edit"
               type="text"
@@ -155,7 +92,7 @@
 </template>
 
 <script>
-import AddEdit from "@/views/film/hall/addEdit";
+import AddEdit from "@/views/film/actors/addEdit";
 export default {
   name: "HallList",
   data() {
@@ -232,9 +169,8 @@ export default {
         this.fetchOptions.page = 1;
       }
       this.loading = true;
-      this.$store.dispatch("hall/list", this.fetchOptions).then((res) => {
-        // this.cinema_name = res.data.name;
-        this.tableData = res.data;
+      this.$store.dispatch("actors/list", this.fetchOptions).then((res) => {
+        this.tableData = res.rows;
         this.total = res.count;
         this.loading = false;
       });
@@ -250,7 +186,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this.$store.dispatch("hall/del", { id }).then(() => {
+          this.$store.dispatch("actors/del", { id }).then(() => {
             this.getData();
           });
         })

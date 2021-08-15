@@ -83,6 +83,7 @@ Vue.use(ElementUI.Loading.directive);
 Vue.use(ElementUI.PageHeader);
 Vue.use(ElementUI.Cascader);
 Vue.use(ElementUI.Scrollbar);
+Vue.use(ElementUI.Avatar);
 
 
 
