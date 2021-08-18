@@ -13,8 +13,11 @@ export default {
 </script>
 
 <style lang="scss">
+.drawer-scrollbar-wrapper{
+  height: calc(100vh - 80px) !important;
+}
 // ./ding -config=./ding.cfg -subdomain=eryi-qy-manager 1028
-.common-float-right{
+.float-right{
   float: right;
 }
 .price{

@@ -127,12 +127,18 @@
       </el-row>
 
       <FilmDetail ref="film_detail" />
+
+      
+
     </el-card>
   </div>
 </template>
 
 <script>
 import FilmDetail from "@/views/film/filmList/Detail";
+
+
+
 export default {
   name: "FilmList",
   data() {
@@ -152,7 +158,7 @@ export default {
     };
   },
   components: {
-    FilmDetail,
+    FilmDetail
   },
   computed: {},
   mounted() {

@@ -74,7 +74,7 @@
         <el-form-item label="演员" prop="actors">
           <el-button
             type="text"
-            class="el-icon-plus common-float-right"
+            class="el-icon-plus float-right"
             @click="onAddActors"
             >添加演员</el-button
           >
@@ -159,12 +159,14 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <ActorsSelected ref="actors_selected"/>
   </div>
 </template>
 
 <script>
 import UploadImage from "@/components/UploadImage";
 import UploadImageMul from "@/components/UploadImage-mul";
+import ActorsSelected from "@/components/ActorsSelected/list";
 function formOptions() {
   return {
     film_name: "",
@@ -187,6 +189,7 @@ export default {
   components: {
     UploadImage,
     UploadImageMul,
+    ActorsSelected
   },
   data() {
     return {
@@ -249,11 +252,21 @@ export default {
       this.ruleForm.actors.splice(index, 1);
     },
     onAddActors() {
-      this.ruleForm.actors.push({
-        name: "",
-        role: "",
-        avatar: "",
+      this.$refs.actors_selected.open((actors)=>{
+        console.log('actors',actors);
+        this.ruleForm.actors = this.ruleForm.actors.concat(actors.map(item=>{
+          return {
+            name: item.name,
+            role: item.role,
+            avatar: item.avatar,
+          }
+        }));
       });
+      // this.ruleForm.actors.push({
+      //   name: "",
+      //   role: "",
+      //   avatar: "",
+      // });
     },
     async getFilmDetial() {
       const { id } = this.$route.params;

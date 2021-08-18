@@ -67,10 +67,10 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="演员" prop="actors">
+        <el-form-item label="演员" required>
           <el-button
             type="text"
-            class="el-icon-plus common-float-right"
+            class="el-icon-plus float-right"
             @click="onAddActors"
             >添加演员</el-button
           >
@@ -154,12 +154,14 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <ActorsSelected ref="actors_selected"/>
   </div>
 </template>
 
 <script>
 import UploadImage from "@/components/UploadImage";
 import UploadImageMul from "@/components/UploadImage-mul";
+import ActorsSelected from "@/components/ActorsSelected/list";
 import _ from "lodash";
 function formOptions() {
   return {
@@ -183,6 +185,7 @@ export default {
   components: {
     UploadImage,
     UploadImageMul,
+    ActorsSelected
   },
   data() {
     return {
@@ -244,11 +247,21 @@ export default {
       this.ruleForm.actors.splice(index, 1);
     },
     onAddActors() {
-      this.ruleForm.actors.push({
-        name: "",
-        role: "",
-        avatar: "",
+      this.$refs.actors_selected.open((actors)=>{
+        console.log('actors',actors);
+        this.ruleForm.actors = this.ruleForm.actors.concat(actors.map(item=>{
+          return {
+            name: item.name,
+            role: item.role,
+            avatar: item.avatar,
+          }
+        }));
       });
+      // this.ruleForm.actors.push({
+      //   name: "",
+      //   role: "",
+      //   avatar: "",
+      // });
     },
     async getCategoryList() {
       const result = await this.$store.dispatch(
@@ -257,9 +270,36 @@ export default {
       this.categoryList = result;
       console.log("获取分类列表", result);
     },
+    checkActorsInfo(){
+      let { ruleForm } = this;
+      let { actors } = ruleForm;
+      var flag = true;
+      for(var item of actors){
+        if(!item.name) {
+          this.$message.info('缺少演员姓名');
+          flag = false;
+        }
+        if(!item.role) {
+          this.$message.info('缺少角色');
+          flag = false;
+        }
+        if(!item.avatar) {
+          this.$message.info('缺少演员头像');
+          flag = false;
+        }
+      }
+      // return flag;
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          let { ruleForm } = this;
+          let { actors } = ruleForm;
+          for(var item of actors){
+            if(!item.name) return this.$message.info('缺少演员姓名');
+            if(!item.role) return this.$message.info('缺少角色');
+            if(!item.avatar) return this.$message.info('缺少演员头像');
+          }
           if(!this.ruleForm.poster_img) return this.$message.info('请上传电影海报')
           if(!this.ruleForm.stage_photo.length) return this.$message.info('请上传剧照')
           this.ruleForm.play_type = Number(this.ruleForm.play_type);

@@ -86,7 +86,7 @@
         />
       </el-row>
 
-      <AddEdit ref="add_edit" @on-getData="getData" :cinemaList='cinemaList'/>
+      <AddEdit ref="add_edit" @on-getData="getData"/>
     </el-card>
   </div>
 </template>
@@ -106,10 +106,7 @@ export default {
         cinema_id: "",
         status: "",
       },
-      show_time_range: [],
       total: 0,
-      cinemaList: [],
-      // cinema_name: "",
     };
   },
   components: {
@@ -118,51 +115,18 @@ export default {
   computed: {},
   mounted() {
     let { query } = this.$route;
-    // console.log("query", query);
     if (query.cinema_id) {
       this.fetchOptions.cinema_id = Number(query.cinema_id);
     }
-    this.getCinemaList();
     this.getData();
   },
   watch: {
-    // $route(to, from) {
-    //   // console.log('to',to,"from",from);
-    //   if (from.path == "/film-system/cinema/list") {
-    //     this.fetchOptions.cinema_id = to.query.cinema_id;
-    //     this.getData();
-    //   }
-    // },
+    
   },
   methods: {
-    async getCinemaList() {
-      let result = await this.$store.dispatch("cinemaManager/list", {
-        page: 1,
-        limit: 1000000,
-      });
-      this.cinemaList = result.rows;
-    },
-    goBack() {
-      this.$router.back();
-    },
-    onArrangeSeat(rows) {
-      this.$router.push({
-        path: "/film-system/cinema/hall-manage/arrange-seat",
-        query: {
-          hall_id: rows.id,
-        },
-      });
-    },
+    
     doAdd() {
       this.$refs.add_edit.open();
-    },
-    doDetail(rows) {
-      this.$refs.film_detail.open(rows);
-    },
-    onDateChange(date) {
-      this.fetchOptions.start_show_time = date ? date[0] : "";
-      this.fetchOptions.end_show_time = date ? date[1] : "";
-      this.getData();
     },
     getData(Filter) {
       if (Filter) {
@@ -209,15 +173,7 @@ export default {
       this.fetchOptions.page = page;
       this.getData();
     },
-  },
-  // beforeRouteLeave(to,from,next){
-  //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-  //     this.$route.meta.keep_alive = true;
-  //   }else{
-  //     this.$route.meta.keep_alive = false;
-  //   }
-  //   next();
-  // },
+  }
 };
 </script>
 
