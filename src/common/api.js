@@ -44,6 +44,8 @@ export const DEL_FILM = '/API/films/doDel';//删除电影
 export const GET_CATEGORY_LIST = '/API/films/getCategoryList';//获取分类列表
 export const GET_FILM_DETAIL = '/API/films/getFilmDetail';//获取电影详情
 
+export const GET_FILM_SHOW_PLAY_AREA = '/API/films/showPlayArea';//获取电影上映区域
+
 export const GET_FILM_CATEGORY = '/API/films/getCategory';//获取电影类型
 export const ADD_FILM_CATEGORY = '/API/films/addCategory';//添加电影类型
 export const EDIT_FILM_CATEGORY = '/API/films/editCategory';//编辑电影类型

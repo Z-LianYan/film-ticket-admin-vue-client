@@ -62,7 +62,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="director" label="导演"  width="80"></el-table-column>
-        <el-table-column prop="nation" label="区域"  width="100"></el-table-column>
+        <el-table-column prop="nation" label="上映区域"  width="100">
+          <template slot-scope="scope">
+            <el-tag v-for="(item,index) in scope.row.nation" :key="index">{{ item }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="play_time" label="播放时间"  width="90">
           <template slot-scope="scope">
             {{ scope.row.play_time }} 分钟

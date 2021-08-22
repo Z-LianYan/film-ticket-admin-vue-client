@@ -22,9 +22,26 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="上映区域" prop="nation">
+        <!-- <el-form-item label="上映区域" prop="nation">
           <el-input v-model="ruleForm.nation"></el-input>
+        </el-form-item> -->
+        <el-form-item label="上映区域" prop="nation">
+          <el-select
+            style="width:200px;"
+            v-model="ruleForm.nation"
+            multiple
+            placeholder="请选择上映区域"
+          >
+            <el-option
+              v-for="(item, index) in showPlayAreaList"
+              :key="index"
+              :label="item.area_name"
+              :value="item.area_name"
+            />
+          </el-select>
         </el-form-item>
+
+
         <el-form-item label="导演" prop="director">
           <el-input v-model="ruleForm.director"></el-input>
         </el-form-item>
@@ -167,7 +184,7 @@ function formOptions() {
   return {
     film_name: "",
     play_time: "",
-    nation: "",
+    nation: [],
     poster_img: "",
     director: "",
     show_time: "",
@@ -219,12 +236,20 @@ export default {
 
       },
       categoryList: [],
+      showPlayAreaList:[]
     };
   },
   mounted() {
     this.getCategoryList();
+    this.getShowPlayArea();
   },
   methods: {
+    getShowPlayArea(){
+      this.$store.dispatch('filmListManager/get_show_paly_area_list').then(res=>{
+        console.log('上映列表',res);
+        this.showPlayAreaList = res;
+      })
+    },
     onActorsAvatar(img, index) {
       console.log("上传头像", img, index);
       this.ruleForm.actors[index].avatar = img;
@@ -294,7 +319,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let { ruleForm } = this;
-          let { actors } = ruleForm;
+          let { actors,nation } = ruleForm;
+          if(!nation.length) this.$message.info('请选择上映区域');
+          ruleForm.nation = ruleForm.nation.join(',');
           for(var item of actors){
             if(!item.name) return this.$message.info('缺少演员姓名');
             if(!item.role) return this.$message.info('缺少角色');

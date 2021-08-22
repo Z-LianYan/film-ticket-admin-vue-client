@@ -134,9 +134,9 @@ export default {
         title: [
           { required: true, message: "请输入菜单名称", trigger: "change" }
         ],
-        // name: [
-        //   { required: true, message: "请输入路由名称", trigger: "change" }
-        // ]
+        name: [
+          { required: true, message: "请输入路由名称", trigger: "change" }
+        ]
       },
       accessMenulist: []
     };
