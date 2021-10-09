@@ -318,7 +318,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let { ruleForm } = this;
+          let ruleForm = _.cloneDeep(this.ruleForm);
           let { actors,nation } = ruleForm;
           if(!nation.length) this.$message.info('请选择上映区域');
           ruleForm.nation = ruleForm.nation.join(',');
@@ -327,11 +327,11 @@ export default {
             if(!item.role) return this.$message.info('缺少角色');
             if(!item.avatar) return this.$message.info('缺少演员头像');
           }
-          if(!this.ruleForm.poster_img) return this.$message.info('请上传电影海报')
-          if(!this.ruleForm.stage_photo.length) return this.$message.info('请上传剧照')
-          this.ruleForm.play_type = Number(this.ruleForm.play_type);
+          if(!ruleForm.poster_img) return this.$message.info('请上传电影海报')
+          if(!ruleForm.stage_photo.length) return this.$message.info('请上传剧照')
+          ruleForm.play_type = Number(ruleForm.play_type);
           this.$store
-            .dispatch("filmListManager/doAdd", this.ruleForm)
+            .dispatch("filmListManager/doAdd", ruleForm)
             .then(() => {
               this.resetForm("ruleForm");
             });
@@ -342,6 +342,7 @@ export default {
       });
     },
     resetForm() {
+      this.ruleForm.actors = [];
       this.$refs.ruleForm.resetFields();
     },
     getImgUrl(imgUrl) {
