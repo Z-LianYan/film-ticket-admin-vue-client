@@ -74,10 +74,10 @@
             placeholder="选择放映日期"
           />
         </el-form-item>
-        <el-form-item label="放映开始时间" prop='start_play_time'>
+        <el-form-item label="放映开始时间" prop='start_runtime'>
           <el-time-select
-            :key="ruleForm.start_play_time"
-            v-model="ruleForm.start_play_time"
+            :key="ruleForm.start_runtime"
+            v-model="ruleForm.start_runtime"
             :picker-options="{
               start: '00:00',
               step: '00:01',
@@ -86,10 +86,10 @@
             placeholder="选择放映开始时间"
           />
         </el-form-item>
-        <el-form-item label="放映结束时间" prop='end_play_time'>
+        <el-form-item label="放映结束时间" prop='end_runtime'>
           <el-time-select
-            :key="ruleForm.end_play_time"
-            v-model="ruleForm.end_play_time"
+            :key="ruleForm.end_runtime"
+            v-model="ruleForm.end_runtime"
             :picker-options="{
               start: '00:00',
               step: '00:01',
@@ -212,8 +212,8 @@ function ruleForm() {
     film_id: "",
     cinema_id:"",
     hall_id: "",
-    start_play_time: "",
-    end_play_time: "",
+    start_runtime: "",
+    end_runtime: "",
     play_date: "",
     language: "",
     status:1,
@@ -270,10 +270,10 @@ export default {
           { required: true, message: "上传您要排期的电影", trigger: ['blur','change'] },
         ],
         hall_id: [{ required: true, message: "排期影厅不能为空", trigger: ['blur','change'] }],
-        start_play_time: [
+        start_runtime: [
           { required: true, message: "播放开始时间不能为空", trigger: "blur" },
         ],
-        end_play_time: [
+        end_runtime: [
           { required: true, message: "播放结束时间不能为空", trigger: "blur" },
         ],
         play_date: [

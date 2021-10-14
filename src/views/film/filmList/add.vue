@@ -16,19 +16,19 @@
         <el-form-item label="电影名称" prop="film_name">
           <el-input v-model="ruleForm.film_name"></el-input>
         </el-form-item>
-        <el-form-item label="播放时间" prop="play_time">
-          <el-input v-model="ruleForm.play_time" type="number">
+        <el-form-item label="播放时间" prop="runtime">
+          <el-input v-model="ruleForm.runtime" type="number">
             <template slot="append">分钟</template>
           </el-input>
         </el-form-item>
 
-        <!-- <el-form-item label="上映区域" prop="nation">
-          <el-input v-model="ruleForm.nation"></el-input>
+        <!-- <el-form-item label="上映区域" prop="area">
+          <el-input v-model="ruleForm.area"></el-input>
         </el-form-item> -->
-        <el-form-item label="上映区域" prop="nation">
+        <el-form-item label="上映区域" prop="area">
           <el-select
             style="width:200px;"
-            v-model="ruleForm.nation"
+            v-model="ruleForm.area"
             multiple
             placeholder="请选择上映区域"
           >
@@ -183,8 +183,8 @@ import _ from "lodash";
 function formOptions() {
   return {
     film_name: "",
-    play_time: "",
-    nation: [],
+    runtime: "",
+    area: [],
     poster_img: "",
     director: "",
     show_time: "",
@@ -209,10 +209,10 @@ export default {
       ruleForm: formOptions(),
       rules: {
         film_name: [{ required: true, message: "请输入电影名称" }],
-        play_time: [
+        runtime: [
           { required: true, message: "请输入播放时间", trigger: "blur" },
         ],
-        nation: [{ required: true, message: "请输入国家", trigger: "blur" }],
+        area: [{ required: true, message: "请输入国家", trigger: "blur" }],
         poster_img: [
           { required: true, message: "请上传海报", trigger: "change" },
         ],
@@ -319,9 +319,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let ruleForm = _.cloneDeep(this.ruleForm);
-          let { actors,nation } = ruleForm;
-          if(!nation.length) this.$message.info('请选择上映区域');
-          ruleForm.nation = ruleForm.nation.join(',');
+          let { actors,area } = ruleForm;
+          if(!area.length) this.$message.info('请选择上映区域');
+          ruleForm.area = ruleForm.area.join(',');
           for(var item of actors){
             if(!item.name) return this.$message.info('缺少演员姓名');
             if(!item.role) return this.$message.info('缺少角色');

@@ -136,15 +136,15 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="start_play_time"
+          prop="start_runtime"
           label="放映时间"
         >
           <template slot-scope="scope">
-            {{ scope.row.start_play_time + ' ~ ' + scope.row.end_play_time }}
+            {{ scope.row.start_runtime + ' ~ ' + scope.row.end_runtime }}
           </template>
         </el-table-column>
         <!-- <el-table-column
-          prop="end_play_time"
+          prop="end_runtime"
           label="结束放映时间"
         ></el-table-column> -->
 

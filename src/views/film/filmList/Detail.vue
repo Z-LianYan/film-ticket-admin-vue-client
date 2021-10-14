@@ -17,8 +17,8 @@
           <el-form-item label="导演" prop="director">{{
             detialData.director
           }}</el-form-item>
-          <el-form-item label="播放时间" prop="play_time"
-            >{{ detialData.play_time }} 分钟</el-form-item
+          <el-form-item label="播放时间" prop="runtime"
+            >{{ detialData.runtime }} 分钟</el-form-item
           >
           <el-form-item label="上映时间" prop="show_time">{{
             detialData.show_time | formatDate
@@ -34,8 +34,8 @@
           <el-form-item label="类型" prop="category_labels">{{
             detialData.category_labels
           }}</el-form-item>
-          <el-form-item label="上映区域" prop="nation">{{
-            detialData.nation
+          <el-form-item label="上映区域" prop="area">{{
+            detialData.area && detialData.area.join(',')
           }}</el-form-item>
           <el-form-item label="状态" prop="status">
             <el-tag :type="detialData.status == 1 ? 'success' : 'info'">{{

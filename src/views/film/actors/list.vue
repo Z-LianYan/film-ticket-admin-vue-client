@@ -25,7 +25,7 @@
             v-model="fetchOptions.keywords"
             style="width: 200px"
             @keyup.enter.native="getData(true)"
-            placeholder="搜索影厅名称"
+            placeholder="搜索演员姓名"
           ></el-input>
         </el-form-item>
         

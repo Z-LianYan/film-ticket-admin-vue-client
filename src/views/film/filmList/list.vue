@@ -27,6 +27,13 @@
             end-placeholder="结束日期"
           ></el-date-picker>
         </el-form-item>
+        <el-form-item label="状态" style="display: inline-block">
+          <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
+            <el-radio label>全部</el-radio>
+            <el-radio :label="1">上架</el-radio>
+            <el-radio :label="2">下架</el-radio>
+          </el-radio-group>
+        </el-form-item>
 
         <el-form-item label="">
           <el-button @click="getData">筛选</el-button>
@@ -62,14 +69,14 @@
           </template>
         </el-table-column>
         <el-table-column prop="director" label="导演"  width="80"></el-table-column>
-        <el-table-column prop="nation" label="上映区域"  width="100">
+        <el-table-column prop="area" label="上映区域"  width="100">
           <template slot-scope="scope">
-            <el-tag v-for="(item,index) in scope.row.nation" :key="index">{{ item }}</el-tag>
+            <el-tag v-for="(item,index) in scope.row.area" :key="index">{{ item }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="play_time" label="播放时间"  width="90">
+        <el-table-column prop="runtime" label="播放时间"  width="90">
           <template slot-scope="scope">
-            {{ scope.row.play_time }} 分钟
+            {{ scope.row.runtime }} 分钟
           </template>
         </el-table-column>
         <el-table-column prop="status" label="状态"  width="100">
@@ -155,6 +162,7 @@ export default {
         keywords: "",
         start_show_time: "",
         end_show_time: "",
+        status:""
       },
       show_time_range: [],
       total: 0,
