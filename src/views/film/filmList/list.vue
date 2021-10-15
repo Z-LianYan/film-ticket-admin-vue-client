@@ -44,10 +44,11 @@
         v-loading="loading"
         :data="tableData"
         highlight-current-row
+        @sort-change="handleSortChange"
         border
         style="width: 100%"
       >
-        <!-- <el-table-column prop="id" label="#id" width="80"></el-table-column> -->
+        <el-table-column prop="id" label="#id" width="80" sortable></el-table-column>
         <el-table-column prop="film_name" label="电影名称">
           <template slot-scope="scope">
             {{ scope.row.film_name }}
@@ -86,7 +87,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="grade" label="评分"  width="80"></el-table-column>
-        <el-table-column prop="show_time" label="上映时间">
+        <el-table-column prop="show_time" label="上映时间" sortable>
           <template slot-scope="scope">{{
             scope.row.show_time | formatDate
           }}</template>
@@ -162,6 +163,7 @@ export default {
         keywords: "",
         start_show_time: "",
         end_show_time: "",
+        order:{show_time:'asc'},
         status:""
       },
       show_time_range: [],
@@ -230,7 +232,18 @@ export default {
       this.fetchOptions.page = page;
       this.getData();
     },
+    handleSortChange(val) {
+      var order = "";
+      if (val.order == "descending") {
+        order = "desc";
+      } else {
+        order = "asc";
+      }
+      this.fetchOptions.order[val.prop] = order;
+      this.getData();
+    },
   },
+  
   // beforeRouteLeave(to,from,next){
   //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
   //     this.$route.meta.keep_alive = true;
