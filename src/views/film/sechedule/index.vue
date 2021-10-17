@@ -100,6 +100,20 @@
         style="width: 100%"
       >
         <el-table-column prop="id" label="#id" sortable></el-table-column>
+        <el-table-column prop="play_date" label="放映时间" sortable width="150">
+          <template slot-scope="{row}">
+            <p>{{ dayjs(row.start_runtime).format("YYYY/MM/DD")}}</p>
+            <el-button type="text">{{dayjs(row.start_runtime).format("HH:mm")}}</el-button> ~<el-button type="text">{{dayjs(row.end_runtime).format("HH:mm")}}</el-button>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column
+          prop="start_runtime"
+          label="放映时间"
+        >
+          <template slot-scope="{row}">
+            {{ dayjs(row.start_runtime).format("HH:mm") + ' ~ ' + dayjs(row.end_runtime).format("HH:mm") }}
+          </template>
+        </el-table-column> -->
         <el-table-column prop="film_name" label="电影名称"></el-table-column>
         <el-table-column prop="cinema_name" label="影院"></el-table-column>
         <el-table-column
@@ -132,19 +146,7 @@
             v-else>¥ {{ scope.row.price | currencyFormat }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="play_date" label="放映日期" sortable>
-          <template slot-scope="scope">
-            {{ scope.row.play_date | formatDate }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="start_runtime"
-          label="放映时间"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.start_runtime + ' ~ ' + scope.row.end_runtime }}
-          </template>
-        </el-table-column>
+        
 
         <el-table-column
           prop="status"
@@ -193,6 +195,7 @@ export default {
   name: "FilmList",
   data() {
     return {
+      dayjs:dayjs,
       loading: false,
       tableData: [],
       fetchOptions: {
@@ -206,7 +209,7 @@ export default {
         keywords: "",
         status:"",
         order:{
-          play_date:'asc'
+          start_runtime:'asc'
         }
       },
       show_time_range: [],

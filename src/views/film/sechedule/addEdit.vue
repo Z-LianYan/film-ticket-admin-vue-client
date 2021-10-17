@@ -400,7 +400,10 @@ export default {
         this.title = "编辑";
         
         var rows = _.clone(val);
-        rows.play_date = val.play_date * 1000;
+        // rows.play_date = val.play_date * 1000;
+        rows.play_date = val.start_runtime;
+        rows.start_runtime = dayjs(val.start_runtime).format('HH:mm');
+        rows.end_runtime = dayjs(val.end_runtime).format('HH:mm');
         this.ruleForm = rows;
       } else {
         console.log("添加");
