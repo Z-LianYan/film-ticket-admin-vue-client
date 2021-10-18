@@ -67,44 +67,20 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="放映日期" prop='play_date'>
+        <el-form-item label="开始放映时间" prop='start_runtime'>
           <el-date-picker
-            v-model="ruleForm.play_date"
-            type="date"
-            placeholder="选择放映日期"
-          />
+          v-model="ruleForm.start_runtime"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm"
+          placeholder="开始放映时间"/>
+          </el-form-item>
+        <el-form-item label="结束放映时间" prop='end_runtime'>
+          <el-date-picker
+          v-model="ruleForm.end_runtime"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm"
+          placeholder="结束放映时间"/>
         </el-form-item>
-        <el-form-item label="放映开始时间" prop='start_runtime'>
-          <el-time-select
-            :key="ruleForm.start_runtime"
-            v-model="ruleForm.start_runtime"
-            :picker-options="{
-              start: '00:00',
-              step: '00:01',
-              end: '23:59'
-            }"
-            placeholder="选择放映开始时间"
-          />
-        </el-form-item>
-        <el-form-item label="放映结束时间" prop='end_runtime'>
-          <el-time-select
-            :key="ruleForm.end_runtime"
-            v-model="ruleForm.end_runtime"
-            :picker-options="{
-              start: '00:00',
-              step: '00:01',
-              end: '23:59'
-            }"
-            placeholder="选择放映结束时间"
-          />
-        </el-form-item>
-        <!-- <el-form-item label="售价" prop='price'>
-          <el-input
-            v-model="ruleForm.price"
-            type="number"
-            placeholder="选择输入售价"
-          />
-        </el-form-item> -->
         <el-form-item label="语言" prop='language'>
           <el-input
             v-model="ruleForm.language"
@@ -214,7 +190,6 @@ function ruleForm() {
     hall_id: "",
     start_runtime: "",
     end_runtime: "",
-    play_date: "",
     language: "",
     status:1,
 
@@ -275,9 +250,6 @@ export default {
         ],
         end_runtime: [
           { required: true, message: "播放结束时间不能为空", trigger: "blur" },
-        ],
-        play_date: [
-          { required: true, message: "放映日期不能为空", trigger: "blur" },
         ],
         language: [
           { required: true, message: "放映语言不能为空", trigger: "blur" },
@@ -394,16 +366,10 @@ export default {
       }else{
         this.cinema_id = "";
       }
-
       if (val) {
         console.log("编辑",val);
         this.title = "编辑";
-        
         var rows = _.clone(val);
-        // rows.play_date = val.play_date * 1000;
-        rows.play_date = val.start_runtime;
-        rows.start_runtime = dayjs(val.start_runtime).format('HH:mm');
-        rows.end_runtime = dayjs(val.end_runtime).format('HH:mm');
         this.ruleForm = rows;
       } else {
         console.log("添加");

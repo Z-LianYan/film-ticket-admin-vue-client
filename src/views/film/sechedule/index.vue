@@ -100,7 +100,7 @@
         style="width: 100%"
       >
         <el-table-column prop="id" label="#id" sortable></el-table-column>
-        <el-table-column prop="play_date" label="放映时间" sortable width="150">
+        <el-table-column prop="start_runtime" label="放映时间" sortable width="150">
           <template slot-scope="{row}">
             <p>{{ dayjs(row.start_runtime).format("YYYY/MM/DD")}}</p>
             <el-button type="text">{{dayjs(row.start_runtime).format("HH:mm")}}</el-button> ~<el-button type="text">{{dayjs(row.end_runtime).format("HH:mm")}}</el-button>
