@@ -225,11 +225,15 @@ export default {
   },
   computed: {},
   mounted() {
-    this.getData();
+    // this.getData();
     this.getCinemaList();
     let { query } = this.$route;
     if (query.cinema_id) {
       this.fetchOptions.cinema_id = Number(query.cinema_id);
+      this.getData(true);
+      this.getHallList(query.cinema_id);
+    }else{
+      this.getData();
     }
   },
   watch: {},
