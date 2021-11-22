@@ -184,6 +184,8 @@ export default {
           return '#F5222D'
         case 'd':
           return '#1890FF'
+        default:
+          return '#ccc'
       }
 
     },
