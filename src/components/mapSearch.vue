@@ -52,7 +52,7 @@
               v-if="selectIndex == index"
               type="text"
               class="el-icon-check"
-              style="font-size: 15px"
+              style="font-size: 35px;font-seze:bolder;"
             ></el-button>
           </div>
         </div>

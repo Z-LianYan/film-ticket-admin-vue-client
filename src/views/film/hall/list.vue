@@ -32,12 +32,15 @@
             @change="getData(true)"
           >
             <el-option
+              label="全部"
+              value=""
+            />
+            <el-option
               v-for="item in cinemaList"
               :key="item.id + 'c'"
               :label="item.name"
               :value="item.id"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="关键字搜索" style="display: inline-block">

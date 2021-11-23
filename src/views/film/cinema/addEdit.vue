@@ -18,7 +18,7 @@
         </el-form-item>
 
         
-        <el-form-item label="影院所属区域" prop="city_id">
+        <el-form-item label="影院所属区域" prop="district_id">
           <el-cascader
             style="width:100%;"
             :filterable='true'
@@ -31,7 +31,7 @@
               value: 'id', 
               label: 'name',
             }"
-            v-model="ruleForm.city_id"
+            v-model="ruleForm.district_id"
             placeholder="请选择所属模块"
           ></el-cascader>
         </el-form-item>
@@ -92,7 +92,7 @@ function ruleForm() {
     address: "",
     lng: "",
     low_price: "",
-    city_id: "",
+    district_id: "",
     phone:'',
     status: 1
   };
@@ -109,7 +109,7 @@ export default {
       ruleForm: ruleForm(),
       rules: {
         name: [{ required: true, message: "请输入影院名字", trigger: "blur" }],
-        city_id: [{ required: true, message: "请选择影院所属位置", trigger: "blur" }],
+        district_id: [{ required: true, message: "请选择影院所属位置", trigger: "blur" }],
         address: [{ required: true, message: "请输入影院地址", trigger: "blur" }],
       },
       city_list:[]
