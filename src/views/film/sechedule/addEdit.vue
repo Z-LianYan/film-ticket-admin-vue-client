@@ -20,6 +20,7 @@
             filterable
             reserve-keyword
             placeholder="请选择您要排期的电影"
+            @change="onChangeFilm"
           >
             <el-option
               v-for="item in filmList"
@@ -67,19 +68,30 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="上映时间" prop='show_time' v-if="ruleForm.show_time">
+          {{dayjs(ruleForm.show_time*1000).format('YYYY-MM-DD')}}
+        </el-form-item>
         <el-form-item label="开始放映时间" prop='start_runtime'>
           <el-date-picker
+          :disabled="ruleForm.film_id?false:true"
           v-model="ruleForm.start_runtime"
           type="datetime"
           format="yyyy-MM-dd HH:mm"
+          @change="onChangeStartRuntime"
+          :picker-options="{disabledDate: disabledDate}"
           placeholder="开始放映时间"/>
-          </el-form-item>
+          <span style="color:#999;">先选电影才能选择放映时间</span>
+        </el-form-item>
         <el-form-item label="结束放映时间" prop='end_runtime'>
           <el-date-picker
+          :disabled="ruleForm.film_id?false:true"
           v-model="ruleForm.end_runtime"
           type="datetime"
           format="yyyy-MM-dd HH:mm"
+          @change="onChangeEndRuntime"
+          :picker-options="{disabledDate: disabledDate}"
           placeholder="结束放映时间"/>
+          <span style="color:#999;">先选电影才能选择放映时间</span>
         </el-form-item>
         <el-form-item label="语言" prop='language'>
           <el-input
@@ -268,6 +280,31 @@ export default {
     this.getFilmList();
   },
   methods: {
+    dayjs,
+    disabledDate(time){
+      return time.getTime() < dayjs(this.ruleForm.show_time*1000).toDate();
+    },
+    onChangeStartRuntime(time){
+      let { ruleForm  } = this;
+      if(ruleForm.end_runtime && dayjs(time).unix()>dayjs(ruleForm.end_runtime).unix()){
+        ruleForm.start_runtime = '';
+        this.$message.info('开始放映时间不能大于结束放映时间')
+      }
+    },
+    onChangeEndRuntime(time){
+      let { ruleForm  } = this;
+      if(ruleForm.start_runtime && dayjs(time).unix()<dayjs(ruleForm.start_runtime).unix()){
+        ruleForm.end_runtime = '';
+        this.$message.info('开始放映时间不能大于结束放映时间')
+      }
+    },
+    onChangeFilm(film_id){
+      this.filmList.map(item=>{
+        if(item.id == film_id){
+          this.ruleForm.show_time = item.show_time;
+        }
+      })
+    },
     // onDeleteSectionPrice(index){
     //   this.ruleForm.sectionPrice.splice(index,1);
     // },
