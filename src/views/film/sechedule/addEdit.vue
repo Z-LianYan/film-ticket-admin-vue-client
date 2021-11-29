@@ -13,6 +13,7 @@
         label-width="140px"
         class="demo-ruleForm"
       >
+        
         <el-form-item label="电影" prop='film_id'>
           <el-select
             style="width: 300px"
@@ -31,6 +32,39 @@
             </el-option>
           </el-select>
         </el-form-item>
+        
+        <el-form-item label="上映时间" prop='show_time' v-if="filmDetail.show_time">
+          {{dayjs(filmDetail.show_time*1000).format('YYYY-MM-DD')}}
+        </el-form-item>
+        <el-form-item label="放映时长" v-if="filmDetail.runtime" prop='runtime'>
+          {{filmDetail.runtime}} 分钟
+        </el-form-item>
+        <el-form-item label="开始放映时间" prop='start_runtime'>
+          <el-date-picker
+          :disabled="ruleForm.film_id?false:true"
+          v-model="ruleForm.start_runtime"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm"
+          @change="onChangeStartRuntime"
+          :picker-options="{disabledDate: disabledDate}"
+          placeholder="开始放映时间"/>
+          <span style="color:#999;">先选电影才能选择放映时间</span>
+        </el-form-item>
+        <el-form-item label="结束放映时间" prop='end_runtime'>
+          <el-date-picker
+          :disabled="true"
+          v-model="ruleForm.end_runtime"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm"
+          @change="onChangeEndRuntime"
+          
+          :picker-options="{disabledDate: disabledDate}"
+          placeholder="结束放映时间"/>
+          <!-- <span style="color:#999;">先选电影才能选择放映时间</span> -->
+        </el-form-item>
+
+        
+
         <el-form-item 
         label="影厅" 
         prop='hall_id'>
@@ -68,31 +102,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="上映时间" prop='show_time' v-if="ruleForm.show_time">
-          {{dayjs(ruleForm.show_time*1000).format('YYYY-MM-DD')}}
-        </el-form-item>
-        <el-form-item label="开始放映时间" prop='start_runtime'>
-          <el-date-picker
-          :disabled="ruleForm.film_id?false:true"
-          v-model="ruleForm.start_runtime"
-          type="datetime"
-          format="yyyy-MM-dd HH:mm"
-          @change="onChangeStartRuntime"
-          :picker-options="{disabledDate: disabledDate}"
-          placeholder="开始放映时间"/>
-          <span style="color:#999;">先选电影才能选择放映时间</span>
-        </el-form-item>
-        <el-form-item label="结束放映时间" prop='end_runtime'>
-          <el-date-picker
-          :disabled="ruleForm.film_id?false:true"
-          v-model="ruleForm.end_runtime"
-          type="datetime"
-          format="yyyy-MM-dd HH:mm"
-          @change="onChangeEndRuntime"
-          :picker-options="{disabledDate: disabledDate}"
-          placeholder="结束放映时间"/>
-          <span style="color:#999;">先选电影才能选择放映时间</span>
-        </el-form-item>
+        
         <el-form-item label="语言" prop='language'>
           <el-input
             v-model="ruleForm.language"
@@ -215,7 +225,6 @@ function ruleForm() {
     //   price:""
     // }
     ],
-    
   };
 }
 export default {
@@ -273,7 +282,7 @@ export default {
       cinema_id:"",
       hallList:[],
       // sectionList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-
+      filmDetail:{}
     };
   },
   mounted() {
@@ -282,28 +291,31 @@ export default {
   methods: {
     dayjs,
     disabledDate(time){
-      return time.getTime() < dayjs(this.ruleForm.show_time*1000).toDate();
+      return time.getTime() < dayjs(this.filmDetail.show_time*1000).toDate();
     },
     onChangeStartRuntime(time){
-      let { ruleForm  } = this;
-      if(ruleForm.end_runtime && dayjs(time).unix()>dayjs(ruleForm.end_runtime).unix()){
-        ruleForm.start_runtime = '';
-        this.$message.info('开始放映时间不能大于结束放映时间')
-      }
+      let { ruleForm,filmDetail  } = this;
+      this.ruleForm.end_runtime = dayjs(time).add(filmDetail.runtime,'minute')
+      // if(ruleForm.end_runtime && dayjs(time).unix()>dayjs(ruleForm.end_runtime).unix()){
+      //   ruleForm.start_runtime = '';
+      //   this.$message.info('开始放映时间不能大于结束放映时间')
+      // }
     },
     onChangeEndRuntime(time){
       let { ruleForm  } = this;
-      if(ruleForm.start_runtime && dayjs(time).unix()<dayjs(ruleForm.start_runtime).unix()){
-        ruleForm.end_runtime = '';
-        this.$message.info('开始放映时间不能大于结束放映时间')
-      }
+      // if(ruleForm.start_runtime && dayjs(time).unix()<dayjs(ruleForm.start_runtime).unix()){
+      //   ruleForm.end_runtime = '';
+      //   this.$message.info('开始放映时间不能大于结束放映时间')
+      // }
     },
     onChangeFilm(film_id){
       this.filmList.map(item=>{
         if(item.id == film_id){
-          this.ruleForm.show_time = item.show_time;
+          this.filmDetail = item;
         }
       })
+      this.ruleForm.start_runtime = "";
+      this.ruleForm.end_runtime = "";
     },
     // onDeleteSectionPrice(index){
     //   this.ruleForm.sectionPrice.splice(index,1);
@@ -404,10 +416,12 @@ export default {
         this.cinema_id = "";
       }
       if (val) {
-        console.log("编辑",val);
+        // console.log("编辑",val);
         this.title = "编辑";
         var rows = _.clone(val);
         this.ruleForm = rows;
+        this.filmDetail.show_time = rows.show_time;
+        this.filmDetail.runtime = rows.runtime;
       } else {
         console.log("添加");
         this.title = "添加";
@@ -418,6 +432,7 @@ export default {
       if (this.title == "编辑") {
         this.ruleForm = ruleForm();
         this.resetForm();
+        this.filmDetail = {};
       }
     },
   },

@@ -102,10 +102,24 @@
         <el-table-column prop="id" label="#id" sortable></el-table-column>
         <el-table-column prop="film_name" label="电影名称"></el-table-column>
         <el-table-column prop="cinema_name" label="影院"></el-table-column>
+        <el-table-column
+          prop="hall_name"
+          label="影厅"
+          width="90"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.hall_name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="start_runtime" label="放映时间" sortable width="150">
           <template slot-scope="{row}">
             <p>{{ dayjs(row.start_runtime).format("YYYY/MM/DD")}}</p>
             <el-button type="text">{{dayjs(row.start_runtime).format("HH:mm")}}</el-button> ~<el-button type="text">{{dayjs(row.end_runtime).format("HH:mm")}}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="run_time" label="播放时长" sortable width="150">
+          <template slot-scope="{row}">
+            <p>{{ row.runtime }} 分钟</p>
           </template>
         </el-table-column>
         <el-table-column prop="show_time" label="上映时间" sortable width="150">
@@ -121,15 +135,7 @@
             {{ dayjs(row.start_runtime).format("HH:mm") + ' ~ ' + dayjs(row.end_runtime).format("HH:mm") }}
           </template>
         </el-table-column> -->
-        <el-table-column
-          prop="hall_name"
-          label="影厅"
-          width="90"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.hall_name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
-          </template>
-        </el-table-column>
+        
         <el-table-column
           prop="language"
           label="语言"
