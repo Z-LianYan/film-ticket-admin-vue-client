@@ -190,8 +190,8 @@
 
         <el-form-item label="状态">
           <el-radio-group v-model="ruleForm.status" >
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
+            <el-radio :label="1">上架</el-radio>
+            <el-radio :label="0">下架</el-radio>
           </el-radio-group>
         </el-form-item>
 
