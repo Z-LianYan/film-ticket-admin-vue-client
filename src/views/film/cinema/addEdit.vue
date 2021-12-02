@@ -2,7 +2,7 @@
   <el-drawer
     :title="title + '影院'"
     :visible.sync="isDrawer"
-    size="50%"
+    size="60%"
     @close="drawerClose"
   >
     <el-scrollbar wrap-class="cinema-addedit-scrollbar-wrapper">
@@ -61,6 +61,47 @@
         <el-form-item label="电话" prop="phone">
           <el-input v-model="ruleForm.phone"></el-input>
         </el-form-item>
+        <el-form-item label="服务" prop="service">
+          <el-button type="text" class="el-icon-plus" @click="onAddService">添加服务</el-button>
+          <el-table
+            :data="ruleForm.service"
+            highlight-current-row
+            border
+            style="width: 100%"
+          >
+            <el-table-column prop="label" width="150" label="标签">
+              <template slot-scope="{row}">
+                <el-input v-model="row.label"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="content" label="内容">
+              <template slot-scope="{row}">
+                <el-input 
+                type="textarea"
+                :rows="3" 
+                v-model="row.content"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="" width="200" label="#">
+              <template slot-scope="{$index}">
+                <el-button 
+                type="text" 
+                v-if="$index!=0"
+                class="el-icon-upload2" 
+                @click="onUp($index)">上移</el-button>
+                <el-button 
+                type="text" 
+                v-if="($index+1)!=ruleForm.service.length"
+                class="el-icon-download" 
+                @click="onDown($index)">下移</el-button>
+                <el-button 
+                type="text" 
+                class="el-icon-delete" 
+                @click="onDelService($index)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form-item>
 
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="ruleForm.status">
@@ -68,6 +109,7 @@
             <el-radio :label="0">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
+        
 
 
         <el-form-item>
@@ -94,7 +136,8 @@ function ruleForm() {
     low_price: "",
     district_id: "",
     phone:'',
-    status: 1
+    status: 1,
+    service:[]
   };
 }
 export default {
@@ -119,6 +162,30 @@ export default {
     this.getCityList();
   },
   methods: {
+    onUp(index){
+      let { service } = this.ruleForm
+      console.log('index',index);
+      let cur_row = service[index];
+      this.ruleForm.service.splice(index,1,service[index-1]);
+      this.ruleForm.service.splice(index-1,1,cur_row);
+    },
+    onDown(index){
+      let { service } = this.ruleForm
+      console.log('index',index);
+      let cur_row = service[index];
+      this.ruleForm.service.splice(index,1,service[index+1]);
+      this.ruleForm.service.splice(index+1,1,cur_row);
+    },
+    onDelService(index){
+      console.log('index',index);
+      this.ruleForm.service.splice(index,1)
+    },
+    onAddService(){
+      this.ruleForm.service.push({
+        label:'',
+        content:''
+      })
+    },
     appendLnglat(){
       this.$refs.map_search.open(this.ruleForm.address);
     },
@@ -168,10 +235,13 @@ export default {
     },
     open(val) {
       if (val) {
-        console.log("编辑");
+        console.log("编辑",val);
         this.title = "编辑";
         var rows = _.clone(val);
-        this.ruleForm = rows;
+        this.ruleForm = {
+          ...rows,
+          service:val.service?val.service:[]
+        };
       } else {
         console.log("添加");
         this.title = "添加";
