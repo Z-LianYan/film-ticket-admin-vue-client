@@ -88,16 +88,52 @@
                 type="text" 
                 v-if="$index!=0"
                 class="el-icon-upload2" 
-                @click="onUp($index)">上移</el-button>
+                @click="onUp($index,'service')">上移</el-button>
                 <el-button 
                 type="text" 
                 v-if="($index+1)!=ruleForm.service.length"
                 class="el-icon-download" 
-                @click="onDown($index)">下移</el-button>
+                @click="onDown($index,'service')">下移</el-button>
                 <el-button 
                 type="text" 
                 class="el-icon-delete" 
-                @click="onDelService($index)">删除</el-button>
+                @click="onDelService($index,'service')">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form-item>
+        <el-form-item label="公告" prop="notices">
+          <el-button type="text" class="el-icon-plus" @click="onAddNotice">添加公告</el-button>
+          <el-table
+            :data="ruleForm.notices"
+            highlight-current-row
+            border
+            style="width: 100%"
+          >
+            <el-table-column prop="text" label="公告内容">
+              <template slot-scope="{row}">
+                <el-input 
+                type="textarea"
+                :rows="3" 
+                v-model="row.text"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="" width="200" label="#">
+              <template slot-scope="{$index}">
+                <el-button 
+                type="text" 
+                v-if="$index!=0"
+                class="el-icon-upload2" 
+                @click="onUp($index,'notices')">上移</el-button>
+                <el-button 
+                type="text" 
+                v-if="($index+1)!=ruleForm.notices.length"
+                class="el-icon-download" 
+                @click="onDown($index,'notices')">下移</el-button>
+                <el-button 
+                type="text" 
+                class="el-icon-delete" 
+                @click="onDelService($index,'notices')">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -137,7 +173,8 @@ function ruleForm() {
     district_id: "",
     phone:'',
     status: 1,
-    service:[]
+    service:[],
+    notices:[]
   };
 }
 export default {
@@ -162,28 +199,33 @@ export default {
     this.getCityList();
   },
   methods: {
-    onUp(index){
-      let { service } = this.ruleForm
-      console.log('index',index);
-      let cur_row = service[index];
-      this.ruleForm.service.splice(index,1,service[index-1]);
-      this.ruleForm.service.splice(index-1,1,cur_row);
+    onUp(index,fileds){
+      // let { service } = this.ruleForm
+      // console.log('index',index);
+      let cur_row = this.ruleForm[fileds][index];
+      this.ruleForm[fileds].splice(index,1,this.ruleForm[fileds][index-1]);
+      this.ruleForm[fileds].splice(index-1,1,cur_row);
     },
-    onDown(index){
-      let { service } = this.ruleForm
-      console.log('index',index);
-      let cur_row = service[index];
-      this.ruleForm.service.splice(index,1,service[index+1]);
-      this.ruleForm.service.splice(index+1,1,cur_row);
+    onDown(index,fileds){
+      // let { service } = this.ruleForm
+      // console.log('index',index);
+      let cur_row = this.ruleForm[fileds][index];
+      this.ruleForm[fileds].splice(index,1,this.ruleForm[fileds][index+1]);
+      this.ruleForm[fileds].splice(index+1,1,cur_row);
     },
-    onDelService(index){
+    onDelService(index,fileds){
       console.log('index',index);
-      this.ruleForm.service.splice(index,1)
+      this.ruleForm[fileds].splice(index,1)
     },
     onAddService(){
       this.ruleForm.service.push({
         label:'',
         content:''
+      })
+    },
+    onAddNotice(){
+      this.ruleForm.notices.push({
+        text:''
       })
     },
     appendLnglat(){
@@ -240,7 +282,8 @@ export default {
         var rows = _.clone(val);
         this.ruleForm = {
           ...rows,
-          service:val.service?val.service:[]
+          service:val.service?val.service:[],
+          notices:val.notices?val.notices:[],
         };
       } else {
         console.log("添加");
