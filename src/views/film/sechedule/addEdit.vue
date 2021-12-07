@@ -169,7 +169,7 @@
               <template slot-scope="scope">
                 <el-form-item 
                 label="">
-                  <el-input v-model="scope.row.price" placeholder="请输入分区售价">
+                  <el-input v-model="scope.row.price" type="number" placeholder="请输入分区售价">
                     <el-button slot="append">元</el-button>
                   </el-input>
                 </el-form-item>
