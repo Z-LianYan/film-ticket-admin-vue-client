@@ -10,7 +10,7 @@
         :model="ruleForm"
         :rules="rules"
         ref="ruleForm"
-        label-width="140px"
+        label-width="150px"
         class="demo-ruleForm"
       >
         
@@ -48,7 +48,7 @@
           @change="onChangeStartRuntime"
           :picker-options="{disabledDate: disabledDate}"
           placeholder="开始放映时间"/>
-          <span style="color:#999;">先选电影才能选择放映时间</span>
+          <span style="color:#999;" v-if="!ruleForm.film_id">先选电影才能选择放映时间</span>
         </el-form-item>
         <el-form-item label="结束放映时间" prop='end_runtime'>
           <el-date-picker
@@ -110,14 +110,19 @@
             placeholder="选择输入语言"
           />
         </el-form-item>
+        <el-form-item 
+        label="一次最多购买座位数" 
+        prop="buy_max" 
+        >
+          <el-input type="number" v-model="ruleForm.buy_max"></el-input>
+          <div>设为0不限购</div>
+        </el-form-item>
         
         <el-form-item 
-        label-width="140px"
         label="服务费" 
         prop="premium" 
-        style="width:300px;"
         >
-          <el-input type="number" v-model="ruleForm.premium">
+          <el-input style="width:200px;" type="number" v-model="ruleForm.premium">
             <el-button slot="append">元</el-button>
           </el-input>
         </el-form-item>
@@ -217,6 +222,7 @@ function ruleForm() {
 
     is_section:0,
     price: "",
+    buy_max:6,
     premium:0,
     sectionPrice:[
     //   {
@@ -271,6 +277,9 @@ export default {
         ],
         end_runtime: [
           { required: true, message: "播放结束时间不能为空", trigger: "blur" },
+        ],
+        buy_max: [
+          { required: true, message: "填写一次最多购买座位数", trigger: "blur" },
         ],
         language: [
           { required: true, message: "放映语言不能为空", trigger: "blur" },
