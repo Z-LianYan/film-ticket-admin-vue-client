@@ -115,7 +115,7 @@
         prop="buy_max" 
         >
           <el-input type="number" v-model="ruleForm.buy_max"></el-input>
-          <div>设为0不限购</div>
+          <div>不设置不限购</div>
         </el-form-item>
         
         <el-form-item 
@@ -278,9 +278,9 @@ export default {
         end_runtime: [
           { required: true, message: "播放结束时间不能为空", trigger: "blur" },
         ],
-        buy_max: [
-          { required: true, message: "填写一次最多购买座位数", trigger: "blur" },
-        ],
+        // buy_max: [
+        //   { required: true, message: "填写一次最多购买座位数", trigger: "blur" },
+        // ],
         language: [
           { required: true, message: "放映语言不能为空", trigger: "blur" },
         ],
