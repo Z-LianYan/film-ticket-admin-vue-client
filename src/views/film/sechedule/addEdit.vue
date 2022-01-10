@@ -357,7 +357,6 @@ export default {
       });
     },
     onChangeHall(hall_id){
-      console.log('hall_id',hall_id);
       let  { hallList } = this;
       this.ruleForm.sectionPrice = [];
       for(let i=0;i<hallList.length;i++){

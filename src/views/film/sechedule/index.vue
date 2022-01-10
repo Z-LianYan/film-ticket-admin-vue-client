@@ -146,7 +146,7 @@
             <span class="price">¥ {{ scope.row.premium | currencyFormat }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="price" label="售价" width="150">
+        <el-table-column prop="price" label="票价" width="150">
           <template slot-scope="scope">
             <div v-if="scope.row.is_section==1">
               <div v-for="(item,index) in scope.row.sectionPrice" :key="index">
@@ -156,6 +156,18 @@
             <span 
             class="price" 
             v-else>¥ {{ scope.row.price | currencyFormat }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="price" label="售价" width="150">
+          <template slot-scope="{row}">
+            <div v-if="row.is_section==1">
+              <div v-for="(item,index) in row.sectionPrice" :key="index">
+                <el-tag>{{item.section_name}} <span class="price">¥ {{Number(item.price)+row.premium}}</span></el-tag>
+              </div>
+            </div>
+            <span 
+            class="price" 
+            v-else>¥ {{ (row.price+row.premium) | currencyFormat }}</span>
           </template>
         </el-table-column>
         
