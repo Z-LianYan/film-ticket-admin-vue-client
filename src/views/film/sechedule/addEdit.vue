@@ -337,6 +337,11 @@ export default {
     //   })
     // },
     onChangeCinema(cinema_id){
+      this.cinemaList.map(item=>{
+        if(item.id == cinema_id){
+          this.ruleForm.premium = item.premium;
+        }
+      })
       this.cinema_id = cinema_id;
       this.ruleForm.hall_id = '';
       this.ruleForm.sectionPrice = [];

@@ -46,10 +46,17 @@
         <el-table-column prop="name" label="影院名称"></el-table-column>
         <el-table-column prop="address" label="地址"></el-table-column>
         <el-table-column prop="phone" label="联系电话"  width="220"></el-table-column>
-        <el-table-column prop="low_price" label="最低售价" width="100">
+        <!-- <el-table-column prop="low_price" label="最低售价" width="100">
           <template slot-scope="scope">
             <span class="price"
               >¥ {{ scope.row.low_price | currencyFormat }}</span
+            >
+          </template>
+        </el-table-column> -->
+        <el-table-column prop="premium" label="服务费" width="100">
+          <template slot-scope="scope">
+            <span class="price"
+              >¥ {{ scope.row.premium | currencyFormat }}</span
             >
           </template>
         </el-table-column>

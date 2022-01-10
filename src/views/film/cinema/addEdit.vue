@@ -54,9 +54,13 @@
         </el-form-item>
 
         
-        <el-form-item label="最低价格" prop="low_price">
+        <!-- <el-form-item label="最低价格" prop="low_price">
           <el-input v-model="ruleForm.low_price" type="number"></el-input>
+        </el-form-item> -->
+        <el-form-item label="服务费" prop="premium">
+          <el-input v-model="ruleForm.premium" type="number"></el-input>
         </el-form-item>
+        
 
         <el-form-item label="电话" prop="phone">
           <el-input v-model="ruleForm.phone"></el-input>
@@ -169,7 +173,8 @@ function ruleForm() {
     name: "",
     address: "",
     lng: "",
-    low_price: "",
+    // low_price: "",
+    premium:'',
     district_id: "",
     phone:'',
     status: 1,
@@ -191,6 +196,7 @@ export default {
         name: [{ required: true, message: "请输入影院名字", trigger: "blur" }],
         district_id: [{ required: true, message: "请选择影院所属位置", trigger: "blur" }],
         address: [{ required: true, message: "请输入影院地址", trigger: "blur" }],
+        premium: [{ required: true, message: "请输入服务费", trigger: "blur" }],
       },
       city_list:[]
     };
