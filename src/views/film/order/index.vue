@@ -2,18 +2,18 @@
   <div class="app-container">
     <el-card class="box-card">
       <div slot="header" style="text-align: center" class="clearfix">
-        <span>排片</span>
-        <el-button
+        <span>订单列表</span>
+        <!-- <el-button
           style="margin-left: 30px"
           type="text"
           @click="onAdd"
           class="el-icon-plus float-right"
         >
           添加
-        </el-button>
-        <el-button type="text" @click="getData" class="float-right">
+        </el-button> -->
+        <!-- <el-button type="text" @click="getData" class="float-right">
           <i class="el-icon-refresh"></i>刷新
-        </el-button>
+        </el-button> -->
       </div>
 
       <el-form label-width="70px">
@@ -63,30 +63,47 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="放映时间" style="display: inline-block">
+
+        <el-form-item label="搜索电影" style="display: inline-block">
+          <el-select
+            style="width: 300px"
+            v-model="fetchOptions.film_id"
+            filterable
+            reserve-keyword
+            remote
+            placeholder="请选择影院"
+            :remote-method="getFilmList"
+            :loading="isSelectLoading"
+          >
+            <el-option key="-c" label="全部" value />
+            <el-option
+              v-for="item in filmList"
+              :key="item.id + 'c'"
+              :label="item.film_name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="下单时间" style="display: inline-block">
           <el-date-picker
-            v-model="fetchOptions.play_date_range"
+            v-model="fetchOptions.order_times"
             start-placeholder="开始时间"
             end-placeholder="结束时间"
             type="datetimerange"
             :picker-options="pickerOptions"
-            @change="getData(true)"
+            @change="onOrderTimesChange"
+            format="yyyy-MM-dd HH:mm"
           />
         </el-form-item>
+
         
-        <el-form-item label="搜索电影" style="display: inline-block">
-          <el-input
-            v-model="fetchOptions.keywords"
-            style="width: 200px"
-            @keyup.enter.native="getData(true)"
-            placeholder="搜索电影名称"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="状态" style="display: inline-block">
           <el-radio-group v-model="fetchOptions.status" @change="getData(true)">
             <el-radio label>全部</el-radio>
-            <el-radio :label="1">上架</el-radio>
-            <el-radio :label="0">下架</el-radio>
+            <el-radio :label="0">待支付</el-radio>
+            <el-radio :label="1">待使用</el-radio>
+            <el-radio :label="2">已完成</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item style="display: inline-block">
@@ -102,10 +119,42 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="id" label="排片编号" sortable></el-table-column>
-        <el-table-column prop="film_name" label="电影名称"></el-table-column>
-        <el-table-column prop="cinema_name" label="影院"></el-table-column>
+        <el-table-column prop="order_id" label="订单编号" sortable width="120"></el-table-column>
         <el-table-column
+          prop="user_id"
+          label="会员信息"
+          width="200"
+        >
+          <template slot-scope="{row}">
+            <div class="user-info">
+              <el-image
+                :z-index="2000000"
+                fit="contain"
+                style="width: 50px; height: 50px;"
+                :src="row.avatar"
+                :preview-src-list="[row.avatar]"
+              />
+              <div class="right-content">
+                <div class="item">
+                  会员编号:{{row.user_id}}
+                </div>
+                <div class="item">
+                  会员昵称:{{row.nickname}}
+                </div>
+              </div>
+              
+            </div>
+            
+          </template>
+        </el-table-column>
+        <el-table-column prop="film_name" label="电影名称" width="200"></el-table-column>
+        <el-table-column prop="cinema_name" label="影院" width="300">
+          <template scope="{row}">
+            <p>{{row.cinema_name}}</p>
+            <p>影厅：{{row.hall_name}} <el-tag>{{row.hall_type_name}}</el-tag></p>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column
           prop="hall_name"
           label="影厅"
           width="90"
@@ -113,8 +162,8 @@
           <template slot-scope="scope">
             {{ scope.row.hall_name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
           </template>
-        </el-table-column>
-        <el-table-column prop="run_time" label="播放时长" sortable width="150">
+        </el-table-column> -->
+        <el-table-column prop="runtime" label="播放时长" sortable width="150">
           <template slot-scope="{row}">
             <p>{{ row.runtime }} 分钟</p>
           </template>
@@ -122,72 +171,31 @@
         <el-table-column prop="start_runtime" label="放映时间" sortable width="150">
           <template slot-scope="{row}">
             <p>{{ dayjs(row.start_runtime).format("YYYY/MM/DD")}}</p>
-            <el-button type="text">{{dayjs(row.start_runtime).format("HH:mm")}}</el-button> ~<el-button type="text">{{dayjs(row.end_runtime).format("HH:mm")}}</el-button>
+            <el-button type="text">{{dayjs(row.start_runtime).format("HH:mm")}}</el-button> ~<el-button type="text">{{dayjs(row.start_runtime).add(row.runtime,'minute').format("HH:mm")}}</el-button>
           </template>
         </el-table-column>
         
-        <el-table-column prop="show_time" label="上映时间" sortable width="150">
+        <el-table-column prop="price" label="金额" sortable width="80">
           <template slot-scope="{row}">
-            <p>{{ dayjs(row.show_time*1000).format("YYYY/MM/DD")}}</p>
+            <p class="price">¥ {{ row.price}}</p>
           </template>
         </el-table-column>
-        <!-- <el-table-column
-          prop="start_runtime"
-          label="放映时间"
-        >
-          <template slot-scope="{row}">
-            {{ dayjs(row.start_runtime).format("HH:mm") + ' ~ ' + dayjs(row.end_runtime).format("HH:mm") }}
-          </template>
-        </el-table-column> -->
-        
-        <el-table-column
-          prop="language"
-          label="语言"
-          width="90"
-        ></el-table-column>
-        <el-table-column prop="premium" label="服务费">
-          <template slot-scope="scope">
-            <span class="price">¥ {{ scope.row.premium | currencyFormat }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="price" label="售价/座位" width="150">
-          <template slot-scope="scope">
-            <div v-if="scope.row.is_section==1">
-              <div v-for="(item,index) in scope.row.sectionPrice" :key="index">
-                <el-tag>{{item.section_name}} <span class="price">¥ {{item.price}}</span></el-tag>
-              </div>
-            </div>
-            <span 
-            class="price" 
-            v-else>¥ {{ scope.row.price | currencyFormat }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="price" label="售价" width="150">
-          <template slot-scope="{row}">
-            <div v-if="row.is_section==1">
-              <div v-for="(item,index) in row.sectionPrice" :key="index">
-                <el-tag>{{item.section_name}} <span class="price">¥ {{Number(item.price)+row.premium}}</span></el-tag>
-              </div>
-            </div>
-            <span 
-            class="price" 
-            v-else>¥ {{ (row.price+row.premium) | currencyFormat }}</span>
-          </template>
-        </el-table-column>
-        
-
         <el-table-column
           prop="status"
           label="状态"
         >
           <template slot-scope="{row}">
-            <el-tag :type="row.status==1 && dayjs(row.end_runtime).unix()>dayjs().unix()?'success':'info'">{{row.status==1?'上架':'下架'}}</el-tag>
+            <el-tag type="info" v-if="row.status==0">待支付</el-tag>
+            <el-tag :type="dayjs(row.end_runtime).unix()<dayjs().unix()?'info':''" v-if="row.status==1">待使用</el-tag>
+            <el-tag type="success" v-if="row.status==2">已完成</el-tag>
             <!-- <el-button type="text" v-if="dayjs(row.end_runtime).unix()<dayjs().unix()">放映结束</el-button> -->
             <div style="color:#ccc;" v-if="dayjs(row.end_runtime).unix()<dayjs().unix()">放映已结束</div>
           </template>
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column prop="created_at" label="下单时间" sortable width="140"></el-table-column>
+
+        <!-- <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
@@ -197,7 +205,7 @@
               <i class="el-icon-delete"></i>删除
             </el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <br />
       <el-row>
@@ -259,15 +267,15 @@ export default {
         cinema_id: "",
         hall_id: "",
         film_id: "",
-        // play_date: "",
-        play_date_range:[],
+        order_times:[],
         page: 1,
         limit: 20,
         keywords: "",
-        status:1,
+        status:'',
         order:{
-          start_runtime:'asc'
-        }
+          created_at:'desc'
+        },
+        
       },
       show_time_range: [],
       total: 0,
@@ -275,6 +283,9 @@ export default {
 
       cinemaList: [],
       hallList: [],
+      isSelectLoading:false,
+
+      filmList:[],
     };
   },
   components: {
@@ -284,6 +295,7 @@ export default {
   mounted() {
     // this.getData();
     this.getCinemaList();
+    this.getFilmList();
     let { query } = this.$route;
     if (query.cinema_id) {
       this.fetchOptions.cinema_id = Number(query.cinema_id);
@@ -295,6 +307,9 @@ export default {
   },
   watch: {},
   methods: {
+    onOrderTimesChange(val){
+      this.getData(true);
+    },
     getHallList(cinema_id) {
       this.$store
         .dispatch("hall/list", {
@@ -306,14 +321,14 @@ export default {
           this.hallList = res.data;
         });
     },
-    onChangeCinema(cinema_id) {
-      this.getData(true);
-      this.hallList = [];
-      this.fetchOptions.hall_id = "";
-      if (cinema_id) {
-        this.getHallList(cinema_id);
-      }
-    },
+    // onChangeCinema(cinema_id) {
+    //   this.getData(true);
+    //   this.hallList = [];
+    //   this.fetchOptions.hall_id = "";
+    //   if (cinema_id) {
+    //     this.getHallList(cinema_id);
+    //   }
+    // },
     async getCinemaList(keywords) {
       this.isSelectLoading = true;
       let result = await this.$store.dispatch("cinemaManager/list", {
@@ -325,14 +340,23 @@ export default {
       this.isSelectLoading = false;
       this.cinemaList = result.rows;
     },
+    async getFilmList(keywords) {
+      this.isSelectLoading = true;
+      let result = await this.$store.dispatch("filmListManager/list", {
+        page: 1,
+        limit: 50,
+        status: 1,
+        keywords:keywords?keywords:''
+      });
+      this.isSelectLoading = false;
+      this.filmList = result.rows;
+    },
     getData(Filter) {
       if (Filter) this.fetchOptions.page = 1;
       this.loading = true;
-      let play_date_range = JSON.stringify(this.fetchOptions.play_date_range);
-      // this.fetchOptions.play_date_range = JSON.stringify()
-      this.$store.dispatch("schedule/list", {
+      this.$store.dispatch("order/get_order_list", {
         ...this.fetchOptions,
-        play_date_range
+        order_times:JSON.stringify(this.fetchOptions.order_times)
       }).then((res) => {
         this.tableData = res.rows;
         this.total = res.count;
@@ -389,4 +413,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.user-info{
+  display: flex;
+  .right-content{
+    .item{
+
+    }
+  }
+}
 </style>
