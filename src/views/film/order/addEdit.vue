@@ -156,11 +156,8 @@
 
         <el-form-item 
         label="座位分区价格" 
-        :key="ruleForm.is_section+ruleForm.sectionPrice.length"
+        :key="ruleForm.is_section"
         prop="sectionPrice" 
-        :rules="[
-          { required: true, message: '请输入座位分区价格', trigger: 'blur' },
-        ]"
         v-if="ruleForm.is_section==1">
           <el-table
             border
@@ -176,7 +173,7 @@
                 ]"
                 label=""
                 :prop="`sectionPrice[${scope.$index}].section_name`">
-                  <el-input placeholder="请输入分区名称" v-model="scope.row.section_name" @input="$forceUpdate"/>
+                  <el-input placeholder="请输入分区名称" v-model="scope.row.section_name"/>
                 </el-form-item>
               </template>
             </el-table-column>
@@ -190,7 +187,7 @@
                 ]" 
                 label=""
                 :prop="`sectionPrice[${scope.$index}].price`">
-                  <el-input v-model="scope.row.price" type="number" placeholder="请输入分区售价" @input="$forceUpdate">
+                  <el-input v-model="scope.row.price" type="number" placeholder="请输入分区售价">
                     <el-button slot="append">元</el-button>
                   </el-input>
                 </el-form-item>

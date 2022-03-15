@@ -70,6 +70,20 @@ const actions = {
     })
   },
 
+  getSeatList({ commit, state }, requestParams) {
+    return new Promise((resolve, reject) => {
+      requstTools.get(aipUrl.GET_SEAT_LIST, requestParams).then(res => {
+        if (res.error == 0) {
+          resolve(res.data);
+        } else {
+          Message.error(res.message);
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
 }
 
 export default {

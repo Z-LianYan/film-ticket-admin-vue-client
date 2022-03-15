@@ -43,7 +43,7 @@
           <el-form-item label="组件路径 component " prop="component">
             <el-input v-model="ruleForm.component" placeholder="请直接引入views文件下的组件"></el-input>
             <div>注：直接引入views文件下的组件 如：system/manager/list</div>
-            <div>注：如果一级以上的路由有子路由，那么其组件路径为 noComponent</div>
+            <div>注：如果是一级路有为Layout，不是一级路有且有子路由那么其组件路径直接为 noComponent</div>
           </el-form-item>
 
           <el-form-item label="路由名称 name" prop="name">
