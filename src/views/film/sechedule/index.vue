@@ -117,7 +117,7 @@
             <el-button type="text">{{dayjs(row.start_runtime).format("HH:mm")}}</el-button> ~<el-button type="text">{{dayjs(row.end_runtime).format("HH:mm")}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="run_time" label="播放时长" sortable width="150">
+        <el-table-column prop="run_time" label="播放时长" width="150">
           <template slot-scope="{row}">
             <p>{{ row.runtime }} 分钟</p>
           </template>
