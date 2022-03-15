@@ -214,7 +214,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="onShowBuyTicketDetail(scope.row)">
-              <i class="el-icon-view"></i>购票详情
+              <i class="el-icon-view"></i>查看购票情况
             </el-button>
             <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
