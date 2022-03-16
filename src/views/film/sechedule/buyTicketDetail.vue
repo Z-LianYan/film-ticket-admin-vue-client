@@ -14,19 +14,19 @@
       <el-row :gutter="24">
         <el-col :span="12">
           <el-form-item label="电影" prop='film_name'>
-            {{selectedSchedule.film_name}}
+            {{selectedSchedule.film_name}} <el-button type="text">{{selectedSchedule.language}}</el-button> <el-tag>{{selectedSchedule.play_type_name}}</el-tag>
           </el-form-item>
-          <el-form-item label="语言" prop='language'>
+          <!-- <el-form-item label="语言" prop='language'>
             {{selectedSchedule.language}}
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
         <el-col :span="12">
           <el-form-item label="放映时间" prop='start_runtime'>
             {{handleWeek(dayjs(selectedSchedule.start_runtime).day())}} {{dayjs(selectedSchedule.start_runtime).format("YYYY-MM-DD HH:mm")}} 
           </el-form-item>
-          <el-form-item label="放映类型" prop='play_type_name'>
+          <!-- <el-form-item label="放映类型" prop='play_type_name'>
             {{selectedSchedule.play_type_name}}
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
       </el-row>
     </el-form>
@@ -57,7 +57,7 @@
             ></div>
             <div class="name-price">
               <div>{{item.section_name}}</div>
-              <div class="price">¥{{item.price}}</div>
+              <div class="price">¥{{(Number(item.price)+selectedSchedule.premium)|currencyFormat}}</div>
             </div>
           </li>
         </ul>
@@ -77,7 +77,7 @@
           <div
             class="row-num-list"
             :style='{
-              height: cellWidth * hallDetail.seat_row_num + "vw",
+              height: cellWidth/2 * hallDetail.seat_row_num + "vw",
             }'
           >
             <div
@@ -85,8 +85,8 @@
               :key="index"
               class="row"
               :style='{
-                height: cellWidth + "vw",
-                top: cellWidth * (item.row - 1) + "vw",
+                height: cellWidth/2 + "vw",
+                top: cellWidth/2 * (item.row - 1) + "vw",
                 // fontSize: cellWidth * 0.2 + "vw",
               }'
             >
@@ -97,12 +97,12 @@
         <ul
           class="seat-list"
           :style='{
-            height: cellWidth * hallDetail.seat_row_num + "vw",
+            height: cellWidth/2 * hallDetail.seat_row_num + "vw",
           }'
         >
           <div
             class="middle-line"
-            :style='{ height: cellWidth * hallDetail.seat_row_num + "vw" }'
+            :style='{ height: cellWidth/2 * hallDetail.seat_row_num + "vw" }'
           ></div>
           <li
             class="cell"
@@ -110,8 +110,8 @@
             :key="index"
             :style='{
               width: cellWidth + "%",
-              height: cellWidth + "vw",
-              top: cellWidth * item.row - cellWidth + "vw",
+              height: cellWidth/2 + "vw",
+              top: cellWidth/2 * item.row - cellWidth/2 + "vw",
               left: cellWidth * item.column - cellWidth + "%",
             }'
           >
@@ -239,7 +239,7 @@ export default {
         schedule_id:id,
         hall_id
       }).then((res) => {
-        console.log('res',res);
+        // console.log('res',res);
         // this.hallList = res.data;
         this.seatList = res.seat;
         this.already_sale_seat = res.already_sale_seat;
@@ -252,8 +252,8 @@ export default {
           if (!obj[item.row_id]) {
             obj[item.row_id] = true;
             seat_real_rows.push({
-              row: item.row, //生成座位时的排数
-              row_id: item.row_id, //真实座位排数
+              row: item.row, //生成座位时的排号
+              row_id: item.row_id, //真实座位排号
             });
           }
         }
@@ -267,7 +267,7 @@ export default {
 
     
     open(row) {
-      console.log('selectedSchedule',row)
+      // console.log('selectedSchedule',row)
       this.selectedSchedule = row;
       this.getDetail();
       

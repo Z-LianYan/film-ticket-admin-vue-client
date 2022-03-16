@@ -316,6 +316,9 @@ export default {
   methods: {
     dayjs,
     disabledDate(time){
+      if(dayjs(this.filmDetail.show_time*1000).toDate()<=dayjs().toDate()){
+        return time.getTime() < dayjs().subtract(1,'day').toDate()
+      }
       return time.getTime() < dayjs(this.filmDetail.show_time*1000).toDate();
     },
     onChangeStartRuntime(time){

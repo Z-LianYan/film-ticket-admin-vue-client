@@ -70,6 +70,7 @@
             start-placeholder="开始时间"
             end-placeholder="结束时间"
             type="datetimerange"
+            format="yyyy-MM-dd HH:mm"
             :picker-options="pickerOptions"
             @change="getData(true)"
           />
@@ -135,7 +136,7 @@
             {{ scope.row.hall_name}}<el-tag>{{scope.row.hall_type_name}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="run_time" label="播放时长" sortable width="150">
+        <el-table-column prop="run_time" label="播放时长" width="150">
           <template slot-scope="{row}">
             <p>{{ row.runtime }} 分钟</p>
           </template>
@@ -175,7 +176,7 @@
           <template slot-scope="scope">
             <div v-if="scope.row.is_section==1">
               <div v-for="(item,index) in scope.row.sectionPrice" :key="index">
-                <el-tag>{{item.section_name}} <span class="price">¥ {{item.price}}</span></el-tag>
+                <el-tag>{{item.section_name}} <span class="price">¥ {{item.price|currencyFormat}}</span></el-tag>
               </div>
             </div>
             <span 
@@ -187,7 +188,7 @@
           <template slot-scope="{row}">
             <div v-if="row.is_section==1">
               <div v-for="(item,index) in row.sectionPrice" :key="index">
-                <el-tag>{{item.section_name}} <span class="price">¥ {{Number(item.price)+row.premium}}</span></el-tag>
+                <el-tag>{{item.section_name}} <span class="price">¥ {{(Number(item.price)+row.premium)|currencyFormat}}</span></el-tag>
               </div>
             </div>
             <span 

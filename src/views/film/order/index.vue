@@ -140,41 +140,15 @@
             <p class="price">¥ {{ row.price|currencyFormat}}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="verify_code" label="验证码" width="150"></el-table-column>
-        <el-table-column
-          prop="user_id"
-          label="会员信息"
-          width="200"
-        >
-          <template slot-scope="{row}">
-            <div class="user-info">
-              <el-image
-                :z-index="2000000"
-                fit="contain"
-                style="width: 50px; height: 50px;"
-                :src="row.avatar"
-                :preview-src-list="[row.avatar]"
-              />
-              <div class="right-content">
-                <div class="item">
-                  会员编号:{{row.user_id}}
-                </div>
-                <div class="item">
-                  会员昵称:{{row.nickname}}
-                </div>
-              </div>
-              
-            </div>
-            
-          </template>
-        </el-table-column>
+        <!-- <el-table-column prop="verify_code" label="验证码" width="150"></el-table-column> -->
+        
         <el-table-column prop="film_name" label="电影名称" width="200">
           <template slot-scope="{row}">
             {{row.film_name}}
             <p>时长：{{row.runtime}} 分钟</p>
           </template>
         </el-table-column>
-        <el-table-column prop="cinema_name" label="影院" width="300">
+        <el-table-column prop="cinema_name" label="影院">
           <template scope="{row}">
             <p>{{row.cinema_name}}</p>
             <p>影厅：{{row.hall_name}} <el-tag>{{row.hall_type_name}}</el-tag></p>
@@ -215,6 +189,35 @@
             <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.start_runtime).unix()>dayjs().unix()">待放映</div>
             <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.end_runtime).unix()<dayjs().unix()">放映已结束</div>
             <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.start_runtime).unix()<dayjs().unix() && dayjs(row.end_runtime).unix()>dayjs().unix()">放映中</div>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="user_id"
+          label="会员信息"
+          width="200"
+        >
+          <template slot-scope="{row}">
+            <div class="user-info">
+              <!-- <el-image
+                :z-index="2000000"
+                fit="contain"
+                style="width: 50px; height: 50px;"
+                :src="row.avatar"
+                :preview-src-list="[row.avatar]"
+              /> -->
+              <el-avatar size="large" :src="row.avatar"></el-avatar>
+              <div class="right-content">
+                <div class="item">
+                  编号:{{row.user_id}}
+                </div>
+                <div class="item">
+                  昵称:{{row.nickname}}
+                </div>
+              </div>
+              
+            </div>
+            
           </template>
         </el-table-column>
 
@@ -412,8 +415,7 @@ export default {
             "影院",
             "影厅",
             "放映时间",
-            "播放时长",
-            
+            "播放时长/分钟",
             "状态",
             "下单时间",
           ]
@@ -620,6 +622,7 @@ export default {
 <style lang="scss" scoped>
 .user-info{
   display: flex;
+  align-items: center;
   .right-content{
     .item{
 
