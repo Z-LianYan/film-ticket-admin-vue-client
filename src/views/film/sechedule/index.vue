@@ -217,11 +217,12 @@
             <el-button type="text" size="small" @click="onShowBuyTicketDetail(scope.row)">
               <i class="el-icon-view"></i>查看购票情况
             </el-button>
-            <el-button type="text" size="small" @click="doEdit(scope.row)">
+            <el-divider v-if="scope.row.is_can_operation" direction="vertical"></el-divider>
+            <el-button v-if="scope.row.is_can_operation" type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
             </el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button type="text" size="small" @click="doDelete(scope.row)">
+            <el-divider v-if="scope.row.is_can_operation" direction="vertical"></el-divider>
+            <el-button v-if="scope.row.is_can_operation" type="text" size="small" @click="doDelete(scope.row)">
               <i class="el-icon-delete"></i>删除
             </el-button>
           </template>

@@ -5,7 +5,7 @@
     size="60%"
     @close="drawerClose"
   >
-    <el-scrollbar wrap-class="cinema-addedit-scrollbar-wrapper">
+    <el-scrollbar wrap-class="order-addedit-scrollbar-wrapper">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -467,7 +467,7 @@ export default {
 
 <style lang="scss" scoped>
 /deep/ {
-  .cinema-addedit-scrollbar-wrapper {
+  .order-addedit-scrollbar-wrapper {
     height: calc(100vh - 60px) !important;
     .el-drawer__body {
       padding-right: 10px;

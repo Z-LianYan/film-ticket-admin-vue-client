@@ -5,7 +5,7 @@
     size="60%"
     @close="drawerClose"
   >
-    <el-scrollbar wrap-class="cinema-addedit-scrollbar-wrapper">
+    <el-scrollbar wrap-class="schedule-addedit-scrollbar-wrapper">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -13,57 +13,6 @@
         label-width="150px"
         class="demo-ruleForm"
       >
-        
-        <el-form-item label="电影" prop='film_id'>
-          <el-select
-            style="width: 300px"
-            v-model="ruleForm.film_id"
-            filterable
-            reserve-keyword
-            placeholder="请选择您要排期的电影"
-            @change="onChangeFilm"
-          >
-            <el-option
-              v-for="item in filmList"
-              :key="item.id + 'f'"
-              :label="item.film_name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        
-        <el-form-item label="上映时间" prop='show_time' v-if="filmDetail.show_time">
-          {{dayjs(filmDetail.show_time*1000).format('YYYY-MM-DD')}}
-        </el-form-item>
-        <el-form-item label="放映时长" v-if="filmDetail.runtime" prop='runtime'>
-          {{filmDetail.runtime}} 分钟
-        </el-form-item>
-        <el-form-item label="开始放映时间" prop='start_runtime'>
-          <el-date-picker
-          :disabled="ruleForm.film_id?false:true"
-          v-model="ruleForm.start_runtime"
-          type="datetime"
-          format="yyyy-MM-dd HH:mm"
-          @change="onChangeStartRuntime"
-          :picker-options="{disabledDate: disabledDate}"
-          placeholder="开始放映时间"/>
-          <span style="color:#999;" v-if="!ruleForm.film_id">先选电影才能选择放映时间</span>
-        </el-form-item>
-        <el-form-item label="结束放映时间" prop='end_runtime'>
-          <el-date-picker
-          :disabled="true"
-          v-model="ruleForm.end_runtime"
-          type="datetime"
-          format="yyyy-MM-dd HH:mm"
-          @change="onChangeEndRuntime"
-          
-          :picker-options="{disabledDate: disabledDate}"
-          placeholder="结束放映时间"/>
-          <!-- <span style="color:#999;">先选电影才能选择放映时间</span> -->
-        </el-form-item>
-
-        
 
         <el-form-item 
         label="影厅" 
@@ -102,6 +51,60 @@
             </el-option>
           </el-select>
         </el-form-item>
+        
+        <el-form-item label="电影" prop='film_id'>
+          <el-select
+            style="width: 300px"
+            v-model="ruleForm.film_id"
+            filterable
+            reserve-keyword
+            placeholder="请选择您要排期的电影"
+            @change="onChangeFilm"
+          >
+            <el-option
+              v-for="item in filmList"
+              :key="item.id + 'f'"
+              :label="item.film_name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        
+        <el-form-item label="上映时间" prop='show_time' v-if="filmDetail.show_time">
+          {{dayjs(filmDetail.show_time*1000).format('YYYY-MM-DD')}}
+        </el-form-item>
+        <el-form-item label="放映时长" v-if="filmDetail.runtime" prop='runtime'>
+          {{filmDetail.runtime}} 分钟
+        </el-form-item>
+        <el-form-item label="开始放映时间" prop='start_runtime'>
+          <el-date-picker
+          :disabled="ruleForm.film_id?false:true"
+          v-model="ruleForm.start_runtime"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm"
+          @change="onChangeStartRuntime"
+          :picker-options="{disabledDate: disabledDate}"
+          placeholder="开始放映时间"/>
+          <span style="color:#999;" v-if="!ruleForm.film_id">⚠️先选电影才能选择放映时间</span>
+          <div style="font-size:12px;">注意⚠️ 每个影院各个影厅排片时间间隔至少20分钟，否则排片失败</div>
+        </el-form-item>
+        <el-form-item label="结束放映时间" prop='end_runtime'>
+          <el-date-picker
+          :disabled="true"
+          v-model="ruleForm.end_runtime"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm"
+          @change="onChangeEndRuntime"
+          
+          :picker-options="{disabledDate: disabledDate}"
+          placeholder="结束放映时间"/>
+          <!-- <span style="color:#999;">先选电影才能选择放映时间</span> -->
+        </el-form-item>
+
+        
+
+        
         
         <el-form-item label="语言" prop='language'>
           <el-input
@@ -473,8 +476,8 @@ export default {
 
 <style lang="scss" scoped>
 /deep/ {
-  .cinema-addedit-scrollbar-wrapper {
-    height: calc(100vh - 60px) !important;
+  .schedule-addedit-scrollbar-wrapper {
+    height: calc(100vh - 65px) !important;
     .el-drawer__body {
       padding-right: 10px;
     }

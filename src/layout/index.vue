@@ -93,7 +93,10 @@ export default {
 <style>
 .layout-scrollbar-wrapper {
   height: 100vh !important;
-  /* margin-bottom: -15px !important; */
+  /* margin-bottom: -20px !important; */
+}
+.el-scrollbar__wrap{
+  margin-bottom: -20px !important;;
 }
 </style>
 
