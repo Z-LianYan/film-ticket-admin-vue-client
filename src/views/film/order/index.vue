@@ -115,12 +115,12 @@
           <el-button type="primary" @click="getData(true)">搜索</el-button>
         </el-form-item>
       </el-form>
-      <div class="pull-left">共有 {{total}} 个订单 <span style="margin-left:30px;">合计金额<span class="price"> ¥{{total_price|currencyFormat}}</span></span></div>
+      <div class="float-left">共有 {{total}} 个订单 <span style="margin-left:30px;">合计金额<span class="price"> ¥{{total_price|currencyFormat}}</span></span></div>
       <el-button
         type="primary"
         @click="exportExcel"
         size="mini"
-        class="pull-right"
+        class="float-right"
       >
         <i class="fa fa-send-o"></i>
         导出excel

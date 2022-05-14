@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    title="我是标题"
+    title="演员列表"
     :visible.sync="isDrawer"
     size="50%"
     direction="rtl"
@@ -40,7 +40,6 @@
             <el-table-column
               prop="name"
               label="姓名"
-              width="300"
             ></el-table-column>
           </el-table>
 

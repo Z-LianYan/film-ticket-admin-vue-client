@@ -15,7 +15,7 @@
           class="demo-ruleForm"
         >
           <el-form-item label="影厅名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+            <el-input v-model="ruleForm.name" placeholder="请输入影厅名称"></el-input>
           </el-form-item>
           <el-form-item label="所属影院" prop="cinema_id">
             <el-select
@@ -56,11 +56,11 @@
             </el-select>
           </el-form-item>
           <el-form-item label="排数" prop="seat_row_num" v-if="title=='添加'">
-            <el-input v-model="ruleForm.seat_row_num" type="number" max="50"></el-input>
+            <el-input v-model="ruleForm.seat_row_num" placeholder="请输入排数" type="number" max="50"></el-input>
           </el-form-item>
 
           <el-form-item label="列数" prop="seat_column_num" v-if="title=='添加'">
-            <el-input v-model="ruleForm.seat_column_num" type="number" max="50"></el-input>
+            <el-input v-model="ruleForm.seat_column_num" type="number" max="50" placeholder="请输入列数"></el-input>
           </el-form-item>
           <el-form-item label="分区设置" prop="section">
             <el-button 
@@ -69,7 +69,12 @@
             @click="addSection">添加分区名称</el-button>
             <div v-for="(item,index) in ruleForm.section" :key="index" style="margin-top:10px;">
               <el-form-item label="分区名称" prop="section" label-width="80px">
-                <el-input style="width:250px;" v-model="item.section_name" type="text" max="50"></el-input>
+                <el-input 
+                style="width:250px;" 
+                placeholder="请输入分区名称"
+                v-model="item.section_name" 
+                type="text" 
+                max="50"></el-input>
                 <el-button class="el-icon-minus" type='text' @click="delSection(index)">删除</el-button>
               </el-form-item>
               <!-- <el-color-picker v-model="item.color"></el-color-picker> -->
@@ -82,7 +87,10 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="描述" prop="describe">
-            <el-input v-model="ruleForm.describe" type="textarea"></el-input>
+            <el-input 
+            v-model="ruleForm.describe" 
+            placeholder="请输入描述"
+            type="textarea"></el-input>
           </el-form-item>
 
           <el-form-item>

@@ -17,6 +17,9 @@ export default {
   height: calc(100vh - 80px) !important;
 }
 // ./ding -config=./ding.cfg -subdomain=eryi-qy-manager 1028
+.float-left{
+  float: left;
+}
 .float-right{
   float: right;
 }

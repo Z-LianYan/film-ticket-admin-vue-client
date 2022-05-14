@@ -18,10 +18,10 @@
         class="demo-ruleForm"
       >
         <el-form-item label="电影名称" prop="film_name">
-          <el-input v-model="ruleForm.film_name"></el-input>
+          <el-input v-model="ruleForm.film_name" placeholder="请输入电影名称"></el-input>
         </el-form-item>
         <el-form-item label="播放时间" prop="runtime">
-          <el-input v-model="ruleForm.runtime" type="number">
+          <el-input v-model="ruleForm.runtime" type="number" placeholder="请输入播放时间">
             <template slot="append">分钟</template>
           </el-input>
         </el-form-item>
@@ -46,7 +46,7 @@
         </el-form-item>
 
         <el-form-item label="导演" prop="director">
-          <el-input v-model="ruleForm.director"></el-input>
+          <el-input v-model="ruleForm.director" placeholder="请输入导演名字"></el-input>
         </el-form-item>
 
         <el-form-item label="上映时间" prop="show_time">
@@ -101,22 +101,37 @@
             style="width: 100%"
           >
             <el-table-column prop="name" label="姓名">
-              <template slot-scope="scope">
-                <el-input type="text" v-model="scope.row.name"></el-input>
+              <template slot-scope="{row,$index}">
+                <el-form-item 
+                label="" 
+                :prop="`actors[${$index}].name`"
+                :rules="{ required: true, message: '请输入演员姓名', trigger: 'blur' }">
+                  <el-input type="text" placeholder="请输入演员姓名" v-model="row.name"></el-input>
+                </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="角色">
-              <template slot-scope="scope">
-                <el-input type="text" v-model="scope.row.role"></el-input>
+            <el-table-column prop="role" label="角色">
+              <template slot-scope="{row,$index}">
+                <el-form-item 
+                label="" 
+                :prop="`actors[${$index}].role`"
+                :rules="{ required: true, message: '请输入演员角色', trigger: 'blur' }">
+                  <el-input type="text" placeholder="请输入演员角色" v-model="row.role"></el-input>
+                </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="头像">
-              <template slot-scope="scope">
-                <upload-image
-                  @getImgUrl="onActorsAvatar($event, scope.$index)"
-                  uploadPrefix="film/actors_avatar/"
-                  :staticImageUrl="scope.row.avatar"
-                />
+            <el-table-column prop="avatar" label="头像">
+              <template slot-scope="{row,$index}">
+                <el-form-item 
+                label="" 
+                :prop="`actors[${$index}].avatar`"
+                :rules="{ required: true, message: '请上传演员头像', trigger: 'blur' }">
+                  <upload-image
+                    @getImgUrl="onActorsAvatar($event, $index)"
+                    uploadPrefix="film/actors_avatar/"
+                    :staticImageUrl="row.avatar"
+                  />
+                </el-form-item>
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -153,13 +168,14 @@
           <el-input
             v-model="ruleForm.abstract"
             type="textarea"
+            placeholder="请输入摘要"
             rows="3"
           ></el-input>
         </el-form-item>
         <!-- <el-form-item label="语言" prop="language">
           <el-input v-model="ruleForm.language" type="text"></el-input>
         </el-form-item> -->
-        <el-form-item label="剧照" prop="stage_photo" required>
+        <el-form-item label="剧照" prop="stage_photo">
           <UploadImageMul
             :imageLimit="5"
             :uploadPrefix="'film/stage_photo/'"
@@ -234,6 +250,9 @@ export default {
         ],
         abstract: [
           { required: true, message: "请输入摘要", trigger: "change" },
+        ],
+        stage_photo: [
+          { required: true, message: "请输入剧照", trigger: "change" },
         ],
       },
       categoryList: [],

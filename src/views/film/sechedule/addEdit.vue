@@ -117,7 +117,7 @@
         label="一次最多购买座位数" 
         prop="buy_max" 
         >
-          <el-input type="number" v-model="ruleForm.buy_max"></el-input>
+          <el-input type="number" v-model="ruleForm.buy_max" placeholder="请输入一次最多购买座位数"></el-input>
           <div>不设置或0不限购（建议设置一个较小值防止恶意购票）</div>
         </el-form-item>
         
@@ -125,7 +125,7 @@
         label="服务费" 
         prop="premium" 
         >
-          <el-input style="width:200px;" type="number" v-model="ruleForm.premium">
+          <el-input style="width:200px;" type="number" placeholder="请输入服务费" v-model="ruleForm.premium">
             <el-button slot="append">元</el-button>
           </el-input>
         </el-form-item>

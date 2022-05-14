@@ -14,7 +14,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="影院名称" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+          <el-input v-model="ruleForm.name" placeholder="请输入影院名称"></el-input>
         </el-form-item>
 
         
@@ -58,15 +58,15 @@
           <el-input v-model="ruleForm.low_price" type="number"></el-input>
         </el-form-item> -->
         <el-form-item label="服务费" prop="premium">
-          <el-input v-model="ruleForm.premium" type="number"></el-input>
+          <el-input v-model="ruleForm.premium" type="number" placeholder="请输入服务费"></el-input>
         </el-form-item>
         
 
         <el-form-item label="电话" prop="phone">
-          <el-input v-model="ruleForm.phone"></el-input>
+          <el-input v-model="ruleForm.phone" placeholder="请输入电话"></el-input>
         </el-form-item>
         <el-form-item label="服务" prop="service">
-          <el-button type="text" class="el-icon-plus" @click="onAddService">添加服务</el-button>
+          <el-button type="text" class="el-icon-plus" placeholder="请输入服务" @click="onAddService">添加服务</el-button>
           <el-table
             :data="ruleForm.service"
             highlight-current-row
@@ -75,7 +75,7 @@
           >
             <el-table-column prop="label" width="150" label="标签">
               <template slot-scope="{row}">
-                <el-input v-model="row.label"></el-input>
+                <el-input v-model="row.label"  placeholder="请输入标签"></el-input>
               </template>
             </el-table-column>
             <el-table-column prop="content" label="内容">
@@ -83,7 +83,7 @@
                 <el-input 
                 type="textarea"
                 :rows="3" 
-                v-model="row.content"></el-input>
+                v-model="row.content" placeholder="请输入内容"></el-input>
               </template>
             </el-table-column>
             <el-table-column prop="" width="200" label="#">
@@ -193,7 +193,7 @@ export default {
       title: "添加",
       ruleForm: ruleForm(),
       rules: {
-        name: [{ required: true, message: "请输入影院名字", trigger: "blur" }],
+        name: [{ required: true, message: "请输入影院名称", trigger: "blur" }],
         district_id: [{ required: true, message: "请选择影院所属位置", trigger: "blur" }],
         address: [{ required: true, message: "请输入影院地址", trigger: "blur" }],
         premium: [{ required: true, message: "请输入服务费", trigger: "blur" }],
