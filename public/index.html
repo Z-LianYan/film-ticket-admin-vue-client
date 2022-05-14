@@ -5,14 +5,17 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> --><!--根目录下的favicon.ico (BASE_URL->/)-->
+  <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
+  <!--根目录下的favicon.ico (BASE_URL->/)-->
   <link rel="icon" type="image/x-icon" href="http://zly.imgresource.com.cn/siteLogo/favicon.ico">
-  <title><%= webpackConfig.name %></title>
+  <title>
+    <%= webpackConfig.name %>
+  </title>
 
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <!-- <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
 
   <style>
-    .loading-wrapper{
+    .loading-wrapper {
       position: fixed;
       top: 0;
       left: 0;
@@ -25,29 +28,30 @@
       align-items: center;
       color: #67C23A;
       font-size: 40px;
-    } 
+    }
   </style>
-  
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css">
-  
-  <script src="https://cdn.bootcss.com/vuex/3.1.0/vuex.min.js"></script>
-  <script src="https://cdn.bootcss.com/vue-router/3.0.6/vue-router.min.js"></script>
-  <script src="https://cdn.bootcss.com/axios/0.18.1/axios.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/js-cookie/latest/js.cookie.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.3/dayjs.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script><!-- _ -->
-  <script src="https://cdn.bootcdn.net/ajax/libs/screenfull.js/5.0.2/screenfull.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.6.0/echarts.min.js"></script>
+
+  <!-- <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css"> -->
+
+  <script src="http://zly.imgresource.com.cn/public/js/vuex.min3.1.0.js"></script>
+  <script src="http://zly.imgresource.com.cn/public/js/vue-router.min3.0.6.js"></script>
+  <script src="http://zly.imgresource.com.cn/public/js/axios.min0.18.1.js"></script>
+
+  <script src="http://zly.imgresource.com.cn/public/js/js.cookie.min3.0.1.js"></script>
+  <script src="http://zly.imgresource.com.cn/public/js/dayjs.min1.11.2.js"></script>
+
+  <script src="http://zly.imgresource.com.cn/public/js/lodash.min4.17.20.js"></script>
+
+  <script src="http://zly.imgresource.com.cn/public/js/echarts.min4.6.0.js"></script>
 
 
   <script>
-    onload = function(){
+    onload = function () {
       document.getElementsByClassName('loading-wrapper')[0].remove()
     }
   </script>
-  
-  
+
+
 </head>
 
 <body>
@@ -61,19 +65,10 @@
   </div>
 
   <div id="app"></div>
-  
+
   <!-- built files will be auto injected -->
-  
+
 </body>
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1778027_988wrpn2vnk.css" />
+
 </html>
-
-
-
-
-
-
-
-
-
-
