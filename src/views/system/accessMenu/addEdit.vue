@@ -15,7 +15,7 @@
           class="demo-ruleForm"
         >
           <el-form-item label="菜单名称 title" prop="title">
-            <el-input v-model="ruleForm.title"></el-input>
+            <el-input v-model="ruleForm.title" placeholder="请输入菜单名称"></el-input>
           </el-form-item>
 
           <el-form-item label="所属模块" prop="module_id">
@@ -35,7 +35,7 @@
           </el-form-item>
 
           <el-form-item label="路由 path" prop="path">
-            <el-input v-model="ruleForm.path"></el-input>
+            <el-input v-model="ruleForm.path" placeholder="请输入路由"></el-input>
             <div>注：如果是子路由 前面不得加 / 如：/childrenRouter 子路由错误的写法</div>
             
           </el-form-item>
@@ -47,21 +47,21 @@
           </el-form-item>
 
           <el-form-item label="路由名称 name" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+            <el-input v-model="ruleForm.name" placeholder="请输入路由名称"></el-input>
             <!-- <div>注：此名称关系到组件缓存，必须与组件的name一致组件才能缓存</div> -->
           </el-form-item>
 
           <el-form-item label="重定向 redirect" prop="redirect">
-            <el-input v-model="ruleForm.redirect"></el-input>
+            <el-input v-model="ruleForm.redirect" placeholder="请输入重定向"></el-input>
           </el-form-item>
 
 
           <el-form-item label="图标" prop="icon">
-            <el-input v-model="ruleForm.icon"></el-input>
+            <el-input v-model="ruleForm.icon" placeholder="请输入图标"></el-input>
           </el-form-item>
 
           <el-form-item label="排序" prop="sort">
-            <el-input v-model="ruleForm.sort"></el-input>
+            <el-input v-model="ruleForm.sort" placeholder="请输入排序"></el-input>
           </el-form-item>
 
           

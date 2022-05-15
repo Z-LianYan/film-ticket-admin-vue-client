@@ -19,15 +19,15 @@
         class="demo-ruleForm"
       >
         <el-form-item label="管理员名称" prop="username">
-          <el-input v-model="ruleForm.username"></el-input>
+          <el-input v-model="ruleForm.username" placeholder="请输入管理员名称"></el-input>
         </el-form-item>
 
         <el-form-item label="电话" prop="mobile">
-          <el-input v-model="ruleForm.mobile"></el-input>
+          <el-input v-model="ruleForm.mobile" placeholder="请输入电话"></el-input>
         </el-form-item>
 
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="ruleForm.email"></el-input>
+          <el-input v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
         </el-form-item>
 
         <el-form-item label="管理员角色" prop="role_id">

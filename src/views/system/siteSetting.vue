@@ -14,7 +14,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="网站名称" prop="site_title">
-          <el-input v-model="ruleForm.site_title"></el-input>
+          <el-input v-model="ruleForm.site_title" placeholder="请输入网站名称"></el-input>
         </el-form-item>
 
         <el-form-item label="网站logo" prop="site_logo">

@@ -13,7 +13,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="角色名称" prop="title">
-          <el-input v-model="ruleForm.title" style="width: 300px"></el-input>
+          <el-input v-model="ruleForm.title" style="width: 300px" placeholder="请输入角色名称"></el-input>
         </el-form-item>
 
         <el-form-item label="类型" prop="type">
@@ -35,6 +35,7 @@
             type="textarea"
             v-model="ruleForm.description"
             style="width: 300px"
+            placeholder="请输入描述"
           ></el-input>
         </el-form-item>
 
