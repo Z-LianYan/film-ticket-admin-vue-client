@@ -17,9 +17,21 @@ import '@/ElementUi';
 
 import '@/icons'; // icon
 
+
 console.log("environment", process.env.NODE_ENV);
 
 Vue.config.productionTip = false;
+
+import nodeWrap from '@/views/audit/auditWorkFlow/nodeWrap'
+Vue.use(nodeWrap)
+Vue.component('nodeWrap', nodeWrap); //初始化组件
+import addNode from '@/views/audit/auditWorkFlow/addNode';
+
+Vue.use(addNode)
+Vue.component('addNode', addNode); //初始化组件
+
+import * as HttpUtil from "@/utils/request";
+Vue.prototype.HttpUtil = HttpUtil;
 
 import VueAMap from 'vue-amap';//高德地图的地图组件
 Vue.use(VueAMap);

@@ -86,3 +86,7 @@ export const GET_SEAT_LIST = "/API/film/getSeat"; //获取座位列表
 
 
 export const GET_ORDER_LIST = "/API/film/orderList"; //订单列表
+
+export const GET_AUDIT_LIST = "/API/admin/system/audit/getConfigList"; //获取审批配置列表
+export const GET_AUDIT_DETAIL = "/API/admin/system/audit/getConfigById"; //获取审批配置列表 
+
