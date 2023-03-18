@@ -98,21 +98,21 @@ export default {
         // var row = await this.HttpUtil.post("/API/admin/system/audit/getConfigById",{
         //     type:'tuijian',
         // });
-		const row = await this.$store.dispatch("auditManage/getConfigDetail", { type:'tuijian', });
-        console.log("row",row);
-        this.processConfig=row;
-        if(JSON.stringify(row.config)=='{}'){
-             this.nodeConfig =_.cloneDeep(mockData);
-        }else{
-            this.nodeConfig =row.config;
+		const row = await this.$store.dispatch("auditConfig/getConfigDetail", { type: this.$route.query.type, });
+		console.log("row",row);
+		this.processConfig=row||{};
+		if(JSON.stringify(row.config)=='{}'){
+					this.nodeConfig =_.cloneDeep(mockData);
+		}else{
+				this.nodeConfig =row.config;
 			if(row.conditions){
 				this.conditions = JSON.parse(row.conditions);
 			}else{
 				this.conditions = []
 			}
-			
-			
-        }
+	
+	
+		}
        
 			// this.processConfig = mockData.data
 			

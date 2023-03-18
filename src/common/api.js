@@ -87,6 +87,10 @@ export const GET_SEAT_LIST = "/API/film/getSeat"; //获取座位列表
 
 export const GET_ORDER_LIST = "/API/film/orderList"; //订单列表
 
-export const GET_AUDIT_LIST = "/API/admin/system/audit/getConfigList"; //获取审批配置列表
-export const GET_AUDIT_DETAIL = "/API/admin/system/audit/getConfigById"; //获取审批配置列表 
+export const GET_AUDIT_LIST = "/API/admin/audit/getConfigList"; //获取审批配置列表
+export const GET_AUDIT_DETAIL = "/API/admin/audit/getConfigById"; //获取审批配置列表 
+export const DEL_AUDIT_CONFIG = "/API/admin/audit/delConfig"; //删除审批类型 
+export const CHANGE_AUDIT_STATUS = "/API/admin/audit/changeStatus"; //更改审批状态
+export const GET_AUDIT_TYPE_LIST = "/API/admin/audit/getTypeConfigList"; //获取审批类型列表 
+export const DEL_AUDIT_TYPE = "/API/admin/audit/delType"; //删除审批类型 
 
