@@ -28,9 +28,9 @@
 				</div>
 				<div class="box-scale" id="box-scale" :style="'transform: scale('+nowVal/100+'); transform-origin: 50% 0px 0px;'">
 					<nodeWrap 
-                    :data_posList="posList"
-                    :data_departments="departments"
-                    :nodeConfig.sync="nodeConfig" 
+					:data_posList="posList"
+					:data_departments="departments"
+					:nodeConfig.sync="nodeConfig" 
 					:flowPermission.sync="flowPermission"
 					:isTried.sync="isTried" 
 					:directorMaxLevel="directorMaxLevel" 
@@ -69,10 +69,12 @@
 <script>
 import mockData from './data.js';
 import  _  from 'lodash';
+import nodeWrap from '@/views/audit/auditWorkFlow/nodeWrap';
+
 export default {
 	components: {
-   
-    },
+		nodeWrap
+	},
 	data() {
 		return {
 			isTried: false,
@@ -86,8 +88,8 @@ export default {
 			directorMaxLevel: 0,
 			dialogVisible: true,
 			tableId: "",
-            posList:[],
-            departments:[],
+			posList:[],
+			departments:[],
 			conditions:[],
 		};
 	},

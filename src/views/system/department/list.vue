@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card class="box-card">
       <div slot="header" style="text-align: center" class="clearfix">
-        <span>管理员列表</span>
+        <span>部门列表</span>
         <el-button type="text" @click="getData" class="float-right">
           <i class="el-icon-refresh"></i>刷新
         </el-button>
@@ -14,25 +14,10 @@
             v-model="fetchOptions.keywords"
             style="width: 200px"
             @keyup.enter.native="getData()"
-            placeholder="请输入关键字"
+            placeholder="搜索部门名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="开始时间" style="display: inline-block">
-          <el-date-picker
-            @change="getData()"
-            v-model="fetchOptions.start_time"
-            type="date"
-            placeholder="选择日期"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="结束时间" style="display: inline-block">
-          <el-date-picker
-            @change="getData()"
-            v-model="fetchOptions.end_time"
-            type="date"
-            placeholder="选择日期"
-          ></el-date-picker>
-        </el-form-item>
+        
         <el-form-item label="">
           <el-button @click="getData">筛选</el-button>
         </el-form-item>
@@ -45,39 +30,11 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="username" label="管理员名称"></el-table-column>
-        <el-table-column prop="dep_name" label="所属部门"></el-table-column>
-        <el-table-column prop="title" label="所属角色"></el-table-column>
-        <el-table-column prop="mobile" label="电话"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="img_head" label="头像">
-          <template slot-scope="scope">
-            <el-image
-              v-if="scope.row.img_head"
-              style="width: 100px; height: 100px"
-              :src="scope.row.img_head"
-              :preview-src-list="[scope.row.img_head]"
-            >
-            </el-image>
-          </template>
-        </el-table-column>
-        <el-table-column prop="status" label="状态">
-          <template slot-scope="scope">
-            <img
-              src="@/assets/images/yes.gif"
-              v-if="scope.row.status == 1"
-              alt
-            />
-            <img
-              src="@/assets/images/no.gif"
-              v-if="scope.row.status == 0"
-              alt
-            />
-          </template>
-        </el-table-column>
-        <el-table-column prop="add_time" label="添加时间">
+        <el-table-column prop="dep_name" label="部门名称"></el-table-column>
+       
+        <el-table-column prop="created_at" label="添加时间">
           <template slot-scope="scope">{{
-            scope.row.add_time | formatDateMS
+            scope.row.created_at | formatDateMS
           }}</template>
         </el-table-column>
 
@@ -109,7 +66,7 @@
 
 <script>
 export default {
-  name: "ManagerList",
+  name: "DepartmentList",
   data() {
     return {
       loading: false,
@@ -118,8 +75,6 @@ export default {
         page: 1,
         limit: 20,
         keywords: "",
-        start_time: "",
-        end_time: "",
       },
       total: 0,
       currentView: "",
@@ -134,24 +89,24 @@ export default {
   methods: {
     getData() {
       this.loading = true;
-      this.$store.dispatch("manager/list", this.fetchOptions).then((res) => {
+      this.$store.dispatch("department/getList", this.fetchOptions).then((res) => {
         this.tableData = res.data;
         this.total = res.count;
         this.loading = false;
       });
     },
     doEdit(rows) {
-      this.$router.push({ path: "/system/manager/edit/" + rows._id });
+      this.$router.push({ path: "/system/department/edit/" + rows.dep_id });
     },
     doDelete(rows) {
-      const { _id } = rows;
+      const { dep_id } = rows;
       this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.$store.dispatch("manager/doDelete", { _id }).then(() => {
+          this.$store.dispatch("department/del", { dep_id }).then(() => {
             this.getData();
           });
         })
@@ -175,14 +130,6 @@ export default {
       this.getData();
     },
   },
-  // beforeRouteLeave(to,from,next){
-  //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-  //     this.$route.meta.keep_alive = false;
-  //   }else{
-  //     this.$route.meta.keep_alive = true;
-  //   }
-  //   next();
-  // },
 };
 </script>
 

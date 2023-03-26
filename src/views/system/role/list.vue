@@ -3,6 +3,9 @@
     <el-card class="box-card">
       <div slot="header" style="text-align: center" class="clearfix">
         <span>角色列表</span>
+        <el-button type="text" @click="getData" class="float-right">
+          <i class="el-icon-refresh"></i>刷新
+        </el-button>
         <!-- <el-button type="text" @click="doAdd" class="float-right">
         <i class="el-icon-plus"></i>添加角色
       </el-button> -->
@@ -48,6 +51,7 @@
             {{ scope.row.type == 1 ? "游客" : "操作" }}
           </template>
         </el-table-column>
+        <el-table-column prop="sort" label="排序"></el-table-column>
 
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">

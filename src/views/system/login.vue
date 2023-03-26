@@ -129,11 +129,17 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$store.dispatch("user/doLogin", this.loginForm).then((res) => {
+          this.$store.dispatch("user/doLogin", this.loginForm).then(async (res) => {
             this.loading = false;
             if(res.error==0){
-              this.is_init_system_modal = true;
-              this.$router.push({ path:'/' });
+              // this.is_init_system_modal = true;
+              // this.$router.push({ path:'/' });
+              // store.state.accessMenu.isLoadingMenu = false;
+              const menu_data = await this.$store.dispatch("accessMenu/getAccessMenu");
+              if(menu_data && menu_data.data && menu_data.data.length){
+                const path = this.handlerPath(menu_data.data);
+                this.$router.push({ path: path });
+              }
             }
           }).catch(() => {
             this.loading = false;
@@ -143,8 +149,17 @@ export default {
           return false;
         }
       });
+    },
+    handlerPath(menu_data,new_path=''){
+      let path = new_path + (new_path?'/':'') + menu_data[0].path ;
+      if(menu_data[0].children && menu_data[0].children.length) {
+        return this.handlerPath(menu_data[0].children,path)
+      }else{
+        return path
+      }
     }
-  }
+  },
+  
 };
 </script>
 
