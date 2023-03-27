@@ -21,7 +21,7 @@
                                 <el-tab-pane label="员工列表" name="3"></el-tab-pane>
                             </el-tabs>
                             <p class="ellipsis tree_nav" v-if="!promoterSearchName">
-                                <span @click="getDepartmentList(0)" class="ellipsis">耳艺</span>
+                                <!-- <span @click="getDepartmentList(0)" class="ellipsis"></span> -->
                                 <!-- <span v-for="(item,index) in departments.titleDepartments" class="ellipsis" 
                                 :key="index+'a'" @click="getDepartmentList(item.id)">{{item.name}}</span>    -->
                             </p>
@@ -263,18 +263,17 @@ export default {
         },
         async getEmployeeList(){
             this.isGetEmp=true;
-            var res = await this.HttpUtil.post("/API/v2/private/qiyewxEmployee/getList",{
-                    page:1,
-                    limit:20,
-                    keywords:this.promoterSearchName,
-                    is_bind_employee_id:1,
-                    order: { id: "desc" },
-                },{
-                    isLoading:false,
-                });
-            // console.log("rows",rows);
-            this.filterEmployeeList=res.data.rows.map((item)=>{
-                item.id=item.employee_id;
+            const res = await this.$store.dispatch('manager/list',{
+                page:1,
+                limit:20,
+                keywords:this.promoterSearchName,
+                order: { id: "desc" },
+                loadingTxt:'加载中...'
+            })
+            console.log("rows--getEmployeeList",res);
+            this.filterEmployeeList=res.data.map((item)=>{
+                item.id=item._id;
+                item.name=item.username;
                 return item;
             })
 
@@ -308,10 +307,10 @@ export default {
         },
          getDebounceData(event, type = 1) {
             this.$func.debounce( async function (){
-                // console.log("this.departments",this.departments);
+                console.log("this.departments",this.departments);
                 if(type==1){
                     this.filterDepartments= this.departments.filter((item)=>{
-                        return item.title.match(this.promoterSearchName);
+                        return item.name.match(this.promoterSearchName);
                     })
                 }else if(type==2){ //职位
                     this.filterPosList= this.posList.filter((item)=>{

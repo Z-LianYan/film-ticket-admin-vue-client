@@ -11,8 +11,10 @@ const mutations = {
 
 const actions = {
   list({ commit, state }, requestParams) {
+    const loadingTxt = requestParams.loadingTxt;
+    delete requestParams.loadingTxt;
     return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.MANAGER_LIST, requestParams).then(res => {
+      requstTools.get(aipUrl.MANAGER_LIST, requestParams,loadingTxt).then(res => {
         if (res.error == 0) {
           resolve(res.data);
         } else {

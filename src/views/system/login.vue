@@ -138,6 +138,7 @@ export default {
               const menu_data = await this.$store.dispatch("accessMenu/getAccessMenu");
               if(menu_data && menu_data.data && menu_data.data.length){
                 const path = this.handlerPath(menu_data.data);
+                console.log('path--->',path);
                 this.$router.push({ path: path });
               }
             }
@@ -151,7 +152,7 @@ export default {
       });
     },
     handlerPath(menu_data,new_path=''){
-      let path = new_path + (new_path?'/':'') + menu_data[0].path ;
+      let path = new_path + ((new_path && new_path!=='/')?'/':'') + menu_data[0].path;
       if(menu_data[0].children && menu_data[0].children.length) {
         return this.handlerPath(menu_data[0].children,path)
       }else{

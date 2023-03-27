@@ -94,12 +94,6 @@ export default {
 		};
 	},
 	async created() {
-		// this.$axios.get(`${process.env.BASE_URL}data.json`, {
-		// 	workFlowDefId: this.$route.params.workFlowDefId
-		// }).then(res => {getConfigDetail
-        // var row = await this.HttpUtil.post("/API/admin/system/audit/getConfigById",{
-        //     type:'tuijian',
-        // });
 		const row = await this.$store.dispatch("auditConfig/getConfigDetail", { type: this.$route.query.type, });
 		console.log("row",row);
 		this.processConfig=row||{};
@@ -115,32 +109,25 @@ export default {
 	
 	
 		}
-       
-			// this.processConfig = mockData.data
-			
-			// this.flowPermission = this.processConfig.flowPermission;
-			// this.directorMaxLevel = this.processConfig.directorMaxLevel;
-			// this.workFlowDef = this.processConfig.workFlowDef
-		// })
-
-        // this.posList = await this.$store.dispatch("GET_ALL_EMPLOYEE_POS");
-        // this.posList.map((item)=>{
-        //     item.id=item.pos_id;
-        // })
-        // var stores =await this.$store.dispatch("GET_ALL_STORE");
-        // console.log("stores",stores);
-        // this.departments = stores.map((item)=>{
-        //     item.id=item.store_id;
-        //     item.departmentName=item.title;
-        //     item.name=item.title;
-        //     return item;
-        // });
+		this.posList = await this.$store.dispatch("role/list",{page:1,limit:1000});
+		this.posList.map((item)=>{
+				item.id=item._id;
+				item.name = item.title;
+		})
+		const result =await this.$store.dispatch("department/getList",{page:1,limit:1000});
+		console.log("result",result);
+		const department = result.data;
+		this.departments = department.map((item)=>{
+				item.id=item.dep_id;
+				item.departmentName=item.dep_name;
+				item.name=item.dep_name;
+				return item;
+		});
 
 	},
 	methods: {
 		toReturn() {
-			//window.location.href = ""
-            this.$router.back();
+			this.$router.back();
 		},
 		reErr(data) {
 			if (data.childNode) {
@@ -177,23 +164,11 @@ export default {
 				this.tipVisible = true;
 				return;
 			}
-			// this.processConfig.flowPermission = this.flowPermission
-			console.log(JSON.stringify(this.processConfig))
-            this.processConfig.config=this.nodeConfig;
-            this.$store
-              .dispatch("EDIT_AUDIT_CONFIG_LIST",  this.processConfig)
-              .then(() => {
-                  
-              });
-
-			// this.$axios.post("", this.processConfig).then(res => {
-			//     if (res.code == 200) {
-			//         this.$message.success("设置成功");
-			//         setTimeout(function () {
-			//             window.location.href = ""
-			//         }, 200)
-			//     }
-			// })
+			this.processConfig.config=this.nodeConfig;
+			this.HttpUtil.post('/API/admin/audit/updateApproveConfig', this.processConfig).then(res => {
+				if(res.error==0) this.$message.success(res.message);
+      }).catch(error => {
+      })
 		},
 		zoomSize(type) {
 			if (type == 1) {
