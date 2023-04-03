@@ -14,7 +14,7 @@
             v-model="fetchOptions.keywords"
             style="width: 200px"
             @keyup.enter.native="getData()"
-            placeholder="请输入关键字"
+            placeholder="搜索规则名称"
           ></el-input>
         </el-form-item>
         <!-- <el-form-item label="状态" style="display: inline-block">
@@ -33,13 +33,14 @@
       <el-table
         v-loading="loading"
         :data="tableData"
+        @sort-change="handleSortChange"
         highlight-current-row
         border
         style="width: 100%"
       >
         <el-table-column prop="rule_name" label="规则名称"></el-table-column>
         <!-- <el-table-column prop="type" label="类型"></el-table-column> -->
-        <el-table-column prop="sort" label="排序"></el-table-column>
+        <el-table-column prop="sort" label="排序" sortable></el-table-column>
         <!-- <el-table-column prop="status" label="状态">
           <template slot-scope="scope">
             <span style="color:green" v-if="scope.row.status==1">启用</span>
@@ -99,6 +100,9 @@ export default {
         limit: 20,
         keywords: "",
         status: "",
+        order:{
+          sort: 'desc'
+        }
       },
       total: 0,
       currentView: "",
@@ -155,6 +159,16 @@ export default {
     handleCurrentChange(page) {
       console.log("page", page);
       this.fetchOptions.page = page;
+      this.getData();
+    },
+    handleSortChange(val) {
+      var order = "";
+      if (val.order == "descending") {
+        order = "desc";
+      } else {
+        order = "asc";
+      }
+      this.fetchOptions.order[val.prop] = order;
       this.getData();
     },
   },
