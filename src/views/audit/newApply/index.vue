@@ -5,7 +5,7 @@
         <span>新申请</span>
       </div>
 
-      1234
+      <div @click="getAuditConfigDetail">888</div>
     </el-card>
   </div>
 </template>
@@ -21,10 +21,14 @@ export default {
   components: {},
   computed: {},
   mounted() {
-    this.getData();
   },
   watch: {},
   methods: {
+    async getAuditConfigDetail(){
+      const result = await this.$store.dispatch("newApply/getAuditConfigDetail", { admin_id: 83,type:'lizhi' });
+      console.log('result====>>',result);
+
+    }
   }
 };
 </script>

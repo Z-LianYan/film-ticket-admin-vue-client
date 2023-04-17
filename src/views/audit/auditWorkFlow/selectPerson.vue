@@ -200,6 +200,14 @@ export default {
                     "name": this.checkedDepartmentList[i].name
                 })
             }
+            for(var i=0;i<this.checkedPosList.length;i++){
+                nodeUserList.push({
+                    "targetId": this.checkedPosList[i].id,
+                    "id": this.checkedPosList[i].id,
+                    "type": 2,
+                    "name": this.checkedPosList[i].name
+                })
+            }
             for(var i=0;i<this.checkedEmployessList.length;i++){
                 nodeUserList.push({
                     "targetId": this.checkedEmployessList[i].id,
@@ -208,14 +216,6 @@ export default {
                     "userid":this.checkedEmployessList[i].userid,
                     "name": this.checkedEmployessList[i].name,
                     // "thumb_avatar": this.checkedEmployessList[i].name
-                })
-            }
-            for(var i=0;i<this.checkedPosList.length;i++){
-                nodeUserList.push({
-                    "targetId": this.checkedPosList[i].id,
-                    "id": this.checkedPosList[i].id,
-                    "type": 2,
-                    "name": this.checkedPosList[i].name
                 })
             }
             // console.log("nodeUserList",nodeUserList);

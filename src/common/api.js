@@ -100,3 +100,6 @@ export const ADD_ADMIN_DEPARTMENT = "/API/admin/system/department/add"; //添加
 export const EDIT_ADMIN_DEPARTMENT = "/API/admin/system/department/edit"; //编辑部门
 export const DEL_ADMIN_DEPARTMENT = "/API/admin/system/department/del"; //删除部门
 export const GET_ADMIN_DEPARTMENT_DETAIL = "/API/admin/system/department/getById"; //删除部门
+export const GET_AUDIT_CONFIG_DETAIL = "/API/admin/audit/getConfigDetail"; //获取配置详情
+
+
