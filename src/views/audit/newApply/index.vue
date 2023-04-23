@@ -25,7 +25,7 @@ export default {
   watch: {},
   methods: {
     async getAuditConfigDetail(){
-      const result = await this.$store.dispatch("newApply/getAuditConfigDetail", { admin_id: 83,type:'lizhi' });
+      const result = await this.$store.dispatch("newApply/getAuditConfigDetail", { admin_id: 83,type:'qingjia',auditInfo:{ qingjia_type: "1" } });
       console.log('result====>>',result);
 
     }
