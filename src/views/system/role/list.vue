@@ -6,6 +6,9 @@
         <!-- <el-button type="text" @click="doAdd" class="float-right">
         <i class="el-icon-plus"></i>添加角色
       </el-button> -->
+        <el-button type="text" @click="getData" class="float-right">
+          <i class="el-icon-refresh"></i>刷新
+        </el-button>
       </div>
       <el-table
         :data="tableData"
