@@ -196,7 +196,7 @@
             <div class="demo-drawer__content">
                 <el-form ref="form"  label-width="80px" class="condition_content drawer_content">
                  <p class="tip">当审批单同时满足以下条件时进入此流程</p>
-                    <el-form-item label="申请人：">
+                        <el-form-item label="申请人：">
                              <selectTagList :userList.sync="conditionConfig.nodeUserList" />
                              <el-button type="primary" @click="addConditionRole">添加成员</el-button>
                         </el-form-item>
@@ -204,10 +204,9 @@
                        v-for="(item,index) in conditionConfig.conditionList" :key="index"
                        :label="item.name">
                             <div v-if="item.formType == 'checkbox'">
-                              <el-checkbox-group v-model="item.value">
-                                <el-checkbox v-for="item2 in  conditionsKeyMap[item.key].option" :label="item2.value" :key="item2.value">{{item2.label}}</el-checkbox>
-                            </el-checkbox-group>
-                            
+                                <el-checkbox-group v-model="item.value">
+                                    <el-checkbox v-for="item2 in  conditionsKeyMap[item.key].option" :label="item2.value" :key="item2.value">{{item2.label}}</el-checkbox>
+                                </el-checkbox-group>
                             </div>
                             <div v-if="item.formType=='input'">
                                 <el-select 
@@ -510,7 +509,6 @@ export default {
        
         addCondition() {
             this.conditionList = [];
-          
             this.conditionConfig.conditionList.map((item)=>{
                 this.conditionList.push(item.key)
             })
@@ -556,7 +554,6 @@ export default {
                 })
             });
             this.conditionConfig.conditionList=arr.filter((item)=>item);
-            console.log("arr",arr,"=======",this.conditionList,'result',result);
             this.conditionVisible = false;
         },
         saveCondition() {

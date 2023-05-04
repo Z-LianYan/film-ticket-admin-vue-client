@@ -97,7 +97,10 @@
         :rules="{
           required: true, message: '请选择请假类型', trigger: ['blur','change']
         }">
-          <el-select v-model="ruleForm.applyData.leave_type" placeholder="请选择所属角色">
+          <el-select 
+          v-model="ruleForm.applyData.leave_type" 
+          placeholder="请选择所属角色"
+          @change="onChangeLeaveType">
             <el-option
               v-for="(item, idx) in typeList"
               :key="idx"
@@ -189,6 +192,10 @@ export default {
   },
   watch: {},
   methods: {
+    onChangeLeaveType(value){
+      console.log('123456---',value)
+      this.getAuditConfigDetail('','',value);
+    },
     onChangeType(value){
       this.getAuditConfigDetail('',value);
     },
@@ -233,8 +240,10 @@ export default {
       const result = await this.$store.dispatch("auditConfig/getConfiglist", {limit:100,page:1});
       this.auditType = result.rows;
     },
-    async getAuditConfigDetail(admin_id,type){
-      const result = await this.$store.dispatch("newApply/getAuditConfigDetail", { admin_id: admin_id||this.$store.state.user.userInfo._id,type: type||this.ruleForm.type,auditInfo:{ qingjia_type: "1" } });
+    async getAuditConfigDetail(admin_id,type,leave_type){
+      console.log('123456')
+      const { applyData } = this.ruleForm
+      const result = await this.$store.dispatch("newApply/getAuditConfigDetail", { admin_id: admin_id||this.$store.state.user.userInfo._id,type: type||this.ruleForm.type,auditInfo:{ qingjia_type: leave_type||applyData.leave_type } });
       this.ruleForm.auditProcess = result.map(item=>{
         return {
           nodeName: item.nodeName,
