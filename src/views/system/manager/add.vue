@@ -21,14 +21,25 @@
         </el-form-item>
 
         <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="ruleForm.mobile" placeholder="请输入手机号"></el-input>
+          <el-input v-model="ruleForm.mobile" placeholder="请输入手机号" maxlength="11"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
         </el-form-item>
 
-        <el-form-item label="管理员角色" prop="role_id">
-          <el-select v-model="ruleForm.role_id" placeholder="请选择角色">
+        <el-form-item label="所属部门" prop="dep_id">
+          <el-select v-model="ruleForm.dep_id" placeholder="请选择所属部门">
+            <el-option
+              v-for="(item, idx) in departmentList"
+              :key="idx"
+              :label="item.dep_name"
+              :value="item.dep_id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="所属角色" prop="role_id">
+          <el-select v-model="ruleForm.role_id" placeholder="请选择所属角色">
             <el-option
               v-for="(item, idx) in roleList"
               :key="idx"
@@ -97,10 +108,12 @@ export default {
         mobile: "",
         email: "",
         role_id: "",
+        dep_id: "",
         img_head: "",
         status: 1,
       },
       roleList: [],
+      departmentList: [],
       rules: {
         img_head: [{ required: true, message: "请上传头像" }],
         username: [
@@ -115,12 +128,14 @@ export default {
         mobile: [
           { required: true, validator: validateMobile, trigger: "blur" },
         ],
-        role_id: [{ required: true, message: "请选择角色", trigger: "change" }],
+        role_id: [{ required: true, message: "所属角色", trigger: "change" }],
+        dep_id: [{ required: true, message: "所属部门", trigger: "change" }],
       },
     };
   },
   mounted() {
     this.getRoleList();
+    this.getDepartmentList()
   },
   methods: {
     submitForm(formName) {
@@ -141,6 +156,15 @@ export default {
     getRoleList() {
       this.$store.dispatch("manager/getRoleList").then((data) => {
         this.roleList = data;
+      });
+    },
+    getDepartmentList() {
+      this.loading = true;
+      this.$store.dispatch("department/getList", {
+        page: 1,
+        limit: 200,
+      }).then((res) => {
+        this.departmentList = res.data;
       });
     },
     getImgUrl(imgUrl) {

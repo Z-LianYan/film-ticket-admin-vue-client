@@ -51,49 +51,6 @@ const actions = {
       })
     })
   },
-  // changeStatus({ commit, state }, requestParams) {
-  //   return new Promise((resolve, reject) => {
-  //     requstTools.post(aipUrl.CHANGE_AUDIT_STATUS, requestParams).then(res => {
-  //       if (res.error == 0) {
-  //         resolve(res.data);
-  //       } else {
-  //         Message.error(res.message);
-  //       }
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
-
-  // getAuditTypelist({ commit, state }, requestParams) {
-  //   return new Promise((resolve, reject) => {
-  //     requstTools.get(aipUrl.GET_AUDIT_TYPE_LIST, requestParams).then(res => {
-  //       if (res.error == 0) {
-  //         resolve(res.data);
-  //       } else {
-  //         Message.error(res.message);
-  //       }
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
-
-  // delAuditType({ commit, state }, requestParams) {
-  //   return new Promise((resolve, reject) => {
-  //     requstTools.post(aipUrl.DEL_AUDIT_TYPE, requestParams).then(res => {
-  //       if (res.error == 0) {
-  //         resolve(res.data);
-  //       } else {
-  //         Message.error(res.message);
-  //       }
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
-  
-
 }
 
 export default {

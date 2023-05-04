@@ -30,7 +30,7 @@
           <el-input v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
         </el-form-item>
 
-        <el-form-item label="管理员角色" prop="role_id">
+        <el-form-item label="所属角色" prop="role_id">
           <el-select v-model="ruleForm.role_id" placeholder="请选择角色">
             <el-option
               v-for="(item, idx) in roleList"
@@ -40,6 +40,17 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="所属部门" prop="role_id">
+          <el-select v-model="ruleForm.dep_id" placeholder="请选择部门">
+            <el-option
+              v-for="(item, idx) in departmentList"
+              :key="idx"
+              :label="item.dep_name"
+              :value="item.dep_id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        
 
         <el-form-item label="上传头像" prop="img_head">
           <upload-image
@@ -118,34 +129,11 @@ export default {
       }
     };
 
-    // let validatePassword = (rule, value, callback) => {
-    //   if (value) {
-    //     value.length < 6 ? callback(new Error("请输入6位以上的字符")) : callback();;
-    //   } else {
-    //     callback();
-    //   }
-    // };
-
-    // let validateConfirmPassword = (rule, value, callback) => {
-    //   if (value) {
-    //     if (value.length < 6) {
-    //       callback(new Error("请输入6位以上的字符"));
-    //     } else if (value !== this.ruleForm.password) {
-    //       callback(new Error("两次输入密码不一致!"));
-    //     }else{
-    //       callback();
-    //     }
-    //   } else {
-    //     callback();
-    //   }
-    // };
     return {
       ruleForm: {
         _id: "",
         username: "",
-        // oldPassword: "",
-        // password: "",
-        // confirmPassword: "",
+        dep_id: "",
         mobile: "",
         img_head: "",
         email: "",
@@ -153,6 +141,7 @@ export default {
         status: 1,
       },
       roleList: [],
+      departmentList:[],
       rules: {
         img_head: [{ required: true, message: "请上传头像" }],
         username: [
@@ -164,6 +153,7 @@ export default {
           { required: true, validator: validateMobile, trigger: "blur" },
         ],
         role_id: [{ required: true, message: "请选择角色", trigger: "change" }],
+        dep_id: [{ required: true, message: "请选择所属部门", trigger: "change" }],
         // password: { validator: validatePassword, trigger: "blur" },
         // confirmPassword: { validator: validateConfirmPassword, trigger: "blur" }
       },
@@ -173,7 +163,7 @@ export default {
   },
   mounted() {
     this.getRoleList();
-
+    this.getDepartmentList();
     this.getSingleManager();
   },
   methods: {
@@ -208,6 +198,16 @@ export default {
           this.ruleForm = data;
         });
     },
+    getDepartmentList() {
+      this.loading = true;
+      this.$store.dispatch("department/getList", {
+        page: 1,
+        limit: 200,
+      }).then((res) => {
+        this.departmentList = res.data;
+      });
+    },
+    
     goBack() {
       history.go(-1);
     },

@@ -89,8 +89,17 @@ export const GET_ORDER_LIST = "/API/film/orderList"; //订单列表
 
 export const GET_AUDIT_LIST = "/API/admin/audit/getConfigList"; //获取审批配置列表
 export const GET_AUDIT_DETAIL = "/API/admin/audit/getConfigById"; //获取审批配置列表 
-export const DEL_AUDIT_CONFIG = "/API/admin/audit/delConfig"; //删除审批类型 
+export const DEL_AUDIT_CONFIG = "/API/admin/audit/delConfig"; //删除审批配置类型 
 export const CHANGE_AUDIT_STATUS = "/API/admin/audit/changeStatus"; //更改审批状态
 export const GET_AUDIT_TYPE_LIST = "/API/admin/audit/getTypeConfigList"; //获取审批类型列表 
 export const DEL_AUDIT_TYPE = "/API/admin/audit/delType"; //删除审批类型 
+
+
+export const GET_ADMIN_DEPARTMENT_LSIT = "/API/admin/system/department/getList"; //获取部门列表 
+export const ADD_ADMIN_DEPARTMENT = "/API/admin/system/department/add"; //添加部门
+export const EDIT_ADMIN_DEPARTMENT = "/API/admin/system/department/edit"; //编辑部门
+export const DEL_ADMIN_DEPARTMENT = "/API/admin/system/department/del"; //删除部门
+export const GET_ADMIN_DEPARTMENT_DETAIL = "/API/admin/system/department/getById"; //删除部门
+export const GET_AUDIT_CONFIG_DETAIL = "/API/admin/audit/getConfigDetail"; //获取配置详情
+
 

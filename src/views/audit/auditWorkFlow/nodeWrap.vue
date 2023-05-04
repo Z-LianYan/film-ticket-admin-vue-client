@@ -318,12 +318,14 @@
 import selectPerson from './selectPerson';
 import SelectTagList from './selectTagList.vue';
 import _ from "lodash"
+import addNode from '@/views/audit/auditWorkFlow/addNode';
 
 export default {
     props: ["nodeConfig", "flowPermission", "directorMaxLevel", "isTried", "tableId","data_posList","data_departments","conditions"],
     components:{
         selectPerson,
-        SelectTagList
+        SelectTagList,
+        addNode
     },
     data() {
         return {

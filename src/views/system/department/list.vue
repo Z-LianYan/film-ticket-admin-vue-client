@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card class="box-card">
       <div slot="header" style="text-align: center" class="clearfix">
-        <span>审批配置列表</span>
+        <span>部门列表</span>
         <el-button type="text" @click="getData" class="float-right">
           <i class="el-icon-refresh"></i>刷新
         </el-button>
@@ -14,59 +14,35 @@
             v-model="fetchOptions.keywords"
             style="width: 200px"
             @keyup.enter.native="getData()"
-            placeholder="搜索规则名称"
+            placeholder="搜索部门名称"
           ></el-input>
         </el-form-item>
-        <!-- <el-form-item label="状态" style="display: inline-block">
-          <el-radio-group v-model="fetchOptions.status" class="clear" @change="getData()">
-            <el-radio label="">全部</el-radio>
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item> -->
         
-        <el-form-item label="" style="display: inline-block">
-          <el-button @click="getData" type="primary">筛选</el-button>
+        <el-form-item label="">
+          <el-button @click="getData">筛选</el-button>
         </el-form-item>
       </el-form>
 
       <el-table
         v-loading="loading"
         :data="tableData"
-        @sort-change="handleSortChange"
         highlight-current-row
         border
         style="width: 100%"
       >
-        <el-table-column prop="rule_name" label="规则名称"></el-table-column>
-        <!-- <el-table-column prop="type" label="类型"></el-table-column> -->
-        <el-table-column prop="sort" label="排序" sortable></el-table-column>
-        <!-- <el-table-column prop="status" label="状态">
-          <template slot-scope="scope">
-            <span style="color:green" v-if="scope.row.status==1">启用</span>
-            <span style="color:grey" v-else>禁用</span>
-          </template>
-        </el-table-column> -->
-        
+        <el-table-column prop="dep_name" label="部门名称"></el-table-column>
+       
+        <el-table-column prop="created_at" label="添加时间">
+          <template slot-scope="scope">{{
+            scope.row.created_at | formatDateMS
+          }}</template>
+        </el-table-column>
+
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button 
-            type="text" 
-            size="small" 
-            @click="$router.push({
-              path: '/auditConfig',
-              query: {
-                type: scope.row.type,
-              },
-            })">
+            <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
             </el-button>
-            <!-- <el-button 
-            type="text" 
-            size="small" 
-            @click="onChangeStatus(scope.row)">
-              {{ scope.row.status?"禁用":"启用" }}
-            </el-button> -->
             <el-button type="text" size="small" @click="doDelete(scope.row)">
               <i class="el-icon-delete"></i>删除
             </el-button>
@@ -90,7 +66,7 @@
 
 <script>
 export default {
-  name: "ManagerList",
+  name: "DepartmentList",
   data() {
     return {
       loading: false,
@@ -99,10 +75,6 @@ export default {
         page: 1,
         limit: 20,
         keywords: "",
-        status: "",
-        order:{
-          sort: 'desc'
-        }
       },
       total: 0,
       currentView: "",
@@ -117,28 +89,24 @@ export default {
   methods: {
     getData() {
       this.loading = true;
-      this.$store.dispatch("auditConfig/getConfiglist", this.fetchOptions).then((res) => {
-        console.log(res);
-        this.tableData = res.rows;
+      this.$store.dispatch("department/getList", this.fetchOptions).then((res) => {
+        this.tableData = res.data;
         this.total = res.count;
         this.loading = false;
       });
     },
-    async onChangeStatus(rows) {
-      const { id,status } = rows;
-      console.log('status',status,typeof status);
-      await this.$store.dispatch("auditConfig/changeStatus", { id,status:status?0:1 });
-      this.getData();
+    doEdit(rows) {
+      this.$router.push({ path: "/system/department/edit/" + rows.dep_id });
     },
     doDelete(rows) {
-      const { id } = rows;
+      const { dep_id } = rows;
       this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.$store.dispatch("auditConfig/delConfig", { id }).then(() => {
+          this.$store.dispatch("department/del", { dep_id }).then(() => {
             this.getData();
           });
         })
@@ -161,28 +129,9 @@ export default {
       this.fetchOptions.page = page;
       this.getData();
     },
-    handleSortChange(val) {
-      var order = "";
-      if (val.order == "descending") {
-        order = "desc";
-      } else {
-        order = "asc";
-      }
-      this.fetchOptions.order[val.prop] = order;
-      this.getData();
-    },
   },
-  // beforeRouteLeave(to,from,next){
-  //   if(to.name == "ManagerAdd" || to.name == "ManagerEdit"){
-  //     this.$route.meta.keep_alive = false;
-  //   }else{
-  //     this.$route.meta.keep_alive = true;
-  //   }
-  //   next();
-  // },
 };
 </script>
 
 <style lang="scss" scoped>
-
 </style>

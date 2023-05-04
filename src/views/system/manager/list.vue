@@ -46,9 +46,10 @@
         style="width: 100%"
       >
         <el-table-column prop="username" label="管理员名称"></el-table-column>
+        <el-table-column prop="dep_name" label="所属部门"></el-table-column>
+        <el-table-column prop="title" label="所属角色"></el-table-column>
         <el-table-column prop="mobile" label="电话"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="title" label="角色"></el-table-column>
         <el-table-column prop="img_head" label="头像">
           <template slot-scope="scope">
             <el-image

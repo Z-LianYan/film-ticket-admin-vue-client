@@ -10,11 +10,9 @@ const mutations = {
 }
 
 const actions = {
-  list({ commit, state }, requestParams) {
-    const loadingTxt = requestParams.loadingTxt;
-    delete requestParams.loadingTxt;
+  getList({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.MANAGER_LIST, requestParams,loadingTxt).then(res => {
+      requstTools.get(aipUrl.GET_ADMIN_DEPARTMENT_LSIT, requestParams).then(res => {
         if (res.error == 0) {
           resolve(res.data);
         } else {
@@ -25,10 +23,9 @@ const actions = {
       })
     })
   },
-  //获取角色列表
-  getRoleList({ commit, state }, requestParams) {
+  getById({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.GET_ROLE_LIST, requestParams).then(res => {
+      requstTools.get(aipUrl.GET_ADMIN_DEPARTMENT_DETAIL, requestParams).then(res => {
         if (res.error == 0) {
           resolve(res.data);
         } else {
@@ -39,10 +36,11 @@ const actions = {
       })
     })
   },
-  //添加管理员
-  doAdd({ commit, state }, requestParams) {
+  
+  //添加部门
+  add({ commit, state }, requestParams) {
     return new Promise((resolve, reject) => {
-      requstTools.post(aipUrl.MANAGER_ADD, requestParams).then(res => {
+      requstTools.post(aipUrl.ADD_ADMIN_DEPARTMENT, requestParams).then(res => {
         
         if (res.error == 0) {
           Message.success(res.message);
@@ -55,24 +53,11 @@ const actions = {
       })
     })
   },
-  //获取单个管理员信息
-  getSingleData({ commit, state }, requestParams){
+  
+  //编辑部门
+  edit({ commit, state }, requestParams){
     return new Promise((resolve, reject) => {
-      requstTools.get(aipUrl.GET_SINGLE_DATA, requestParams).then(res => {
-        if (res.error == 0) {
-          resolve(res.data);
-        } else {
-          Message.error(res.message);
-        }
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-  //编辑管理员
-  doEdit({ commit, state }, requestParams){
-    return new Promise((resolve, reject) => {
-      requstTools.post(aipUrl.GET_MANAGER_EDIT, requestParams).then(res => {
+      requstTools.post(aipUrl.EDIT_ADMIN_DEPARTMENT, requestParams).then(res => {
         if (res.error == 0) {
           Message.success(res.message);
           resolve();
@@ -84,10 +69,10 @@ const actions = {
       })
     })
   },
-  //删除
-  doDelete({ commit, state }, requestParams){
+  //删除部门
+  del({ commit, state }, requestParams){
     return new Promise((resolve, reject) => {
-      requstTools.post(aipUrl.MANAGER_DELETE, requestParams).then(res => {
+      requstTools.post(aipUrl.DEL_ADMIN_DEPARTMENT, requestParams).then(res => {
         if (res.error == 0) {
           resolve();
           Message.success(res.message);
