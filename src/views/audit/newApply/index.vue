@@ -43,6 +43,7 @@
           placeholder="请输入关键词"
           :remote-method="getAdmin"
           :loading="loadingAdmin"
+          value="1"
           @change="onChangeAdmin">
             <el-option
               v-for="(item, idx) in adminList"
@@ -129,6 +130,8 @@
             v-model="ruleForm.applyData.appendix"
           />
         </el-form-item>
+
+
        
 
         <el-form-item>
@@ -139,6 +142,8 @@
         </el-form-item>
       </el-form>
 
+      <AuditProcess :processList="processList"/>
+
 
     </el-card>
   </div>
@@ -146,6 +151,7 @@
 
 <script>
 import UploadImageMul from "@/components/UploadImage-mul";
+import AuditProcess from "@/views/audit/component/AuditProcess";
 
 export default {
   name: "ManagerList",
@@ -171,27 +177,36 @@ export default {
           { required: true, message: "请选择申请类型", trigger: ["blur","change"] },
         ]
       },
-      typeList:[
-        {type_name:'事假',value:1},
-        {type_name:'婚假',value:2},
-        {type_name:'产假',value:3},
-      ],
+      typeList:[],
       auditType:[],
       loadingAdmin: false,
-      adminList: []
+      adminList: [],
+      processList:[]
     };
   },
   components: {
-    UploadImageMul
+    UploadImageMul,
+    AuditProcess,
   },
   computed: {},
   mounted() {
     console.log('====>>',this.$store.state.user.userInfo)
     this.getAuditType();
     this.getAuditConfigDetail();
+
+    this.getQingjiaType();
   },
   watch: {},
   methods: {
+    async getQingjiaType(){
+      const result = await this.$store.dispatch('auditConfig/getQingjiaType');
+      this.typeList = result.map(element => {
+        return {
+          type_name: element.type_name,
+          value: element.value
+        }
+      });
+    },
     onChangeLeaveType(value){
       console.log('123456---',value)
       this.getAuditConfigDetail('','',value);
@@ -241,9 +256,9 @@ export default {
       this.auditType = result.rows;
     },
     async getAuditConfigDetail(admin_id,type,leave_type){
-      console.log('123456')
       const { applyData } = this.ruleForm
       const result = await this.$store.dispatch("newApply/getAuditConfigDetail", { admin_id: admin_id||this.$store.state.user.userInfo._id,type: type||this.ruleForm.type,auditInfo:{ qingjia_type: leave_type||applyData.leave_type } });
+      this.processList = result;
       this.ruleForm.auditProcess = result.map(item=>{
         return {
           nodeName: item.nodeName,
@@ -254,7 +269,6 @@ export default {
 
     },
     submitForm(formName) {
-      console.log('this.ruleForm===>>',this.ruleForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store.dispatch("newApply/applyAudit", this.ruleForm).then(() => {

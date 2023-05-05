@@ -102,5 +102,6 @@ export const DEL_ADMIN_DEPARTMENT = "/API/admin/system/department/del"; //删除
 export const GET_ADMIN_DEPARTMENT_DETAIL = "/API/admin/system/department/getById"; //删除部门
 export const GET_AUDIT_CONFIG_DETAIL = "/API/admin/audit/getConfigDetail"; //获取配置详情
 export const APPLY_AUDIT = "/API/admin/audit/applyAudit"; //获取配置详情
+export const GET_QINGJIA_TYPE = "/API/admin/audit/config/getQingjiaType"; //获取配置详情
 
 

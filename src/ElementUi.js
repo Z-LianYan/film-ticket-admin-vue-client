@@ -82,6 +82,8 @@ Vue.use(ElementUI.Cascader);
 Vue.use(ElementUI.Scrollbar);
 Vue.use(ElementUI.Avatar);
 Vue.use(ElementUI.Slider);
+Vue.use(ElementUI.Steps);
+Vue.use(ElementUI.Step);
 
 Vue.prototype.$confirm = ElementUI.MessageBox.confirm;
 Vue.prototype.$message = ElementUI.Message;
