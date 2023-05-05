@@ -103,10 +103,10 @@
           placeholder="请选择所属角色"
           @change="onChangeLeaveType">
             <el-option
-              v-for="(item, idx) in typeList"
-              :key="idx"
-              :label="item.type_name"
-              :value="item.value"
+              v-for="(val, key,idx) in typeList"
+              :key="idx+'type'"
+              :label="val"
+              :value="Number(key)"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -164,7 +164,8 @@ export default {
           end_leave_date: new Date(),
           start_leave_type: 1,// 1:上半天  2:下半天
           end_leave_type: 2,//1:上半天  2:下半天
-          leave_type: 1,
+          leave_type: '',
+          leave_type_name: '',
           leave_day: "",
           leave_reason: "",
           appendix: [],
@@ -177,7 +178,7 @@ export default {
           { required: true, message: "请选择申请类型", trigger: ["blur","change"] },
         ]
       },
-      typeList:[],
+      typeList:{},
       auditType:[],
       loadingAdmin: false,
       adminList: [],
@@ -190,7 +191,6 @@ export default {
   },
   computed: {},
   mounted() {
-    console.log('====>>',this.$store.state.user.userInfo)
     this.getAuditType();
     this.getAuditConfigDetail();
 
@@ -200,15 +200,17 @@ export default {
   methods: {
     async getQingjiaType(){
       const result = await this.$store.dispatch('auditConfig/getQingjiaType');
-      this.typeList = result.map(element => {
-        return {
-          type_name: element.type_name,
-          value: element.value
-        }
+      if(!result||!result.length) return;
+      this.ruleForm.applyData.leave_type = result[0].value;
+      this.ruleForm.applyData.leave_type_name = result[0].type_name;
+      result.map(element => {
+        this.typeList[element.value] = element.type_name;
       });
     },
     onChangeLeaveType(value){
-      console.log('123456---',value)
+      const { typeList } = this;
+      this.ruleForm.applyData.leave_type = value;
+      this.ruleForm.applyData.leave_type_name = typeList[value];
       this.getAuditConfigDetail('','',value);
     },
     onChangeType(value){
