@@ -104,5 +104,6 @@ export const GET_AUDIT_CONFIG_DETAIL = "/API/admin/audit/getConfigDetail"; //获
 export const APPLY_AUDIT = "/API/admin/audit/applyAudit"; //获取配置详情
 export const GET_QINGJIA_TYPE = "/API/admin/audit/config/getQingjiaType"; //获取配置详情
 export const GET_MINE_AUDIT_LIST = "/API/admin/audit/auditQuery/getMyAuditList"; //获取我的审批列表
+export const GET_MINE_AUDIT_DETAIL = "API/admin/audit/auditQuery/getAuditDetail"; //获取审批详情
 
 

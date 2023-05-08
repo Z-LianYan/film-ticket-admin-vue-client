@@ -151,12 +151,12 @@
 
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <!-- <el-button
+              <el-button
                 type="text"
                 @click.native="viewDetail(scope.row, scope.$index)"
                 >查看详情</el-button
               >
-              <el-button
+              <!-- <el-button
                 type="text"
                 @click.native="doAudit(scope.row)"
                 v-if="queryType == 'un_handle'"
@@ -232,6 +232,66 @@
       </el-row>
 
       <!-- <AddEdit ref="add_edit" @on-getData="getData" :cinemaList='cinemaList'/> -->
+
+
+
+      <AuditDetail
+        ref="audit_detail"
+      >
+        <template slot="btn" slot-scope="scope">
+          <div style="display: flex; justify-content: space-between">
+            <!-- <el-button
+              v-if="queryType == 'un_handle'"
+              type="primary"
+              @click.native="doTurn(scope.detail)"
+              >转审</el-button
+            > -->
+
+
+            <!-- <el-button
+              v-if="
+                (scope.detail.type != 'prepaid_expenses_apply' && scope.detail.type != 'kaoqin_patch_apply') &&
+                (queryType == 'handle' || queryType == 'reader')
+              "
+              type="primary"
+              @click.native="resetSubmit(scope.detail)"
+              >{{
+                scope.detail.status == "IN_REVIEW" ? "重新提交" : "再提交"
+              }}</el-button
+            > -->
+            
+            <!-- <el-button
+            type="primary"
+            @click.native="copySubmit(scope.detail)"
+            >复制提交 </el-button>
+            <el-button
+            type="primary"
+            v-if="scope.detail.status == 'IN_REVIEW'"
+            @click.native="resetSubmit(scope.detail)"
+            >重新提交</el-button> -->
+
+            <!-- <el-button
+              type="primary"
+              v-if="scope.detail.show_edit"
+              @click.native="doAuditApplyEdit(scope.detail, 'detail')"
+              >编辑</el-button
+            >
+
+            <el-button
+              v-if="queryType == 'un_handle'"
+              type="primary"
+              @click.native="doAudit(scope.detail)"
+              >审批</el-button
+            > -->
+
+            <!-- <el-button
+            type="primary"
+            v-if="scope.detail.show_force_btn && queryType == 'handle'"
+            @click.native="doEnforceAudit(scope.detail, 'detail')"
+            >强制审批</el-button> -->
+          </div>
+        </template>
+      </AuditDetail>
     </el-card>
   </div>
 </template>
@@ -239,6 +299,7 @@
 <script>
 // import AddEdit from "@/views/film/hall/addEdit";
 import Qingjia from "@/views/audit/mine/qingjia";
+import AuditDetail from "@/views/audit/mine/detail";
 export default {
   name: "HallList",
   data() {
@@ -262,7 +323,8 @@ export default {
   },
   components: {
     // AddEdit,
-    Qingjia
+    Qingjia,
+    AuditDetail
   },
   computed: {},
   mounted() {
@@ -285,6 +347,10 @@ export default {
     // },
   },
   methods: {
+    viewDetail(row, index) {
+      this.dataIndex = index;
+      this.$refs.audit_detail.open(row.id, this.auditTypeList);
+    },
     // async getCinemaList() {
     //   let result = await this.$store.dispatch("cinemaManager/list", {
     //     page: 1,
@@ -300,14 +366,14 @@ export default {
         this.qingajiaTypeMap[element.value] = element.type_name;
       });
     },
-    doDetail(rows) {
-      this.$refs.film_detail.open(rows);
-    },
-    onDateChange(date) {
-      this.fetchOptions.start_show_time = date ? date[0] : "";
-      this.fetchOptions.end_show_time = date ? date[1] : "";
-      this.getData();
-    },
+    // doDetail(rows) {
+    //   this.$refs.film_detail.open(rows);
+    // },
+    // onDateChange(date) {
+    //   this.fetchOptions.start_show_time = date ? date[0] : "";
+    //   this.fetchOptions.end_show_time = date ? date[1] : "";
+    //   this.getData();
+    // },
     getData(Filter) {
       if (Filter) {
         this.fetchOptions.page = 1;
@@ -321,28 +387,28 @@ export default {
         this.loading = false;
       });
     },
-    doEdit(rows) {
-      this.$refs.add_edit.open(rows);
-    },
-    doDelete(rows) {
-      const { id } = rows;
-      this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.$store.dispatch("hall/del", { id }).then(() => {
-            this.getData();
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
-    },
+    // doEdit(rows) {
+    //   this.$refs.add_edit.open(rows);
+    // },
+    // doDelete(rows) {
+    //   const { id } = rows;
+    //   this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
+    //     confirmButtonText: "确定",
+    //     cancelButtonText: "取消",
+    //     type: "warning",
+    //   })
+    //     .then(() => {
+    //       this.$store.dispatch("hall/del", { id }).then(() => {
+    //         this.getData();
+    //       });
+    //     })
+    //     .catch(() => {
+    //       this.$message({
+    //         type: "info",
+    //         message: "已取消删除",
+    //       });
+    //     });
+    // },
 
     handleSizeChange(limit) {
       console.log("limit", limit);
