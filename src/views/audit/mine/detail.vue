@@ -216,15 +216,10 @@ export default {
       this.dialogVisible = false;
     },
     getAuditTypeList() {
-      // this.$store.dispatch("GET_AUDIT_TYPE_LIST").then((res) => {
-      //   console.log("类型", res);
-      //   this.audit_type_list = res;
-      // });
       this.$store.dispatch("auditConfig/getConfiglist").then((res) => {
-        console.log('res====>>>',res);
-        let auditTypeList = {};
-        for (var i = 0; i < res.length; i++) {
-         auditTypeList[res[i].type] = res[i].rule_name;
+        this.audit_type_list = {};
+        for (var i = 0; i < res.rows.length; i++) {
+         this.audit_type_list[res.rows[i].type] = res.rows[i].rule_name;
         }
       });
     },

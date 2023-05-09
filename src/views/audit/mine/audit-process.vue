@@ -41,16 +41,16 @@
                 :preview-src-list="[sstt.avatar]"
               >
               </el-image>
-              <div class="name">{{ sstt.name }}</div>
+              <div class="name">{{ sstt.admin_name }}</div>
             </div>
             <div 
             style="font-size:12px;" 
-            v-if="sstt.processStatus && sstt.approveTime">
+            v-if="sstt.processStatus && sstt.aduitTime">
               <el-tag v-if="item.status=='AGREE'" type="success">{{sstt.processStatus}}</el-tag>
               <el-tag v-if="item.status=='REJECT'" type="danger">{{sstt.processStatus}}</el-tag>
-              {{sstt.approveTime }}
+              {{sstt.aduitTime }}
             </div>
-            <p v-if="sstt.approveTime" style="max-width:180px;color:#999;">
+            <p v-if="sstt.aduitTime" style="max-width:180px;color:#999;">
               {{item.remark}}
             </p>
           </div>

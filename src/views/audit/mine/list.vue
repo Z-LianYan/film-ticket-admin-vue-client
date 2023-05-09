@@ -11,9 +11,33 @@
       >
         <span>我的审批</span>
       </div>
-
+      <el-tabs v-model="fetchOptions.queryType" type="card" @tab-click="getData(true)" style="display: inline-block;">
+        <el-tab-pane label="未处理" name="un_handle"></el-tab-pane>
+        <el-tab-pane label="已处理" name="handle"></el-tab-pane>
+        <el-tab-pane label="抄送我的" name="reader"></el-tab-pane>
+      </el-tabs>
       <el-form label-width="90px">
-        
+        <el-form-item label="审批类型" style="display: inline-block">
+          <el-select
+            style="width: 350px"
+            v-model="fetchOptions.type"
+            filterable
+            reserve-keyword
+            placeholder="请输入关键词"
+            @change="getData(true)"
+          >
+            <el-option
+              label="全部"
+              value=""
+            />
+            <el-option
+              v-for="(val,key,idx) in auditTypeMap"
+              :key="key + 'type'+idx"
+              :label="val"
+              :value="key"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="关键字搜索" style="display: inline-block">
           <el-input
             v-model="fetchOptions.keywords"
@@ -22,7 +46,7 @@
             placeholder="搜索关键字"
           ></el-input>
         </el-form-item>
-        <el-form-item label="请假类型" style="display: inline-block">
+        <el-form-item label="请假类型" style="display: inline-block" v-if="fetchOptions.type=='qingjia'">
           <el-select
             style="width: 350px"
             v-model="fetchOptions.leave_type"
@@ -312,13 +336,15 @@ export default {
         keywords: "",
         // audit_status: "",
         leave_type:'',
-        type:'qingjia'
+        type:'',
+        queryType:'un_handle'
       },
       show_time_range: [],
       total: 0,
       // cinemaList: [],
       // cinema_name: "",
-      qingajiaTypeMap:{}
+      qingajiaTypeMap:{},
+      auditTypeMap:{}
     };
   },
   components: {
@@ -335,7 +361,8 @@ export default {
     }
     // this.getCinemaList();
     this.getData();
-    this.getQingjiaType()
+    this.getQingjiaType();
+    this.getAuditTypeList();
   },
   watch: {
     // $route(to, from) {
@@ -347,6 +374,14 @@ export default {
     // },
   },
   methods: {
+    getAuditTypeList() {
+      this.$store.dispatch("auditConfig/getConfiglist").then((res) => {
+        this.auditTypeMap = {};
+        for (var i = 0; i < res.rows.length; i++) {
+         this.auditTypeMap[res.rows[i].type] = res.rows[i].rule_name;
+        }
+      });
+    },
     viewDetail(row, index) {
       this.dataIndex = index;
       this.$refs.audit_detail.open(row.id, this.auditTypeList);
