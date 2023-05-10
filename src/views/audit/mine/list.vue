@@ -180,14 +180,14 @@
                 @click.native="viewDetail(scope.row, scope.$index)"
                 >查看详情</el-button
               >
-              <!-- <el-button
+               <el-button
                 type="text"
                 @click.native="doAudit(scope.row)"
-                v-if="queryType == 'un_handle'"
+                v-if="fetchOptions.queryType == 'un_handle'"
                 >审批</el-button
               >
 
-              <el-button
+              <!--<el-button
                 type="text"
                 v-if="
                   scope.row.show_force_btn &&
@@ -316,6 +316,7 @@
           </div>
         </template>
       </AuditDetail>
+      <AuditTurn ref="audit_turn" @submitSuccess="getTableData()" />
     </el-card>
   </div>
 </template>
@@ -324,6 +325,8 @@
 // import AddEdit from "@/views/film/hall/addEdit";
 import Qingjia from "@/views/audit/mine/qingjia";
 import AuditDetail from "@/views/audit/mine/detail";
+import AuditTurn from "@/views/audit/component/audit-turn";
+
 export default {
   name: "HallList",
   data() {
@@ -350,7 +353,8 @@ export default {
   components: {
     // AddEdit,
     Qingjia,
-    AuditDetail
+    AuditDetail,
+    AuditTurn
   },
   computed: {},
   mounted() {
@@ -374,6 +378,17 @@ export default {
     // },
   },
   methods: {
+    doAudit(row) {
+      this.$refs.audit_turn.open(
+        [row.id],
+        row.admin_name + "的" + this.auditTypeMap[row.type],
+        () => {
+          this.getData();
+          this.$refs.audit_detail.close();
+          // this.$refs.audit_detail.getDetail(row.id);
+        }
+      );
+    },
     getAuditTypeList() {
       this.$store.dispatch("auditConfig/getConfiglist").then((res) => {
         this.auditTypeMap = {};
