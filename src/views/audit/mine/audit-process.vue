@@ -34,7 +34,7 @@
             :key="idx"
             class="auditor-row"
           >
-            <div class="person">
+            <div class="person" style="position: relative;">
               <el-image
                 style="width: 40px; height: 40px; border-radius: 20px"
                 :src="sstt.avatar"
@@ -42,6 +42,7 @@
               >
               </el-image>
               <div class="name">{{ sstt.admin_name }}</div>
+              <span :style="{position: 'absolute',right:0,top:0,color: sstt.readStatus=='reader'?'#409EFF':'#ccc','font-size':'12px'}">{{sstt.readStatusName}}</span>
             </div>
             <div 
             style="font-size:12px;" 

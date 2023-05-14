@@ -7,8 +7,8 @@
   :before-close="handleClose"
   :append-to-body="true">
   <el-radio-group v-model="formData.type">
-    <el-radio label="AGREE" :disabled='(audit_type=="enforce" && approve_status=="REVIEWED")?true:false'>同意</el-radio>
-    <el-radio label="REJECT" :disabled='(audit_type=="enforce" && approve_status=="REJECT")?true:false'>驳回</el-radio>
+    <el-radio label="AGREE" :disabled='(audit_type=="enforce" && auditStatus=="REVIEWED")?true:false'>同意</el-radio>
+    <el-radio label="REJECT" :disabled='(audit_type=="enforce" && auditStatus=="REJECT")?true:false'>驳回</el-radio>
   </el-radio-group>
   <div style="height:30px;"></div>
   <el-input
@@ -47,7 +47,7 @@ export default {
       formData:option(),
       title:"",
       audit_type:"",//用来判断是否是强制审批
-      approve_status:""
+      auditStatus:""
     };
   },
 
@@ -59,24 +59,24 @@ export default {
     handleClose(){
       this.formData = option();
       this.audit_type = '';
-      this.approve_status = '';
+      this.auditStatus = '';
       this.close()
     },
     open(ids,title,callBack,obj){
       console.log("id title",ids,title,obj)
       this.audit_type = "";
-      this.approve_status = "";
+      this.auditStatus = "";
       this.formData.type = 'AGREE';
       if(obj){
         this.audit_type = obj.audit_type;//用来判断是否是强制审批
-        this.approve_status = obj.row.approve_status;
+        this.auditStatus = obj.row.auditStatus;
         console.log("id this.type",this.type)
-        if(obj.audit_type=='enforce' && obj.row.approve_status=="REVIEWED"){
+        if(obj.audit_type=='enforce' && obj.row.auditStatus=="REVIEWED"){
           this.formData.type = 'REJECT';
         }else{
           this.formData.type = 'AGREE';
         }
-        this.formData.approve_id = ids;
+        this.formData.audit_id = ids;
       }else{
         this.formData.audit_ids = ids;
       }
@@ -91,7 +91,7 @@ export default {
       this.dialogVisible = false;
     },
     submitComment(){
-      this.$store.dispatch(this.audit_type=='enforce'?"ENFORCE_AUDIT":"newApply/checkAudit",this.formData).then(res=>{
+      this.$store.dispatch(this.audit_type=='enforce'?"newApply/enforceAudit":"newApply/checkAudit",this.formData).then(res=>{
         console.log("评论",res);
         this.formData = option();
         // this.$emit('submitSuccess');

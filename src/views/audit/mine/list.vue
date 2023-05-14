@@ -15,6 +15,7 @@
         <el-tab-pane label="未处理" name="un_handle"></el-tab-pane>
         <el-tab-pane label="已处理" name="handle"></el-tab-pane>
         <el-tab-pane label="抄送我的" name="reader"></el-tab-pane>
+        <el-tab-pane label="我提交的" name="mine_submit"></el-tab-pane>
       </el-tabs>
       <el-form label-width="90px">
         <el-form-item label="审批类型" style="display: inline-block">
@@ -93,23 +94,22 @@
             sortable
           ></el-table-column>
           <el-table-column prop="typeName" label="类型"></el-table-column>
-          <!-- <el-table-column
+          <el-table-column
             prop="readStatusName"
             label="阅读状态"
-            v-if="queryType == 'reader'"
+            v-if="fetchOptions.queryType == 'reader'"
           >
             <template slot-scope="scope">
-              <el-tag type="primary" v-if="scope.row.readStatus == 'read'">{{
+              <el-tag type="primary" v-if="scope.row.readStatus == 'reader'">{{
                 scope.row.readStatusName
               }}</el-tag>
               <el-tag
-                type="info"
-                v-else-if="scope.row.readStatus == 'un_read'"
-                >{{ scope.row.readStatusName }}</el-tag
-              >
+              type="info"
+              v-else-if="scope.row.readStatus == 'un_read'"
+              >{{ scope.row.readStatusName }}</el-tag>
               <span v-else>{{ scope.row.readStatusName }}</span>
             </template>
-          </el-table-column> -->
+          </el-table-column>
 
           <el-table-column
             prop="admin_name"
@@ -187,15 +187,15 @@
                 >审批</el-button
               >
 
-              <!--<el-button
+              <el-button
                 type="text"
                 v-if="
                   scope.row.show_force_btn &&
-                  (queryType == 'handle' || queryType == 'reader')
+                  (fetchOptions.queryType == 'handle' || fetchOptions.queryType == 'reader')
                 "
                 @click.native="doEnforceAudit(scope.row)"
                 >强制审批</el-button
-              > -->
+              >
 
               <!-- <el-button
                 v-if="
@@ -387,6 +387,19 @@ export default {
           this.$refs.audit_detail.close();
           // this.$refs.audit_detail.getDetail(row.id);
         }
+      );
+    },
+    doEnforceAudit(row, type) {
+      this.$refs.audit_turn.open(
+        row.id,
+        row.admin_name + "的" + this.auditTypeMap[row.type],
+        () => {
+          this.getData();
+          if (type == "detail") {
+            this.$refs.audit_detail.getDetail(row.id);
+          }
+        },
+        { audit_type: "enforce", row }
       );
     },
     getAuditTypeList() {

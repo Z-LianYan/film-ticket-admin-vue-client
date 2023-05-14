@@ -106,5 +106,6 @@ export const GET_QINGJIA_TYPE = "/API/admin/audit/config/getQingjiaType"; //获�
 export const GET_MINE_AUDIT_LIST = "/API/admin/audit/auditQuery/getMyAuditList"; //获取我的审批列表
 export const GET_MINE_AUDIT_DETAIL = "/API/admin/audit/auditQuery/getAuditDetail"; //获取审批详情
 export const CHECK_AUDIT = "/API/admin/audit/audit/checkAudit"; //审批
+export const ENFORCE_AUDIT = "/API/admin/audit/audit/enforceAudit"; //强制审批
 
 
