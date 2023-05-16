@@ -18,6 +18,14 @@
         <el-tab-pane label="我提交的" name="mine_submit"></el-tab-pane>
       </el-tabs>
       <el-form label-width="90px">
+        <el-form-item label="关键字搜索" style="display: inline-block">
+          <el-input
+            v-model="fetchOptions.keywords"
+            style="width: 200px"
+            @keyup.enter.native="getData(true)"
+            placeholder="搜索关键字"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="审批类型" style="display: inline-block">
           <el-select
             style="width: 350px"
@@ -39,14 +47,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="关键字搜索" style="display: inline-block">
-          <el-input
-            v-model="fetchOptions.keywords"
-            style="width: 200px"
-            @keyup.enter.native="getData(true)"
-            placeholder="搜索关键字"
-          ></el-input>
-        </el-form-item>
+        
         <el-form-item label="请假类型" style="display: inline-block" v-if="fetchOptions.type=='qingjia'">
           <el-select
             style="width: 350px"
@@ -187,15 +188,12 @@
                 >审批</el-button
               >
 
-              <el-button
+              <!-- <el-button
                 type="text"
-                v-if="
-                  scope.row.show_force_btn &&
-                  (fetchOptions.queryType == 'handle' || fetchOptions.queryType == 'reader')
-                "
+                v-if="scope.row.show_force_btn"
                 @click.native="doEnforceAudit(scope.row)"
                 >强制审批</el-button
-              >
+              > -->
 
               <!-- <el-button
                 v-if="
