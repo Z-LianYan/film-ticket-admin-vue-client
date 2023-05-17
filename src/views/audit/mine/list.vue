@@ -118,9 +118,9 @@
           ></el-table-column>
           <el-table-column
             prop="dep_name"
-            label="申请人门店"
+            label="申请人部门"
           ></el-table-column>
-          <el-table-column prop="role_name" label="申请人职位"></el-table-column>
+          <el-table-column prop="role_name" label="申请人角色"></el-table-column>
 
           <!-- <el-table-column prop="current_index" label="当前审核阶段">
             <template slot-scope="scope">
@@ -163,8 +163,7 @@
             <template slot-scope="scope">
               
               <Qingjia :detail="scope.row" v-if="scope.row.type == 'qingjia'" />
-              
-              <!-- <Lizhi :detail="scope.row" v-if="scope.row.type == 'lizhi'" /> -->
+              <Lizhi :detail="scope.row" v-if="scope.row.type == 'lizhi'" />
             </template>
           </el-table-column>
 
@@ -322,6 +321,7 @@
 <script>
 // import AddEdit from "@/views/film/hall/addEdit";
 import Qingjia from "@/views/audit/mine/qingjia";
+import Lizhi from "@/views/audit/mine/Lizhi";
 import AuditDetail from "@/views/audit/mine/detail";
 import AuditTurn from "@/views/audit/component/audit-turn";
 
@@ -351,6 +351,7 @@ export default {
   components: {
     // AddEdit,
     Qingjia,
+    Lizhi,
     AuditDetail,
     AuditTurn
   },

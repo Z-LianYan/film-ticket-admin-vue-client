@@ -42,7 +42,9 @@
               >
               </el-image>
               <div class="name">{{ sstt.admin_name }}</div>
-              <span :style="{position: 'absolute',right:0,top:0,color: sstt.readStatus=='reader'?'#409EFF':'#ccc','font-size':'12px'}">{{sstt.readStatusName}}</span>
+              <span 
+              v-if="item.status=='AGREE'" 
+              :style="{position: 'absolute',right:0,top:0,color: sstt.readStatus=='reader'?'#409EFF':'#ccc','font-size':'12px'}">{{sstt.readStatusName}}</span>
             </div>
             <div 
             style="font-size:12px;" 

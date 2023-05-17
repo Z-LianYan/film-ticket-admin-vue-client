@@ -107,5 +107,6 @@ export const GET_MINE_AUDIT_LIST = "/API/admin/audit/auditQuery/getMyAuditList";
 export const GET_MINE_AUDIT_DETAIL = "/API/admin/audit/auditQuery/getAuditDetail"; //获取审批详情
 export const CHECK_AUDIT = "/API/admin/audit/audit/checkAudit"; //审批
 export const ENFORCE_AUDIT = "/API/admin/audit/audit/enforceAudit"; //强制审批
+export const GET_LIZHI_TYPE_LIST = "/API/admin/audit/config/getLizhiTypeList"; //离职类型
 
 
