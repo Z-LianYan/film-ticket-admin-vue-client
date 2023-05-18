@@ -67,6 +67,7 @@
           </el-button>
           <el-button 
           type="text"
+          v-if="hall_info.section && hall_info.section.length"
           style="margin-right:10px;color:#ccc;"
           @click="onSetSeatSection()"
           key="index1">

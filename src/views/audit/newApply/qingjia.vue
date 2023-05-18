@@ -122,7 +122,7 @@
         label="附件" 
         prop="applyData.appendix"
         :rules="{
-          required: true, message: '请上传附件', trigger: ['blur','change']
+          required: false, message: '请上传附件', trigger: ['blur','change']
         }">
           <UploadImageMul
             :imageLimit="5"
@@ -164,7 +164,7 @@ export default {
           end_leave_date: new Date(),
           start_leave_type: 1,// 1:上半天  2:下半天
           end_leave_type: 2,//1:上半天  2:下半天
-          leave_type: '',
+          leave_type: '2',
           leave_type_name: '',
           leave_day: "",
           leave_reason: "",
@@ -192,7 +192,7 @@ export default {
   computed: {},
   mounted() {
     this.ruleForm.type = this.$route.query.type
-    this.getAuditConfigDetail();
+    
     this.getQingjiaType();
   },
   watch: {},
@@ -205,6 +205,7 @@ export default {
       result.map(element => {
         this.typeList[element.value] = element.type_name;
       });
+      this.getAuditConfigDetail();
     },
     onChangeLeaveType(value){
       const { typeList } = this;

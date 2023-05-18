@@ -99,14 +99,14 @@
             <div class="demo-drawer__content">
                 <div class="drawer_content">
                     <div class="approver_content">
-                        <el-radio-group v-model="approverConfig.settype" class="clear" @change="changeType">
+                        <!-- <el-radio-group v-model="approverConfig.settype" class="clear" @change="changeType">
                             <el-radio :label="1">指定成员</el-radio>
-                            <el-radio :label="2">指定上级</el-radio>
+                            <el-radio :label="2">指定上级</el-radio> -->
                             <!-- <el-radio :label="2">上级</el-radio>
                             <el-radio :label="4">申请人自选</el-radio>
                             <el-radio :label="5">申请人自己</el-radio>
                             <el-radio :label="7">连续多级上级</el-radio> -->
-                        </el-radio-group>
+                        <!-- </el-radio-group> -->
                         <div class="approver_manager" v-if="approverConfig.settype==2">
                             <p>
                                 <span>发起人的：</span>
@@ -284,29 +284,29 @@
         v-if="nodeConfig.childNode && nodeConfig.childNode" :nodeConfig.sync="nodeConfig.childNode" :tableId="tableId"
         :isTried.sync="isTried" :directorMaxLevel="directorMaxLevel"></nodeWrap>
         <selectPerson 
-        :employeeList="employeeList"
+        :employeeList="adminList"
          :posList="data_posList"
           :departments="data_departments"
         ref="promoter_select" />
          <selectPerson 
-        :employeeList="employeeList"
+        :employeeList="adminList"
          :posList="data_posList"
           :departments="data_departments"
         ref="copyer_select" />
           <selectPerson 
-            :employeeList="employeeList"
+            :employeeList="adminList"
          :posList="data_posList"
           :departments="data_departments"
         ref="approver_select" />
 
           <selectPerson 
-        :employeeList="employeeList"
+        :employeeList="adminList"
          :posList="data_posList"
           :departments="data_departments"
         ref="approver_abnormal_select" />
 
         <selectPerson 
-        :employeeList="employeeList"
+        :employeeList="adminList"
          :posList="data_posList"
           :departments="data_departments"
         ref="condition_emp_select" />
@@ -337,7 +337,7 @@ export default {
             departments: [],
             checkedDepartmentList: [],
             checkedEmployessList: [],
-            employeeList:[],
+            adminList:[],
             posList:[],
             checkedPosList:[],
 
@@ -581,7 +581,7 @@ export default {
                             order: { id: "desc" },
                         });
                 // console.log("rows",rows);
-                this.employeeList=res.data.rows.map((item)=>{
+                this.adminList=res.data.rows.map((item)=>{
                 
                     return item;
                 })

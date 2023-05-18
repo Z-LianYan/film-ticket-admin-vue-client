@@ -9,9 +9,9 @@
         <!-- <el-button type="text" @click="doAdd" class="float-right">
         <i class="el-icon-plus"></i>添加角色
       </el-button> -->
-        <el-button type="text" @click="getData" class="float-right">
+        <!-- <el-button type="text" @click="getData" class="float-right">
           <i class="el-icon-refresh"></i>刷新
-        </el-button>
+        </el-button> -->
       </div>
       <el-table
         :data="tableData"
@@ -64,9 +64,9 @@
             <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
             </el-button>
-            <el-button type="text" size="small" @click="doDelete(scope.row)">
+            <!-- <el-button type="text" size="small" @click="doDelete(scope.row)">
               <i class="el-icon-delete"></i>删除
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>

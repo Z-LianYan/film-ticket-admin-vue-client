@@ -67,9 +67,9 @@
             @click="onChangeStatus(scope.row)">
               {{ scope.row.status?"禁用":"启用" }}
             </el-button> -->
-            <el-button type="text" size="small" @click="doDelete(scope.row)">
+            <!-- <el-button type="text" size="small" @click="doDelete(scope.row)">
               <i class="el-icon-delete"></i>删除
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>

@@ -46,10 +46,6 @@
         style="width: 100%"
       >
         <el-table-column prop="username" label="管理员名称"></el-table-column>
-        <el-table-column prop="dep_name" label="所属部门"></el-table-column>
-        <el-table-column prop="title" label="所属角色"></el-table-column>
-        <el-table-column prop="mobile" label="电话"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="img_head" label="头像">
           <template slot-scope="scope">
             <el-image
@@ -61,6 +57,17 @@
             </el-image>
           </template>
         </el-table-column>
+        <el-table-column prop="dep_name" label="所属部门"></el-table-column>
+        <el-table-column prop="title" label="所属角色"></el-table-column>
+        <el-table-column prop="mobile" label="电话"></el-table-column>
+        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="is_super" label="超级管理员">
+          <template slot-scope="scope">
+            <el-tag type="success" v-if="scope.row.is_super">是</el-tag>
+            <el-tag type="info" v-else>否</el-tag>
+          </template>
+        </el-table-column>
+        
         <el-table-column prop="status" label="状态">
           <template slot-scope="scope">
             <img
@@ -86,9 +93,9 @@
             <el-button type="text" size="small" @click="doEdit(scope.row)">
               <i class="el-icon-edit"></i>编辑
             </el-button>
-            <el-button type="text" size="small" @click="doDelete(scope.row)">
+            <!-- <el-button type="text" size="small" @click="doDelete(scope.row)">
               <i class="el-icon-delete"></i>删除
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>

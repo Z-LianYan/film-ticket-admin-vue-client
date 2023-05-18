@@ -166,8 +166,11 @@ export default {
 			}
 			this.processConfig.config=this.nodeConfig;
 			this.HttpUtil.post('/API/admin/audit/updateApproveConfig', this.processConfig).then(res => {
+				console.log('0---->>',res);
 				if(res.error==0) this.$message.success(res.message);
+				if(res.error == 401) this.$message.error(res.message);
       }).catch(error => {
+				console.log('error--->>',error)
       })
 		},
 		zoomSize(type) {
