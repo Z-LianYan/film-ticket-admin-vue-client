@@ -115,8 +115,8 @@
               <span v-if="item.disabled!=2">{{ item.row_id }}排{{ item.column_id }}座</span>
               <i 
               v-if="item.disabled!=2 && item.section_id"
-              :style="{color:handleShowColor(item.section_id),'margin-left':'10px','font-weight':'bolder'}" 
-              class="iconfont icon-kexuanzuobiankuang"></i>
+              :style="{color:handleShowColor(item.section_id)}" 
+              class="iconfont icon-kexuanzuobiankuang section-icon"></i>
               <i
                 v-if="selectedSeatIds.includes(item.id)"
                 class="selected-col-icon el-icon-check"
@@ -364,7 +364,7 @@ export default {
     flex: 1;
     .row {
       display: flex;
-      font-size: 15px;
+      font-size: 12px;
       position: relative;
       .init-col {
         flex: 1;
@@ -373,15 +373,25 @@ export default {
         line-height: 50px;
         border-bottom: 1px solid #eee;
         border-right: 1px solid #eee;
-        font-size: 0.5em;
+        font-size: 12px;
         cursor: pointer;
         user-select: none; //阻止双击被选中文字
         -webkit-user-select: none; //阻止双击被选中文字
         -moz-user-select: none; //阻止双击被选中文字
         // display: flex;
         // flex-flow: row wrap;
-
+        z-index: 1;
         position: relative;
+        .section-icon{
+          font-weight: bolder;
+          position: absolute;
+          left: 2px;
+          top: 8px;
+          // transform: translate(-50%,-50%);
+          z-index: -1;
+          font-size: 6px;
+          line-height: 0;
+        }
       }
       .disabled-col{
         background: #ccc;

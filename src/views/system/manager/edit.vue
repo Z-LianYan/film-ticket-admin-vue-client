@@ -15,7 +15,7 @@
         :rules="rules"
         :status-icon="false"
         ref="ruleForm"
-        label-width="100px"
+        label-width="120px"
         class="demo-ruleForm"
       >
         <el-form-item label="管理员名称" prop="username">
@@ -48,6 +48,12 @@
               :label="item.dep_name"
               :value="item.dep_id"
             ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否超级管理员" prop="is_super">
+          <el-select v-model="ruleForm.is_super" placeholder="请选择是否超级管理员">
+            <el-option label="是" :value="1"></el-option>
+            <el-option label="否" :value="0"></el-option>
           </el-select>
         </el-form-item>
         
@@ -139,6 +145,7 @@ export default {
         email: "",
         role_id: "",
         status: 1,
+        is_super: 0
       },
       roleList: [],
       departmentList:[],
@@ -154,6 +161,7 @@ export default {
         ],
         role_id: [{ required: true, message: "请选择角色", trigger: "change" }],
         dep_id: [{ required: true, message: "请选择所属部门", trigger: "change" }],
+        is_super: [{ required: true, message: "请选择是否超级管理员", trigger: "change" }],
         // password: { validator: validatePassword, trigger: "blur" },
         // confirmPassword: { validator: validateConfirmPassword, trigger: "blur" }
       },

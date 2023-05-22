@@ -3,9 +3,9 @@
     <el-card class="box-card">
       <div slot="header" style="text-align: center" class="clearfix">
         <span>管理员列表</span>
-        <el-button type="text" @click="getData" class="float-right">
+        <!-- <el-button type="text" @click="getData" class="float-right">
           <i class="el-icon-refresh"></i>刷新
-        </el-button>
+        </el-button> -->
       </div>
 
       <el-form label-width="90px">
@@ -50,7 +50,7 @@
           <template slot-scope="scope">
             <el-image
               v-if="scope.row.img_head"
-              style="width: 100px; height: 100px"
+              style="width: 50px; height: 50px;border-radius:25px;"
               :src="scope.row.img_head"
               :preview-src-list="[scope.row.img_head]"
             >
