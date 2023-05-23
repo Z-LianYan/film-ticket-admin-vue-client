@@ -112,7 +112,8 @@
               :key="index + 'c'"
               @click="onSelectSeat(item,value.seat_data,key)"
             >
-              <span v-if="item.disabled!=2">{{ item.row_id }}排{{ item.column_id }}座</span>
+              <span v-if="item.disabled!=2" style="display: block;line-height: 12px;">{{ item.row_id }}排</span>
+              <span v-if="item.disabled!=2" style="display: block;line-height: 12px;">{{ item.column_id }}座</span>
               <i 
               v-if="item.disabled!=2 && item.section_id"
               :style="{color:handleShowColor(item.section_id)}" 
@@ -369,8 +370,8 @@ export default {
       .init-col {
         flex: 1;
         height: 50px;
-        text-align: center;
-        line-height: 50px;
+        // text-align: center;
+        // line-height: 50px;
         border-bottom: 1px solid #eee;
         border-right: 1px solid #eee;
         font-size: 12px;
@@ -382,6 +383,11 @@ export default {
         // flex-flow: row wrap;
         z-index: 1;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+        // vertical-align: middle;
         .section-icon{
           font-weight: bolder;
           position: absolute;
