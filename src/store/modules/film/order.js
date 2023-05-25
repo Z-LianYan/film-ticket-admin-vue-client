@@ -26,21 +26,33 @@ const actions = {
           reject(error);
         });
     });
-  }
-  // add({ commit, state }, requestParams) {
-  //   return new Promise((resolve, reject) => {
-  //     requstTools.post(aipUrl.FILM_SCHEDULE_ADD, requestParams, '正在提交...').then(res => {
-  //       if (res.error == 0) {
-  //         Message.success(res.message);
-  //         resolve();
-  //       } else {
-  //         Message.error(res.message);
-  //       }
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
+  },
+  cinema_sale_summary({ commit, state }, requestParams) {
+    return new Promise((resolve, reject) => {
+      requstTools.get(aipUrl.CINEMA_SALE_SUMMARY, requestParams, '加载中...').then(res => {
+        if (res.error == 0) {
+          resolve(res.data);
+        } else {
+          Message.error(res.message);
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  box_office_statistics({ commit, state }, requestParams) {
+    return new Promise((resolve, reject) => {
+      requstTools.get(aipUrl.BOX_OFFICE_STATISTICS, requestParams, '加载中...').then(res => {
+        if (res.error == 0) {
+          resolve(res.data);
+        } else {
+          Message.error(res.message);
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 };
 
 export default {

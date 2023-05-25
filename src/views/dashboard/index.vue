@@ -2,12 +2,14 @@
   <div>
     <br />
     <Business/>
-    <Visit/>
+    <BoxOfficeStatistics/>
+    <!-- <Visit/> -->
   </div>
 </template>
 
 <script>
 import Business from "@/views/dashboard/Business";
+import BoxOfficeStatistics from "@/views/dashboard/BoxOfficeStatistics";
 import Visit from "@/views/dashboard/Visit";
 
 export default {
@@ -20,6 +22,7 @@ export default {
   },
   components:{
     Business,
+    BoxOfficeStatistics,
     Visit
   },
   created(){

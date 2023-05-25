@@ -76,7 +76,7 @@ export default {
     setOptions(data = []) {
       var options = {
         title: {
-          text: '访问统计'
+          text: '访问量\n统计'
         },
         tooltip: {
           trigger: "axis",

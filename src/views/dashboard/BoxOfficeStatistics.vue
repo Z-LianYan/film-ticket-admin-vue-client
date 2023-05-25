@@ -48,7 +48,7 @@ export default {
       fetchOptions:{
         start_date: '',
         end_date: '',
-        dates: [dayjs().subtract(6,'days').format('YYYY-MM-DD'),dayjs().format('YYYY-MM-DD')]
+        dates: []
       },
       pickerOptions: {
         shortcuts: [{
@@ -77,11 +77,10 @@ export default {
           }
         }]
       },
-
     };
   },
   created(){
-    this.fetchData();
+    this.fetchData()
   },
   mounted() {
     this.initChart();
@@ -117,11 +116,12 @@ export default {
   },
   methods: {
     async fetchData(){
-      if(!this.fetchOptions.dates) return this.$message.info('请选择日期！！！')
-      const result = await this.$store.dispatch('order/cinema_sale_summary',{
-        start_date: this.fetchOptions.dates && this.fetchOptions.dates[0],
-        end_date: this.fetchOptions.dates && this.fetchOptions.dates[1],
+      // if(!this.fetchOptions.dates) return this.$message.info('请选择日期！！！')
+      const result = await this.$store.dispatch('order/box_office_statistics',{
+        start_date: this.fetchOptions.dates ? this.fetchOptions.dates[0]:'',
+        end_date: this.fetchOptions.dates ? this.fetchOptions.dates[1]:'',
       });
+      console.log('========>>>>',result);
       this.setOptions(result.options);
     },
     setOptions(options = {}) {

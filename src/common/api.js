@@ -86,6 +86,10 @@ export const GET_SEAT_LIST = "/API/film/getSeat"; //获取座位列表
 
 
 export const GET_ORDER_LIST = "/API/film/orderList"; //订单列表
+export const CINEMA_SALE_SUMMARY = "/API/film/order/cinemaSaleSummary"; //影院销售统计
+export const BOX_OFFICE_STATISTICS = "/API/film/order/boxOfficeStatistics"; //影院销售统计
+
+
 
 export const GET_AUDIT_LIST = "/API/admin/audit/getConfigList"; //获取审批配置列表
 export const GET_AUDIT_DETAIL = "/API/admin/audit/getConfigById"; //获取审批配置列表 

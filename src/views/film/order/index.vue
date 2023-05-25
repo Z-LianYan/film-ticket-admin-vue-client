@@ -187,7 +187,7 @@
             size="mini">已完成</el-tag>
 
             <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.start_runtime).unix()>dayjs().unix()">待放映</div>
-            <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.end_runtime).unix()<dayjs().unix()">放映已结束</div>
+            <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.end_runtime).unix()<dayjs().unix()">已结束放映</div>
             <div style="color:#ccc;font-size:12px;" v-if="dayjs(row.start_runtime).unix()<dayjs().unix() && dayjs(row.end_runtime).unix()>dayjs().unix()">放映中</div>
           </template>
         </el-table-column>
