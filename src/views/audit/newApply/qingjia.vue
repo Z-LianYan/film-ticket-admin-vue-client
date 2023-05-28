@@ -40,7 +40,7 @@
           filterable
           remote
           reserve-keyword
-          placeholder="请输入关键词"
+          :placeholder="$store.state.user.userInfo.username"
           :remote-method="getAdmin"
           :loading="loadingAdmin"
           value="1"
@@ -271,6 +271,7 @@ export default {
 
     },
     submitForm(formName) {
+      console.log(this.ruleForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store.dispatch("newApply/applyAudit", this.ruleForm).then(() => {

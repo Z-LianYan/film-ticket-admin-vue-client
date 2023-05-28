@@ -2,6 +2,17 @@
   <div>
     <br />
     <el-form label-width="120px">
+      <el-form-item label="统计类型" style="display: inline-block">
+          <el-select
+            style="width:200px;"
+            v-model="fetchOptions.type"
+            placeholder="请选择统计类型"
+            @change="fetchData"
+          >
+            <el-option label="按时间段统计" :value="1"/>
+            <el-option label="按日期统计" :value="2"/>
+          </el-select>
+        </el-form-item>
       <el-form-item label="日期" style="display: inline-block">
           <el-date-picker
             v-model="fetchOptions.dates"
@@ -48,6 +59,7 @@ export default {
       fetchOptions:{
         start_date: '',
         end_date: '',
+        type:2,
         dates: [dayjs().subtract(6,'days').format('YYYY-MM-DD'),dayjs().format('YYYY-MM-DD')]
       },
       pickerOptions: {
@@ -121,6 +133,7 @@ export default {
       const result = await this.$store.dispatch('order/cinema_sale_summary',{
         start_date: this.fetchOptions.dates && this.fetchOptions.dates[0],
         end_date: this.fetchOptions.dates && this.fetchOptions.dates[1],
+        type: this.fetchOptions.type
       });
       this.setOptions(result.options);
     },
