@@ -15,12 +15,14 @@
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
+    "app-info-parser": "^1.1.5",
     "currency.js": "^2.0.4",
     "element-ui": "^2.12.0",
     "normalize.css": "7.0.0",
     "nprogress": "^0.2.0",
     "path-to-regexp": "2.4.0",
     "qiniu-js": "^2.5.5",
+    "qrcode.vue": "^1.6.1",
     "screenfull": "^5.0.2",
     "vue": "2.6.10",
     "vue-amap": "^0.5.10",

@@ -113,4 +113,8 @@ export const CHECK_AUDIT = "/API/admin/audit/audit/checkAudit"; //审批
 export const ENFORCE_AUDIT = "/API/admin/audit/audit/enforceAudit"; //强制审批
 export const GET_LIZHI_TYPE_LIST = "/API/admin/audit/config/getLizhiTypeList"; //离职类型
 
+export const GET_APP_VERSIONS_LIST = "/API/admin/system/appVersions/getList"; //获取app版本列表
+export const CREATE_APP_VERSIONS = "/API/admin/system/appVersions/create"; //创建app版本
+export const UPDATE_APP_VERSIONS = "/API/admin/system/appVersions/update"; //更新app版本
+export const DEL_APP_VERSIONS = "/API/admin/system/appVersions/del"; //删除app版本
 
