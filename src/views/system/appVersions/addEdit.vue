@@ -23,7 +23,7 @@
           <el-form-item label="更新备注" prop="remark">
             <el-input v-model="ruleForm.remark" type="textarea" placeholder="请输入备注"></el-input>
           </el-form-item>
-          <el-form-item label="上传安装包"  :required="false" prop="url" v-if="title=='添加'">
+          <el-form-item label="上传安装包"  :required="false" prop="download_url" v-if="title=='添加'">
             <el-upload
               ref="qn_upload"
               class="upload-demo"
@@ -66,7 +66,7 @@ import AppInfoParser from 'app-info-parser';
 function ruleForm() {
   return {
     remark: "",
-    url: "",
+    download_url: "",
     status: 1,
     platform: 'android',
     package: '',
@@ -98,7 +98,7 @@ export default {
         remark: [
           { required: true, message: "更新备注中", trigger: ["change","blur"] },
         ],
-        url: [
+        download_url: [
           { required: true, message: "请上传安装包", trigger: ['change','blur','input'] },
         ],
         status: [
@@ -114,10 +114,6 @@ export default {
     this.getUploadQiNiuToken();
   },
   methods: {
-    getImgUrl(imgUrl) {
-      console.log("上传的图片路径：", imgUrl);
-      this.ruleForm.avatar = imgUrl;
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -187,7 +183,7 @@ export default {
         this.ruleForm.size = file.size;
         this.$store.dispatch("sourceManager/getUploadQiNiuToken").then(res => {
           this.qiniuData.token = res.upload_token;
-          this.qiniuData.key ='app/android/'+dayjs().format("YYYYMMDDHHmmss")+'/'+file.name;
+          this.qiniuData.key ='app/android/'+dayjs().format("YYYYMMDDHHmmss")+file.name;
           this.upload_qiniu_addr = res.static_host;
           resolve();
         });
@@ -195,7 +191,7 @@ export default {
 
     },
     handleAddUploadSuccess(res, file) {
-      this.ruleForm.url = this.upload_qiniu_addr + res.key;
+      this.ruleForm.download_url = this.upload_qiniu_addr + res.key;
     },
     handleUploadError(err, file, fileList) {
       console.log("err", err);
