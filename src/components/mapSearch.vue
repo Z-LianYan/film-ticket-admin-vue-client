@@ -180,6 +180,7 @@ export default {
       this.close();
     },
     onSearchPlace(lnglat = []) {
+      console.log('lnglat---',lnglat)
       AMap.plugin("AMap.PlaceSearch", () => {
         let GeocoderOptions = {
           city: "全国",
