@@ -171,6 +171,11 @@ export default {
       this.upload_qiniu_url = qn_res;
     },
 
+    handerAppFileNameSuffix(fileName){
+      const idx = fileName.lastIndexOf('.');
+      return fileName.substring(idx)
+    },
+
     beforeUpload(file) {
       return new Promise(async (resolve, reject) => {
         const parser = new AppInfoParser(file) // file  上传的apk文件
@@ -183,7 +188,7 @@ export default {
         this.ruleForm.size = file.size;
         this.$store.dispatch("sourceManager/getUploadQiNiuToken").then(res => {
           this.qiniuData.token = res.upload_token;
-          this.qiniuData.key ='app/android/'+dayjs().format("YYYYMMDDHHmmss")+file.name;
+          this.qiniuData.key ='app/android/'+appInfo.package+'/'+dayjs().format("YYYYMMDDHHmmss") + this.handerAppFileNameSuffix(file.name);
           this.upload_qiniu_addr = res.static_host;
           resolve();
         });
